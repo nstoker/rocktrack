@@ -1,24 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is yet another attempt at building a Rails application using Ruby on Rails.
 
-Things you may want to cover:
+The application is aimed at supporting my playing the Rocksmith series of games by Ubisoft, namely the Original Rocksmith and Rocksmith Remastered versions. I don't have any plans on supporting the Rocksmith+ web application at the current time.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
