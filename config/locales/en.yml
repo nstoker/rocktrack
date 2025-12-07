@@ -3,3 +3,85 @@ en:
   hello: Hello world
   root_page:
     title: Hello world!
+  authentication:
+    sessions:
+      title: Log in
+      email_label: Email address
+      email_placeholder: name@domain.com
+      password_label: Password
+      password_placeholder: Create a password
+      submit: Sign in
+      new_user: New user?
+      sign_up: Sign up
+      forgot_password: Forgot password?
+    registrations:
+      title: Sign up
+      email_label: Email address
+      email_placeholder: name@domain.com
+      password_label: Password
+      password_placeholder: Create a password
+      submit: Sign up
+      have_account: Have an account?
+      sign_in: Sign in
+      success_message: Successfully signed up!
+    passwords:
+      title: Reset your password
+      email_label: Email address
+      email_placeholder: name@domain.com
+      new_password_label: New password
+      new_password_placeholder: Create a password
+      confirm_password_label: Repeat your password
+      confirm_password_placeholder: Repeat your password
+      submit_reset: Reset password
+      submit_request: Email reset instructions
+      back_to_login: Back to login
+    users:
+      edit_profile_title: Edit Profile
+      manage_password_title: Manage Password
+      profile_updated: Profile updated successfully
+      password_updated: Password updated successfully
+      current_password_incorrect: Current password is incorrect
+      avatar_removed: Avatar removed successfully.
+      subnav:
+        edit_profile: Edit Profile
+        edit_password: Edit Password
+      breadcrumbs:
+        my_profile: My Profile
+        edit: Edit
+        change_password: Change Password
+      form:
+        email_label: Email address
+        email_placeholder: name@domain.com
+        first_name_label: First name
+        first_name_placeholder: First name
+        last_name_label: Last name
+        last_name_placeholder: Last name
+        avatar_label: Avatar
+        timezone_label: Timezone
+        current_password_label: Current password
+        current_password_placeholder: Current password
+        new_password_label: New password
+        new_password_placeholder: New password
+        confirm_password_label: Confirm new password
+        confirm_password_placeholder: Confirm new password
+        update_button: Update
+        change_password_button: Change Password
+    testimonial:
+      quote: This is a testimonial quote. You should sign up.
+      author: Someone's name
+  user_menu:
+    my_profile: My Profile
+    sign_out: Sign out
+    sign_in: Sign in
+    sign_up: Sign up
+    admin: Admin
+  forms:
+    image_upload:
+      change: Change
+      select: Select
+      remove: Remove image
+    errors:
+      error: error
+      explanation: "%{count} errors prohibited this %{model} from being saved:"
+  subnav:
+    back: Back

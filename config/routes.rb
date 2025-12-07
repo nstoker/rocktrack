@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
-  resource :session
+
+  # Authentication
+  get "signup", to: "registrations#new", as: :new_registration
+  post "registration/create", to: "registrations#create", as: :registration
+  resource :session, except: %i(new)
+  get "login", to: "sessions#new", as: :new_session
   resources :passwords, param: :token
+
+  # User Profile
+  get "users/edit", to: "users#edit", as: :edit_user_profile
+  patch "users/update_profile", to: "users#update_profile", as: :update_user_profile
+  get "users/manage_password", to: "users#manage_password", as: :manage_password
+  patch "users/update_password", to: "users#update_password", as: :update_password
+  get "users/remove_avatar", to: "users#remove_avatar", as: :remove_user_avatar
+
   root "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

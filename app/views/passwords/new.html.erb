@@ -1,17 +1,39 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
+<%= content_for(:title, t('authentication.passwords.title', default: 'Reset your password')) %>
 
-  <h1 class="font-bold text-4xl">Forgot your password?</h1>
+<%= form_with(url: passwords_path,
+              class: "") do |f| %>
+  <%= render "shared/components/forms/errors",
+              model: @user %>
 
-  <%= form_with url: passwords_path, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  <div class="space-y-6">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('authentication.passwords.email_label', default: 'Email address'),
+                name: :email_address do %>
+      <%= f.email_field :email_address,
+                         placeholder: t('authentication.passwords.email_placeholder', default: 'name@domain.com'),
+                         class: form_control_classes,
+                         autofocus: true %>
+    <% end %>
+
+    <div class="space-y-6 text-center pt-2">
+      <%= f.submit t('authentication.passwords.submit_request', default: 'Email reset instructions'),
+                    class: "w-full text-center btn btn-primary btn-large" %>
+
+      <div class="space-y-4 font-medium
+                  sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:space-x-4">
+        <div>
+          <%= link_to new_session_path,
+                      class: "inline-block ml-2" do %>
+            <%= t('authentication.passwords.back_to_login', default: 'Back to login') %>
+          <% end %>
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="inline">
-      <%= form.submit "Email reset instructions", class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
-</div>
+  </div>
+
+<% end %>

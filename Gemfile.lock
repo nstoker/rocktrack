@@ -172,6 +172,8 @@ GEM
     loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
+    lucide-rails (0.7.1)
+      railties (>= 4.1.0)
     mail (2.9.0)
       logger
       mini_mime (>= 0.1.1)
@@ -434,6 +436,7 @@ DEPENDENCIES
   instrumental-components-library
   jbuilder
   kamal
+  lucide-rails
   pg
   propshaft
   puma (>= 5.0)
