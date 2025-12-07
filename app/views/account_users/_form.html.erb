@@ -1,0 +1,31 @@
+<%
+  user_name = account_user.user.name
+  is_me = local_assigns[:is_me]
+%>
+
+<%= form_for account_user,
+            url: update_account_user_path(@account.slug, account_user.id),
+            method: :patch do |f| %>
+  <%= render 'shared/components/forms/errors', model: account_user %>
+
+  <div class="space-y-8">
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: is_me ? t('teams.account_users.my_role', default: 'My role') : t('teams.account_users.role', default: 'Role'),
+                name: :role,
+                select_field: true do %>
+      <%= f.select :role,
+                    options_for_select([[t('teams.account_users.member', default: 'Member'), "member"], [t('teams.account_users.admin', default: 'Admin'), "admin"]], account_user.role || "member"),
+                    { prompt: t('teams.account_users.select_role', default: 'Select Role') },
+                    {
+                      class: "form-control"
+                    } %>
+    <% end %>
+  </div>
+
+  <div class="mt-12">
+    <%= button_tag type: "submit", class: "btn btn-primary" do %>
+      <%= is_me ? t('teams.account_users.update_my_role', default: 'Update my role') : t('teams.account_users.update_role', name: user_name, default: "Update %{name}'s role") %>
+    <% end %>
+  </div>
+<% end %>

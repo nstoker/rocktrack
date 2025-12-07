@@ -1,0 +1,10 @@
+<%= t('teams.accounts_mailer.account_created_text', default: 'An account has been created:') %>
+
+<%= t('teams.accounts_mailer.account_name', default: 'Account name:') %>
+<%= @account.name %>
+
+<%= t('teams.accounts_mailer.account_owner', default: 'Account owner:') %>
+<%= @account.owner.email_address %>
+
+<%= t('teams.accounts_mailer.admin_account_profile', default: 'Admin account profile:') %>
+<%= admin_account_url(@account.id) %>

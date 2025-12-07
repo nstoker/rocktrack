@@ -1,0 +1,53 @@
+<%= content_for(:title) do %>
+  <%= t('teams.account_users.team_members_title', account: @account.name, default: '%{account} Team Members') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.account_users.team_members', default: 'Team Members') %>
+  <% end %>
+<% end %>
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @account_users.any? %>
+    <%= render "shared/components/page_header",
+                title: t('teams.account_users.team_members_title', account: @account.name, default: '%{account} Team Members'),
+                button_link_path: new_invitation_path(@account.slug),
+                button_link_text: t('teams.account_users.invite_someone', default: 'Invite Someone') %>
+
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @account_users.each do |account_user| %>
+          <%= render "account_users/account_user_listing",
+                      account_user: account_user %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: t('teams.account_users.team_member', default: 'Team Member'),
+                plural_object_name: t('teams.account_users.team_members', default: 'Team Members'),
+                new_path: new_invitation_path(@account) %>
+  <% end %>
+
+</div>

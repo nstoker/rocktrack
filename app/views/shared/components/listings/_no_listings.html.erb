@@ -1,0 +1,35 @@
+<%
+  custom_content = local_assigns[:custom_content]
+  singular_object_name = local_assigns[:singular_object_name]
+  plural_object_name = local_assigns[:plural_object_name]
+  description = local_assigns[:description]
+  can_create_new = local_assigns.fetch(:can_create_new, true)
+  new_path = local_assigns[:new_path]
+  button_text = local_assigns[:button_text] || "New #{singular_object_name.capitalize}"
+%>
+
+<div class="bg-gray-100 dark:bg-gray-900 dark:text-gray-300 p-6 rounded-lg text-center space-y-5 max-w-md mx-auto">
+  <% if custom_content %>
+    <%= custom_content %>
+  <% else %>
+    <div class="space-y-6 font-medium">
+      <% if description %>
+        <%= description %>
+      <% else %>
+        <p>
+          There are no <%= plural_object_name %> yet.
+        </p>
+      <% end %>
+    </div>
+
+    <% if can_create_new %>
+      <%= link_to new_path,
+                  class: "btn btn-primary" do %>
+        <%= icon("circle-plus") %>
+        <span>
+          <%= button_text %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

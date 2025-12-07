@@ -1,0 +1,23 @@
+<%= content_for(:title) do %>
+  <%= t('teams.accounts.new_account', default: 'New Account') %>
+<% end %>
+
+<% content_for(:page_max_width, "max-w-2xl") %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.accounts.my_accounts', default: 'My Accounts'),
+               link: accounts_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.accounts.new_account', default: 'New Account') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('teams.accounts.new_account', default: 'New Account') %>
+
+  <%= render "accounts/form", account: @account %>
+</div>

@@ -85,3 +85,133 @@ en:
       explanation: "%{count} errors prohibited this %{model} from being saved:"
   subnav:
     back: Back
+  teams:
+    authorization:
+      not_authorized: You are not authorized to access this page.
+    subnav:
+      commerce:
+        billing: Billing
+        choose_plan: Choose a Plan
+    account_users_controller:
+      role_updated: Your role has been updated.
+      role_updated_other: Updated %{name}'s role.
+      removed_self: You've been removed from the %{team} team.
+      removed_other: Removed %{name} from the %{team} team.
+      no_permission: You don't have permission to do that.
+    invitations_controller:
+      invitation_sent: Invitation sent to %{email}!
+      invitation_updated: Invitation updated successfully!
+      invitation_resent: Invitation sent successfully!
+      invalid_invitation: Invalid invitation.
+      invitation_accepted: Invitation has already been accepted.
+      user_exists: A user by this email already exists.
+      welcome: Welcome!
+      invitation_deleted: Invitation deleted successfully!
+      no_permission_invitations: You don't have permission to manage invitations.
+    accounts_controller:
+      account_created: Account was successfully created.
+      account_updated: Account was successfully updated.
+      switched: Switched to %{account}.
+      no_access: You don't have access to this account.
+      account_destroyed: Account was successfully destroyed.
+      no_permission: You don't have permission to do that.
+    invitation_mailer:
+      invitation_subject: Invitation to join %{account}
+      invitation_accepted_subject: "%{name} accepted your invitation"
+      invitation_accepted: "%{name} has accepted your invitation to join %{account}"
+      manage_member_settings: Manage %{name}'s member settings
+      accept_invitation: Accept Invitation
+    accounts_mailer:
+      account_created_subject: "[New Account Created] %{account} - %{owner_email}"
+      account_created_html: 'An account has been created:'
+      account_created_text: 'An account has been created:'
+      account_name: 'Account name:'
+      account_owner: 'Account owner:'
+      admin_account_profile: 'Admin account profile:'
+    account_users:
+      member_settings_title: "%{name} Member Settings"
+      team_members: Team Members
+      member_settings_header: "%{name} member settings"
+      account_owner_header: "%{name} owns this account."
+      account_owner_paragraph: "%{name} has the role of %{role} and as the owner,
+        %{name} has full access to all settings and management of other members."
+      leave_confirm: Do you really want to leave the %{team} team?
+      remove_confirm: Do you really want to remove %{name} from %{team}?
+      leave_team: Leave the %{team} team
+      remove_member: Remove %{name} from %{team}
+      team_members_title: "%{account} Team Members"
+      invite_someone: Invite Someone
+      team_member: Team Member
+      my_role: My role
+      role: Role
+      member: Member
+      admin: Admin
+      select_role: Select Role
+      update_my_role: Update my role
+      update_role: Update %{name}'s role
+      edit_my_role: Edit my role
+      edit_role: Edit role
+      leave_confirm_dropdown: Are you sure you want to leave %{team}?
+      remove_confirm_dropdown: Are you sure you want to remove %{name} from %{team}?
+      leave_team_dropdown: Leave team
+      remove_member_dropdown: Remove member
+    accounts:
+      my_accounts: My Accounts
+      add_account: Add Account
+      you_dont_belong_to_accounts: You don't belong to accounts
+      settings: Settings
+      new_account: New Account
+      account_name: Account name
+      account_slug: Account slug
+      create: Create
+      update: Update
+      switch_to_account: Switch to account
+      edit_account: Edit account
+      current_account: Current account
+      account_settings: Account Settings
+      team_members: Team Members
+      invitations: Invitations
+      switch_accounts: Switch Accounts
+    invitations:
+      invitations: Invitations
+      invite_someone: Invite Someone
+      new_invitation: New Invitation
+      team_members: Team Members
+      update_invitation_for: Update Invitation for %{email}
+      invitation_for: Invitation for %{email}
+      accept_invitation: Accept Invitation
+      invited_to_join: You've been invited to join %{account}.
+      email_address: Email address
+      create_password: Create a password
+      create_password_placeholder: Create a password
+      already_registered: Already registered?
+      sign_in: Sign in
+      email: Email
+      invitation_message: Invitation Message
+      invitation_message_tooltip: This will be the body of the email sent to the invitee.  Below
+        this message will be a link for the invitee to click to accept their invitation.
+      invitation_message_placeholder: Write a personalized message to the invitee
+      invitation_message_default: You're invited to join %{account}.  Click the link
+        below to accept your invitation.
+      role: Role
+      role_tooltip: This will be the role of the invitee in %{account} after they
+        accept their invitation.  You can change this later in the member's settings.
+      member: Member
+      admin: Admin
+      send_invitation: Send invitation
+      update_invitation: Update invitation
+      resend: Resend
+      really_delete_invitation: Really delete Invitation?
+      cancel_invitation: Cancel invitation
+      resend_invitation: Resend Invitation
+      edit_invitation: Edit Invitation
+      cancel_invitation_dropdown: Cancel Invitation
+      really_delete_invitation_dropdown: Really delete Invitation?
+    account_menu:
+      switch_account: Switch Account
+      add_account: Add Account
+      settings: Settings
+      team_members: Team Members
+      new_account_ellipsis: New Account...
+  page_header:
+    new_button: New %{singular}

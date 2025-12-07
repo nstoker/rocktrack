@@ -1,0 +1,13 @@
+<%
+  data = local_assigns[:data]
+
+  data ||= {}
+  if data.present?
+    listing_data_atts_html = data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+  end
+%>
+
+<div class="border-t border-b border-gray-200 dark:border-gray-800 divide-y divide-gray-200 dark:divide-gray-800"
+     <%= listing_data_atts_html %>>
+  <%= yield %>
+</div>

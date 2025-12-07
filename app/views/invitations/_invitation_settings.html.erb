@@ -1,0 +1,24 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-56" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('teams.invitations.resend_invitation', default: 'Resend Invitation'),
+             link_path: resend_invitation_path(@account.slug, invitation.id),
+             icon_name: "send" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('teams.invitations.edit_invitation', default: 'Edit Invitation'),
+             link_path: edit_invitation_path(@account.slug, invitation.id),
+             icon_name: "user-pen" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+               link_text: t('teams.invitations.cancel_invitation_dropdown', default: 'Cancel Invitation'),
+               link_path: destroy_invitation_path(@account.slug, invitation.id),
+               icon_name: "x",
+               data: {
+                 turbo_method: :delete,
+                 turbo_confirm: t('teams.invitations.really_delete_invitation_dropdown', default: 'Really delete Invitation?')
+               } %>
+
+<% end %>

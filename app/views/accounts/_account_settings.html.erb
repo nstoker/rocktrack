@@ -1,0 +1,18 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-56" do %>
+
+  <% if multiple_accounts && !account_is_current %>
+    <%= render "shared/components/dropdown/dropdown_link",
+               link_text: t('teams.accounts.switch_to_account', default: 'Switch to account'),
+               link_path: switch_account_path(account.slug),
+               icon_name: "arrow-right-from-line" %>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+               link_text: t('teams.accounts.edit_account', default: 'Edit account'),
+               link_path: account_settings_path(account.slug),
+               icon_name: "square-pen",
+               icon_container_position: "relative -top-[1px]" %>
+
+<% end %>

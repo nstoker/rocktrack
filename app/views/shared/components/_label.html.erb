@@ -1,0 +1,28 @@
+<%
+  text = local_assigns[:text]
+  bg_color = local_assigns[:bg_color] || "bg-gray-50 dark:bg-gray-950"
+  padding = local_assigns[:padding] || "py-1.5 pr-2.5 pl-3"
+  text_color = local_assigns[:text_color] || "text-gray-500 dark:text-gray-300"
+  text_size = local_assigns[:text_size]
+  label_classes = local_assigns[:label_classes]
+  icon_name = local_assigns[:icon_name] # lucide icon name
+  icon_classes = local_assigns[:icon_classes]
+  icon_container_classes = local_assigns[:icon_container_classes]
+  icon_size = local_assigns[:icon_size] || "text-sm"
+%>
+
+<div class="inline-flex items-center space-x-2 font-medium rounded
+            <%= bg_color %>
+            <%= text_color %>
+            <%= padding %>
+            <%= text_size %>
+            <%= label_classes %>">
+  <% if icon_name %>
+    <div class="<%= icon_container_classes %>">
+      <%= icon(icon_name, size: icon_size, classes: icon_classes) %>
+    </div>
+  <% end %>
+  <span>
+    <%= text %>
+  </span>
+</div>

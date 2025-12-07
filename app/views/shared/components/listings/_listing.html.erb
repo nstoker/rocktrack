@@ -1,0 +1,70 @@
+<%
+  listing_link = local_assigns[:listing_link]
+  no_link = local_assigns.fetch(:no_link, false)
+  can_access = local_assigns.fetch(:can_access, true)
+  link_method = local_assigns[:link_method] || :get
+  custom_content = local_assigns[:custom_content] # set with custom content to replace both the title and description.  Otherwise you can set the title and (optional) description attributes.
+  title = local_assigns[:title]
+  description = local_assigns[:description]
+  sub_description = local_assigns[:sub_description]
+  listing_classes = local_assigns[:listing_classes]
+  icon_content = local_assigns[:icon_content] # set this to set a custom icon or other content for the left side of the listing
+  data = local_assigns[:data]
+
+  data ||= {}
+  if data.present?
+    listing_data_atts_html = data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+  end
+%>
+
+<% listing_content = capture do %>
+  <% if custom_content %>
+    <div class="">
+      <%= custom_content %>
+    </div>
+  <% else %>
+
+    <div class="flex-1 space-y-0.5 flex items-start space-x-4">
+
+      <% if icon_content %>
+        <div class="w-10 text-center mt-[3px]">
+          <%= icon_content %>
+        </div>
+      <% end %>
+
+      <div class="flex-1 space-y-1">
+        <% if can_access || !no_link %>
+          <%= link_to listing_link,
+                      class: "block font-medium leading-snug" do %>
+            <%= title %>
+          <% end %>
+        <% else %>
+          <div class="font-medium leading-snug text-black dark:text-white">
+            <%= title %>
+          </div>
+        <% end %>
+        <% if description %>
+          <div class="text-sm font-medium text-gray-400 dark:text-gray-600">
+            <%= description %>
+          </div>
+        <% end %>
+        <% if sub_description %>
+          <div class="text-xs font-medium opacity-80 text-gray-400 dark:text-gray-600">
+            <%= sub_description %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Listing Meta -->
+  <div class="flex items-center space-x-6">
+    <%= yield %>
+  </div>
+<% end %>
+
+<div class="<%= listing_classes %>" <%= listing_data_atts_html %>>
+  <div class="flex items-center space-x-8 justify-between py-3">
+    <%= listing_content %>
+  </div>
+</div>

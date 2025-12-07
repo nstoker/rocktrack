@@ -1,0 +1,10 @@
+<div>
+  <%= @invitation.message %>
+</div>
+
+<div style="margin-top: 35px;">
+  <%= link_to accept_invitation_url(@account.slug, @invitation.id, token: @invitation.token),
+      style: @button_style do %>
+    <%= t('teams.invitation_mailer.accept_invitation', default: 'Accept Invitation') %>
+  <% end %>
+</div>

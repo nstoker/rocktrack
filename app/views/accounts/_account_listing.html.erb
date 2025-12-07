@@ -1,0 +1,24 @@
+<%
+  multiple_accounts = local_assigns[:multiple_accounts]
+  account_is_current = account == current_account
+  can_manage_account = current_user.account_admin?(account)
+  account_link = if can_manage_account
+    account_settings_path(account.slug)
+  else
+    switch_account_path(account.slug)
+  end
+%>
+
+<%= render "shared/components/listings/listing",
+           listing_link: account_link,
+           title: account.name do %>
+  <% if multiple_accounts && account_is_current %>
+    <%= render "shared/components/label", text: t('teams.accounts.current_account', default: 'Current account') %>
+  <% end %>
+  <% if can_manage_account %>
+    <%= render "account_settings",
+                account: account,
+                multiple_accounts: multiple_accounts,
+                account_is_current: account_is_current %>
+  <% end %>
+<% end %>

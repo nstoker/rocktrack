@@ -1,0 +1,90 @@
+<%
+  accounts = current_user.accounts
+  has_accounts = accounts.any?
+  if has_accounts
+    multiple_accounts = accounts.count > 1
+    can_manage_current_account = current_user.account_admin?(current_account)
+  end
+
+  border_color = "border-gray-200 dark:border-gray-700"
+%>
+
+<% if has_accounts && (can_manage_current_account || multiple_accounts) %>
+
+  <div class="border-t border-b <%= border_color %> py-1 mb-1"
+       id="account-menu"
+       data-controller="components--toggle">
+
+    <div class="flex items-start justify-between py-2 pl-4 pr-2.5">
+      <h3 class="flex-1 text-xs font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-widest">
+        <span class="<%= 'hidden' unless can_manage_current_account %> leading-[1.2rem]"
+              data-components--toggle-target="toggleable">
+          <%= current_account.name %>
+        </span>
+        <span class="<%= 'hidden' if can_manage_current_account %> leading-[1.2rem]"
+              data-components--toggle-target="toggleable">
+          <%= multiple_accounts ? t('teams.account_menu.switch_account', default: 'Switch Account') : t('teams.account_menu.add_account', default: 'Add Account') %>
+        </span>
+      </h3>
+
+      <div class="cursor-pointer text-gray-400 size-5 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-sm
+                  dark:text-gray-300 hover:text-black dark:hover:text-white"
+          data-action="click->components--toggle#toggle">
+        <span class="<%= can_manage_current_account ? 'block' : 'hidden' %> leading-0"
+              data-components--toggle-target="toggleable">
+          <%= icon(multiple_accounts ? "repeat-2" : "circle-plus", size: "text-xs") %>
+        </span>
+        <span class="<%= can_manage_current_account ? 'hidden' : 'block' %> leading-0"
+              data-components--toggle-target="toggleable">
+          <%= icon("chevron-left", size: "text-xs") %>
+        </span>
+      </div>
+    </div>
+
+    <!-- Manage current account -->
+    <div class="<%= 'hidden' unless can_manage_current_account %>"
+          data-components--toggle-target="toggleable">
+
+      <%= render "shared/components/dropdown/dropdown_link",
+                  link_path: account_settings_path(current_account.slug),
+                  icon_name: "settings",
+                  link_text: t('teams.account_menu.settings', default: 'Settings') %>
+
+      <%= render "shared/components/dropdown/dropdown_link",
+                  link_path: account_users_path(current_account.slug),
+                  icon_name: "users",
+                  link_text: t('teams.account_menu.team_members', default: 'Team Members') %>
+
+    </div>
+
+    <!-- Switch account -->
+    <div class="<%= 'hidden' if can_manage_current_account %>"
+        data-components--toggle-target="toggleable">
+      <% if accounts.count > 1 %>
+        <% accounts.each do |account| %>
+          <% next unless account.id.present? %>
+          <% is_current_account = account.id == current_account.id %>
+          <%= render "shared/components/dropdown/dropdown_link",
+                      link_path: switch_account_path(account.slug),
+                      link_text: account.name,
+                      icon_name: is_current_account ? "check" : "log-in" %>
+        <% end %>
+
+        <hr class="my-1 border-t <%= border_color %>">
+      <% end %>
+      <%= render "shared/components/dropdown/dropdown_link",
+                  link_path: new_account_path,
+                  icon_name: "circle-plus",
+                  link_text: t('teams.account_menu.new_account_ellipsis', default: 'New Account...') %>
+    </div>
+
+  </div>
+
+<% else %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+              link_path: new_account_path,
+              icon_name: "circle-plus",
+              link_text: t('teams.account_menu.new_account_ellipsis', default: 'New Account...') %>
+
+<% end %>

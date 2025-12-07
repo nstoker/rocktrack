@@ -1,0 +1,51 @@
+<%= content_for(:title) do %>
+  <%= t('teams.invitations.invitations', default: 'Invitations') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.invitations.invitations', default: 'Invitations') %>
+  <% end %>
+<% end %>
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @invitations.any? %>
+    <%= render "shared/components/page_header",
+                title: t('teams.invitations.invitations', default: 'Invitations'),
+                button_link_path: new_invitation_path(@account.slug),
+                button_link_text: t('teams.invitations.invite_someone', default: 'Invite Someone') %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @invitations.each do |invitation| %>
+          <%= render "invitations/invitation_listing",
+                      invitation: invitation do %>
+            <%= render "shared/components/label",
+                        text: invitation.status.capitalize %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: "invitation",
+                plural_object_name: "invitations",
+                new_path: new_invitation_path(@account.slug) %>
+  <% end %>
+
+</div>
