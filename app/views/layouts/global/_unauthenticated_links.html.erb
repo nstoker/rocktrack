@@ -1,0 +1,15 @@
+<div class="flex items-center space-x-3"
+     id="unauthenticated-links">
+  <%= link_to new_session_path,
+              class: "btn btn-ghost" do %>
+    <%= t('user_menu.sign_in', default: 'Sign in') %>
+  <% end %>
+  <%= link_to new_registration_path,
+              class: "btn btn-primary" do %>
+    <span>
+      <%= t('user_menu.sign_up', default: 'Sign up') %>
+    </span>
+    <%= icon("arrow-right") %>
+  <% end %>
+</div>
+

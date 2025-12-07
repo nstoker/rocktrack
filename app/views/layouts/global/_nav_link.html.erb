@@ -1,0 +1,92 @@
+<%
+  url = local_assigns[:url]
+  label = local_assigns[:label]
+  active = local_assigns[:active]
+
+  # applies to the div that wraps this link and its sub_links
+  link_container_classes = local_assigns[:link_container_classes]
+  active_link_container_classes = local_assigns[:active_link_container_classes]
+  inactive_link_container_classes = local_assigns[:inactive_link_container_classes]
+
+  # applies to the link element
+  link_space_x = local_assigns[:link_space_x] || "space-x-3"
+  link_padding = local_assigns[:link_padding] || "py-2"
+  link_classes = local_assigns[:link_classes]
+  link_target = local_assigns[:link_target] || "_self"
+  inactive_link_classes = local_assigns[:inactive_link_classes]
+  active_link_classes = local_assigns[:active_link_classes]
+
+  # applies to the icon element
+  icon = local_assigns[:icon]
+  # applies to the icon container element
+  icon_container_classes = local_assigns[:icon_container_classes]
+  inactive_icon_container_classes = local_assigns[:inactive_icon_container_classes]
+  active_icon_container_classes = local_assigns[:active_icon_container_classes]
+
+  # applies to the label element
+  label_classes = local_assigns[:label_classes]
+  inactive_label_classes = local_assigns[:inactive_label_classes]
+  active_label_classes = local_assigns[:active_label_classes]
+
+  # the sub_links array of hashes
+  sub_links = local_assigns[:sub_links]
+
+  # applies to the div that wraps the sub_links
+  sub_links_container_space_y = local_assigns[:sub_links_container_space_y] || "space-y-2"
+  sub_links_container_padding_y = local_assigns[:sub_links_container_padding_y] || "pt-2 pb-6"
+  sub_links_container_padding_x = local_assigns[:sub_links_container_padding_x] || "px-11 lg:px-13"
+  sub_links_container_text_size = local_assigns[:sub_links_container_text_size]
+  sub_links_container_classes = local_assigns[:sub_links_container_classes]
+
+  # applies to the individual sub_link elements
+  sub_link_classes = local_assigns[:sub_link_classes]
+  sub_link_active_classes = local_assigns[:sub_link_active_classes]
+  sub_link_inactive_classes = local_assigns[:sub_link_inactive_classes]
+%>
+
+<div class="<%= link_container_classes %>
+            <%= active ? active_link_container_classes : inactive_link_container_classes %>">
+  <%= link_to url,
+              target: link_target,
+              class: "flex items-start justify-start
+                      #{link_space_x}
+                      #{link_padding}
+                      #{link_classes}
+                      #{active ? active_link_classes : inactive_link_classes}" do %>
+    <div class="w-8 h-[1.7rem] flex flex-col items-center justify-center
+                <%= icon_container_classes %> <%= active ? active_icon_container_classes : inactive_icon_container_classes %>">
+      <%= icon(icon, size: "text-lg") %>
+    </div>
+    <div class="flex-1 min-h-[1.7rem] leading-[1.7rem]
+                <%= label_classes %> <%= active ? active_label_classes : inactive_label_classes %>">
+      <%= label %>
+    </div>
+  <% end %>
+
+  <% if active && sub_links.present? && sub_links.any? %>
+    <div class="flex flex-col items-start font-medium
+                <%= sub_links_container_space_y %>
+                <%= sub_links_container_padding_y %>
+                <%= sub_links_container_padding_x %>
+                <%= sub_links_container_text_size %>
+                <%= sub_links_container_classes %>">
+      <% sub_links.each do |sub_link| %>
+        <%= render "layouts/global/nav_sub_link",
+                    url: sub_link[:url],
+                    active: sub_link[:active],
+                    label: sub_link[:label],
+                    icon: sub_link[:icon],
+                    classes: sub_link_classes,
+                    active_classes: sub_link_active_classes,
+                    inactive_classes: sub_link_inactive_classes,
+                    sub_link_header: sub_link[:sub_link_header],
+                    sub_link_header_padding: sub_link[:sub_link_header_padding],
+                    sub_link_header_text_size: sub_link[:sub_link_header_text_size],
+                    sub_link_header_font_weight: sub_link[:sub_link_header_font_weight],
+                    sub_link_header_text_color: sub_link[:sub_link_header_text_color],
+                    sub_link_header_tracking: sub_link[:sub_link_header_tracking],
+                    sub_link_header_classes: sub_link[:sub_link_header_classes] %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

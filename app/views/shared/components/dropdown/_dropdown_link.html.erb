@@ -1,0 +1,76 @@
+<%
+  link_path = local_assigns[:link_path]
+  link_text = local_assigns[:link_text]
+  icon_name = local_assigns[:icon_name]
+  icon_container_position = local_assigns[:icon_container_position]
+  icon_container_classes = local_assigns[:icon_container_classes]
+  icon_color = local_assigns[:icon_color] || "text-gray-400 group-hover/link:text-black dark:group-hover/link:text-white"
+  icon_size = local_assigns[:icon_size]
+  text_color = local_assigns[:text_color] || "text-primary"
+  link_method = local_assigns[:link_method]
+  link_target = local_assigns[:link_target]
+  link_remote = local_assigns[:link_remote]
+  link_classes = local_assigns[:link_classes]
+  link_text_size = local_assigns[:link_text_size]
+  link_text_weight = local_assigns[:link_text_weight] || "font-medium"
+  link_text_wrap = local_assigns[:link_text_wrap]
+  link_text_classes = local_assigns[:link_text_classes]
+  button_link = local_assigns[:button_link]
+  div_link = local_assigns[:div_link]
+  data = local_assigns[:data]
+  id = local_assigns[:id]
+
+  data ||= {}
+  if data.present?
+    link_data_atts_html = data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+  end
+
+%>
+
+<% classes = "group/link flex items-start justify-start py-2 w-full text-left cursor-pointer
+              #{icon_name ? 'pl-3 pr-4 space-x-2' : 'px-4 space-x-1'}
+              #{text_color}
+              hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white
+              #{link_classes}" %>
+
+<% link_content = capture do %>
+  <% if icon_name %>
+    <div class="w-8 h-[1.5rem] flex items-center justify-center
+                <%= icon_container_position %>
+                <%= icon_container_classes %>
+                <%= icon_color %>">
+      <%= icon(icon_name, size: icon_size) %>
+    </div>
+  <% end %>
+  <div class="flex-1 min-h-[1.5rem]
+              <%= link_text_size %>
+              <%= link_text_weight %>
+              <%= link_text_wrap %>
+              <%= link_text_classes %>">
+    <%= link_text %>
+  </div>
+<% end %>
+
+<% if div_link == true %>
+  <div class="<%= classes %>" <%= link_data_atts_html %>>
+    <%= link_content %>
+  </div>
+<% elsif button_link == true %>
+  <%= button_to link_path,
+                method: link_method,
+                data: data,
+                id: id,
+                class: classes,
+                link_remote: link_remote do %>
+    <%= link_content %>
+  <% end %>
+<% else %>
+  <%= link_to link_path,
+              data: data,
+              class: classes,
+              method: link_method,
+              target: link_target,
+              link_remote: link_remote do %>
+    <%= link_content %>
+  <% end %>
+<% end %>

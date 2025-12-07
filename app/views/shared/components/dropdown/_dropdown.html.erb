@@ -1,0 +1,108 @@
+<%
+  trigger_content = local_assigns[:trigger_content] # use this to set custom trigger content.  Overrides trigger_type
+  trigger_type = local_assigns[:trigger_type] # options can be 'selection' or null.  If null, it defaults to ellipsis icon
+  toggle_on_hover = local_assigns[:toggle_on_hover]  # set to true to make the dropdown toggle on hover instead of click
+
+  # dropdown container options
+  dropdown_classes = local_assigns[:dropdown_classes]
+  id = local_assigns[:id]
+
+  data = local_assigns[:data] || {}
+
+  default_data = {
+    controller: "components--dropdown"
+  }
+
+  # Merge default data with user-provided data
+  merged_data = default_data.merge(data) do |key, default_val, user_val|
+    "#{default_val} #{user_val}"
+  end
+
+  # Convert the merged data hash to HTML attributes
+  link_data_atts_html = merged_data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+
+  # set these if it's a selection dropdown where the current selected item is shown in the toggler
+  current_selection = local_assigns[:current_selection] || 'Select'
+  selection_background = local_assigns[:selection_background]
+  selection_text_color = local_assigns[:selection_text_color]
+  selection_border_color = local_assigns[:border_color] || 'border-gray-200'
+  selection_padding = local_assigns[:selection_padding] || 'py-2 px-4'
+  selection_classes = local_assigns[:selection_classes]
+
+  # dropdown menu options
+  menu_border_color = local_assigns[:border_color] || 'border-gray-100'
+  menu_z_index = local_assigns[:menu_z_index] || 'z-10'
+  menu_width = local_assigns[:menu_width] || "w-48"
+  menu_classes = local_assigns[:menu_classes]
+
+  menu_position = local_assigns[:menu_position] || "down-left" # options: down-left, down-right, up-left, up-right, left-down, left-up, right-down, right-up
+  menu_position_classes = if local_assigns[:menu_position_classes].present?
+                            local_assigns[:menu_position_classes]
+                          elsif menu_position == "down-left"
+                            "right-0 left-auto"
+                          elsif menu_position == "down-right"
+                            "left-0 right-auto"
+                          elsif menu_position == "up-left"
+                            "right-0 left-auto -top-4"
+                          elsif menu_position == "up-right"
+                            "left-0 right-auto -top-4"
+                          elsif menu_position == "left-down"
+                            "left-auto right-8 -top-4"
+                          elsif menu_position == "left-up"
+                            "left-auto right-8 bottom-0 top-auto"
+                          elsif menu_position == "right-down"
+                            "right-auto left-8 -top-4"
+                          elsif menu_position == "right-up"
+                            "right-auto left-8 bottom-0 top-auto"
+                          else
+                            "right-0 left-auto"
+                          end
+%>
+<div class="group inline-block relative
+            <%= dropdown_classes %>"
+     id="<%= id %>"
+     <%= link_data_atts_html %>>
+
+  <% if trigger_content %>
+    <div class="inline-block cursor-pointer"
+         data-action="<%= toggle_on_hover ? 'mouseover->components--dropdown#openOnHover mouseout->components--dropdown#closeOnHoverOut' : 'click->components--dropdown#toggle click@window->components--dropdown#hide' %>">
+      <%= trigger_content %>
+    </div>
+  <% elsif trigger_type == 'selection' %>
+    <div class="cursor-pointer border rounded flex items-center space-x-2 justify-between
+              hover:text-black dark:hover:text-white
+              <%= selection_border_color %>
+              <%= selection_text_color %>
+              <%= selection_background %>
+              <%= selection_padding %>
+              <%= selection_classes %>
+              group-hover:border-black group-hover:dark:border-white"
+         data-action="<%= toggle_on_hover ? 'mouseover->components--dropdown#openOnHover mouseout->components--dropdown#closeOnHoverOut' : 'click->components--dropdown#toggle click@window->components--dropdown#hide' %>">
+      <div class="whitespace-nowrap">
+        <%= current_selection %>
+      </div>
+      <%= icon("chevron-down", size: 16, color: "text-gray-400 dark:text-gray-600") %>
+    </div>
+  <% else %>
+    <div class="cursor-pointer text-gray-400 dark:text-gray-600
+                group-hover:text-black dark:group-hover:text-white"
+         data-action="<%= toggle_on_hover ? 'mouseover->components--dropdown#openOnHover mouseout->components--dropdown#closeOnHoverOut' : 'click->components--dropdown#toggle click@window->components--dropdown#hide' %>">
+      <%= icon("ellipsis") %>
+    </div>
+  <% end %>
+
+  <div class="hidden absolute pt-1
+            <%= menu_border_color %>
+            <%= menu_width %>
+            <%= menu_position_classes %>
+            <%= menu_z_index %>
+            <%= menu_classes %>"
+       data-components--dropdown-target="menu"
+       <% if toggle_on_hover %>
+       data-action="mouseover->components--dropdown#openOnHover mouseout->components--dropdown#closeOnHoverOut"
+  <% end %>>
+  <div class="rounded-md bg-white dark:bg-gray-950 py-1 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
+    <%= yield %>
+  </div>
+</div>
+</div>

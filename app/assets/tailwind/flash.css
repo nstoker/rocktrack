@@ -1,0 +1,26 @@
+.hide-after-delay {
+  -webkit-animation: hide_after_delay 1s forwards;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 3s;
+  animation: hide_after_delay 1s forwards;
+  animation-iteration-count: 1;
+  animation-delay: 3s;
+}
+
+@-webkit-keyframes hide_after_delay {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hide_after_delay {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

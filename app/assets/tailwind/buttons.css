@@ -1,0 +1,85 @@
+@utility btn {
+  padding: --spacing(2) --spacing(3.5) --spacing(2) --spacing(3.5);
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(2.5);
+}
+
+@utility btn-primary {
+  background-image: linear-gradient(to top right, var(--color-primary), var(--color-primary-light));
+  color: var(--color-white);
+
+  @variant hover {
+    background-image: linear-gradient(to top right, var(--color-primary-400), var(--color-primary-light));
+  }
+
+  @variant dark {
+    background-color: var(--color-primary-500);
+
+    @variant hover {
+      background-color: var(--color-primary-600);
+    }
+  }
+}
+
+@utility btn-secondary {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray);
+
+  @variant hover {
+    background-color: var(--color-gray-200);
+    color: var(--color-black);
+  }
+
+  @variant dark {
+    background-color: var(--color-gray-700);
+    color: var(--color-gray-300);
+
+    @variant hover {
+      background-color: var(--color-white);
+      color: var(--color-black);
+    }
+  }
+}
+
+@utility btn-ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+
+  @variant hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+  }
+
+  @variant dark {
+    @variant hover {
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-300);
+    }
+  }
+}
+
+@utility btn-large {
+  font-size: var(--text-lg);
+  padding: --spacing(3.5) --spacing(6);
+  gap: --spacing(3.5);
+}
+
+@utility btn-small {
+  font-size: var(--text-sm);
+  padding: --spacing(1.5) --spacing(3);
+  gap: --spacing(2);
+}
+
+@layer components {
+  .btn-primary i {
+    opacity: 0.7;
+  }
+
+  .btn.cursor-default {
+    cursor: default;
+  }
+}

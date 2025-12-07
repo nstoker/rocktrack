@@ -1,0 +1,32 @@
+<%
+  resource = local_assigns[:resource] # user, account, or some other entity else that needs to display an avatar.
+  size = local_assigns[:size] || 32 # size in pixels. We need pixels for gravatars, and ability to set exact size.
+  size_class = size == 32 ? "w-8 h-8" : pixel_to_tailwind_size(size) # convert to tailwind classes using this method for JIT processing.
+  background_color = local_assigns[:background_color] || "bg-gray-100 dark:bg-gray-900"
+  rounded = local_assigns[:rounded] || "rounded-full"
+  skip_gravatar = local_assigns[:skip_gravatar] || false # set to false if resource is not a user (typically only users have gravatars)
+  image_url = avatar_image_file(resource, size: size, skip_gravatar: skip_gravatar)
+  initials = avatar_initials(resource)
+  initials_text_size = local_assigns[:initials_text_size].present? ? local_assigns[:initials_text_size] : initials_text_size(size)
+  initials_text_color = local_assigns[:initials_text_color] || "text-gray-400 dark:text-gray-400"
+  initials_font_weight = local_assigns[:initials_font_weight] || "font-medium"
+  initials_tracking = local_assigns[:initials_tracking] || "tracking-wider"
+  initials_leading = local_assigns[:initials_leading] || "leading-none"
+%>
+
+<div class="relative inline-flex justify-center items-center
+            <%= rounded %>
+            <%= background_color %>
+            <%= size_class %>">
+  <%= image_tag image_url,
+                class: "absolute top-0 left-0 #{rounded}"
+  %>
+  <div class="w-full h-full flex justify-center items-center uppercase
+              <%= initials_text_size %>
+              <%= initials_text_color %>
+              <%= initials_font_weight %>
+              <%= initials_tracking %>
+              <%= initials_leading %>">
+    <%= initials %>
+  </div>
+</div>

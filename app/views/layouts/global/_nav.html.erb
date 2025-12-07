@@ -1,0 +1,46 @@
+<%
+  nav_attrs = nav_attributes(local_assigns)
+  container_classes = nav_attrs[:container_classes]
+  nav_link_partial = "layouts/global/nav_link"
+%>
+
+<div class="<%= container_classes %>">
+
+  <%# Define the primary navigation links here %>
+
+  <%= render nav_link_partial,
+            url: root_path,
+            active: active_nav_link?(root_path),
+            label: "Home",
+            icon: "house",
+            **nav_attrs %>
+
+  <%#= render nav_link_partial,
+            url: "#",
+            active: active_nav_link?("#"),
+            label: "Link 2",
+            icon: "bolt",
+            **nav_attrs %>
+
+  <%# link_3_sub_links = [
+    {
+      url: "#",
+      active: active_nav_link?("#"),
+      label: "Link 3a",
+      icon: "box"
+    },
+    {
+      url: "#",
+      active: active_nav_link?("#"),
+      label: "Link 3b",
+      icon: "box"
+    }
+  ] %>
+  <%#= render nav_link_partial,
+            url: "#",
+            active: active_nav_link?("#", sub_links: link_3_sub_links),
+            label: "Link 3",
+            icon: "rocket",
+            sub_links: link_3_sub_links,
+            **nav_attrs %>
+</div>

@@ -1,0 +1,54 @@
+<%= content_for(:title, t('authentication.registrations.title', default: 'Sign up')) %>
+
+<%= form_with(model: @user,
+              url: registration_url,
+              class: "") do |f| %>
+  <%= render "shared/components/forms/errors",
+              model: @user %>
+
+  <%= f.hidden_field :timezone,
+                       id: "user_timezone",
+                       data: { controller: "timezone" } %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('authentication.registrations.email_label', default: 'Email address'),
+                name: :email_address do %>
+      <%= f.email_field :email_address,
+                         placeholder: t('authentication.registrations.email_placeholder', default: 'name@domain.com'),
+                         class: form_control_classes,
+                         autofocus: true %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('authentication.registrations.password_label', default: 'Password'),
+                name: :password do %>
+      <%= f.password_field :password,
+                            placeholder: t('authentication.registrations.password_placeholder', default: 'Create a password'),
+                            class: form_control_classes %>
+    <% end %>
+
+    <div class="space-y-6 text-center pt-2">
+      <%= f.submit t('authentication.registrations.submit', default: 'Sign up'),
+                      class: "w-full text-center btn btn-primary btn-large" %>
+
+      <div class="space-y-4 font-medium
+                  sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:space-x-4">
+        <div>
+          <%= t('authentication.registrations.have_account', default: 'Have an account?') %>
+          <%= link_to new_session_path,
+                      class: "inline-block ml-2" do %>
+            <%= t('authentication.registrations.sign_in', default: 'Sign in') %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<% end %>

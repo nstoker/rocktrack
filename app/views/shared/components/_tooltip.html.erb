@@ -1,0 +1,45 @@
+<%
+  tooltip_margin = local_assigns[:tooltip_margin] || 'ml-1.5'
+  tooltip_icon_size = local_assigns[:tooltip_icon_size]
+  tooltip_icon = local_assigns[:tooltip_icon] || 'circle-help'
+  tooltip_icon_color = local_assigns[:tooltip_icon_color] || 'text-gray-400 hover:text-black dark:text-gray-600 dark:hover:text-white'
+  tooltip_icon_position = local_assigns[:tooltip_icon_position]
+  tooltip_box_background_color = local_assigns[:tooltip_box_background_color] || 'bg-gray-600'
+  tooltip_box_border_color = local_assigns[:tooltip_box_border_color] || 'border-gray-200'
+  tooltip_box_text_color = local_assigns[:tooltip_box_text_color] || 'text-gray-200'
+  tooltip_box_text_size = local_assigns[:tooltip_box_text_size] || 'text-sm'
+  tooltip_box_padding = local_assigns[:tooltip_box_padding] || 'px-4 py-3'
+  tooltip_box_width = local_assigns[:tooltip_box_width] || 'w-56 sm:w-64'
+  tooltip_box_space_y = local_assigns[:tooltip_box_space_y] || 'space-y-4'
+  tooltip_box_position = local_assigns[:tooltip_box_position] || 'bottom-8 -left-6 right-auto'
+  tooltip_box_shadow = local_assigns[:tooltip_box_shadow] || 'shadow-lg'
+  tooltip_box_z_index = local_assigns[:tooltip_box_z_index] || 'z-50'
+  tooltip_box_rounded = local_assigns[:tooltip_box_rounded] || 'rounded-lg'
+  tooltip_box_classes = local_assigns[:tooltip_box_classes]
+%>
+
+<span class="tooltip
+             group relative inline-flex items-center cursor-pointer h-[1.5rem]
+             <%= tooltip_margin %>">
+  <div class="tooltip-box
+              hidden absolute text-left whitespace-normal
+              <%= tooltip_box_position %>
+              <%= tooltip_box_z_index %>
+              <%= tooltip_box_padding %>
+              <%= tooltip_box_width %>
+              <%= tooltip_box_space_y %>
+              <%= tooltip_box_background_color %>
+              <%= tooltip_box_border_color %>
+              <%= tooltip_box_shadow %>
+              <%= tooltip_box_rounded %>
+              <%= tooltip_box_text_color %>
+              <%= tooltip_box_text_size %>
+              group-hover:block
+              <%= tooltip_box_classes %>">
+    <%= yield %>
+  </div>
+  <%= icon(tooltip_icon,
+            color: tooltip_icon_color,
+            size: tooltip_icon_size,
+            classes: tooltip_icon_position) %>
+</span>

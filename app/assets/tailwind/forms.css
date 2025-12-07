@@ -1,0 +1,250 @@
+@utility form-control {
+  display: block;
+  width: 100%;
+  padding: --spacing(3) --spacing(4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 2px var(--color-gray-200) inset;
+
+  @variant placeholder {
+    color: var(--color-gray-400);
+  }
+
+  @variant focus {
+    outline-style: none;
+    box-shadow: 0 0 0 2px var(--color-primary) inset;
+    background-color: var(--color-primary-50);
+  }
+
+  @variant dark {
+    background-color: var(--color-gray-950);
+    color: var(--color-white);
+    box-shadow: 0 0 0 2px var(--color-gray-700) inset;
+
+    @variant focus {
+      background-color: var(--color-gray-900);
+    }
+  }
+}
+
+select.form-control {
+  appearance: none;
+}
+
+@layer components {
+  /* These fields can only be focused by applying the .focused class */
+  .form-control.rich-text-container.focused,
+  .form-control.color-picker.focused {
+    outline-style: none;
+    box-shadow: 0 0 0 2px var(--color-primary) inset !important;
+    background-color: var(--color-primary-50) !important;
+
+    @variant dark {
+      background-color: var(--color-gray-900) !important;
+    }
+  }
+
+  /* Rich text editor */
+
+  .form-control.rich-text-container {
+    padding: --spacing(2) --spacing(2) !important;
+  }
+
+  .rich-text-container.hide-rich-text-toolbar trix-toolbar {
+    display: none !important;
+  }
+
+  .rich-text-container trix-toolbar .trix-button-row {
+    justify-content: start !important;
+  }
+
+  .rich-text-container trix-toolbar .trix-button-row .trix-button-group {
+    border: none !important;
+  }
+
+  .rich-text-container trix-toolbar .trix-button-group:not(:first-child) {
+    margin-left: 0 !important;
+  }
+
+  .rich-text-container .trix-button-group-spacer {
+    display: none !important;
+  }
+
+  .rich-text-container trix-toolbar .trix-button--icon {
+    border: none !important;
+    background-color: transparent !important;
+    padding: 5px !important;
+    width: 35px !important;
+    height: 30px !important;
+    border-radius: 3px !important;
+    margin-right: 3px !important;
+  }
+
+  .rich-text-container trix-toolbar .trix-button--icon::before {
+    background-size: 55% !important;
+
+    @variant dark {
+      -webkit-filter: invert(100%);
+    }
+  }
+
+  .rich-text-container.focused trix-toolbar .trix-button--icon {
+    background-color: var(--color-primary-100) !important;
+
+    @variant hover {
+      background-color: var(--color-primary-200) !important;
+    }
+
+    @variant dark {
+      background-color: var(--color-gray-700) !important;
+
+      @variant hover {
+        background-color: var(--color-gray-600) !important;
+      }
+    }
+  }
+
+  /* Rich text editing area */
+
+  .rich-text-container trix-editor {
+    border: none !important;
+    padding: 0.5rem 0.75rem !important;
+    outline-style: none !important;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-gray) !important;
+    row-gap: calc(var(--spacing) * 6); /* space-y-6 */
+    font-weight: var(--font-weight-medium);
+
+    @variant dark {
+      color: var(--color-gray-300) !important;
+    }
+  }
+
+  .rich-text-container trix-editor h1 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-weight-medium);
+
+    @variant lg {
+      font-size: var(--text-3xl);
+      line-height: var(--leading-normal);
+    }
+  }
+
+  .rich-text-container trix-editor blockquote {
+    font-style: italic;
+    padding-left: --spacing(4);
+    border-left: 4px solid var(--color-gray-300);
+
+    @variant dark {
+      border-left: 4px solid var(--color-gray-700);
+    }
+  }
+
+  /* Rich text dialog */
+
+  .rich-text-container .trix-dialog {
+    position: absolute;
+    top: --spacing(22);
+    left: --spacing(4);
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: --spacing(2);
+    border: 1px solid var(--color-gray-100);
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
+
+    @variant dark {
+      background-color: var(--color-black);
+      border-color: var(--color-gray-800);
+      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .rich-text-container .trix-dialog .trix-dialog__link-fields {
+    display: flex;
+    align-items: center;
+    gap: --spacing(2);
+  }
+
+  .rich-text-container .trix-dialog .trix-dialog__link-fields input {
+    flex: 1;
+    padding: --spacing(3) --spacing(4);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font-weight: var(--font-weight-medium);
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 2px var(--color-gray-200) inset;
+
+    @variant placeholder {
+      color: var(--color-gray-400);
+    }
+
+    @variant focus {
+      outline-style: none;
+      box-shadow: 0 0 0 2px var(--color-primary) inset;
+      background-color: var(--color-primary-50);
+    }
+
+    @variant dark {
+      background-color: var(--color-gray-950);
+      color: var(--color-white);
+      box-shadow: 0 0 0 2px var(--color-gray-700) inset;
+
+      @variant focus {
+        background-color: var(--color-gray-900);
+      }
+    }
+  }
+
+  .rich-text-container .trix-dialog .trix-dialog__link-fields .trix-button-group {
+    display: flex;
+    align-items: center;
+    gap: --spacing(2);
+  }
+
+  .rich-text-container .trix-dialog .trix-dialog__link-fields .trix-button-group .trix-button {
+    border: none;
+    border-radius: var(--radius-sm);
+    box-shadow: none;
+    background-color: var(--color-gray-50);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+
+    @variant hover {
+      background-color: var(--color-gray-200);
+      color: var(--color-black);
+    }
+
+    @variant dark {
+      background-color: var(--color-gray-950);
+      color: var(--color-primary);
+
+      @variant hover {
+        background-color: var(--color-gray-800);
+        color: var(--color-white);
+      }
+    }
+  }
+
+  /* Rich text published content */
+
+  .trix-content {
+    row-gap: calc(var(--spacing) * 6);
+  }
+
+  .trix-content blockquote {
+    margin-left: 0;
+    padding-left: --spacing(4);
+    font-style: italic;
+    border-left: 4px solid var(--color-gray-300) !important;
+
+    @variant dark {
+      border-left: 4px solid var(--color-gray-700) !important;
+    }
+  }
+}

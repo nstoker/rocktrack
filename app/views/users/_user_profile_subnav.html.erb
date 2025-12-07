@@ -1,0 +1,15 @@
+<%= render "shared/components/subnav/subnav",
+            back_link_path: root_path do %>
+
+  <%= render "shared/components/subnav/subnav_link",
+             link_path: edit_user_profile_path,
+             link_text: t('authentication.users.subnav.edit_profile', default: 'Edit Profile'),
+             icon_name: "circle-user",
+             active: current_page?(edit_user_profile_path) %>
+
+  <%= render "shared/components/subnav/subnav_link",
+             link_path: manage_password_path,
+             link_text: t('authentication.users.subnav.edit_password', default: 'Edit Password'),
+             icon_name: "lock",
+             active: current_page?(manage_password_path) %>
+<% end %>
