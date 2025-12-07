@@ -6,3 +6,6 @@ This time I'm using a local database, rather than fighting with Docker.
 
 The application is aimed at supporting my playing the Rocksmith series of games by Ubisoft, namely the Original Rocksmith and Rocksmith Remastered versions. I don't have any plans on supporting the Rocksmith+ web application at the current time.
 
+## Currently
+
+Following the [INstumental Components setup video](https://www.youtube.com/watch?v=6PVoW0dq4W0)

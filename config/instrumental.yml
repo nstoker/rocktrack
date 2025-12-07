@@ -1,0 +1,25 @@
+# Prevent overwriting these files when installing Instrumental components
+prevent_overwrites:
+  - "config/instrumental.yml"
+  - "app/assets/tailwind/base.css"
+  - "app/assets/tailwind/config.css"
+  - "app/assets/tailwind/colors.css"
+  - "app/assets/tailwind/fonts.css"
+  - "app/views/shared/head/_meta_description.html.erb"
+  - "app/views/shared/head/_meta_og_images.html.erb"
+  - "app/views/shared/head/_page_title.html.erb"
+
+cli_options:
+  # Set this to true to enable fast mode on all generators.
+  # This will prevent the short delay between each step in the installation process.
+  # Alternatively, you can pass --fast_mode to any generator to enable fast mode for the current command.
+  fast_mode: false
+
+  # Set this to true to have generator commands proceed immediately with installing a component
+  # and skip the prompt to ask permission before proceeding.
+  # Alternatively, you can pass --skip_proceed_prompt to any generator to enable this for the current command.
+  skip_proceed_prompt: false
+
+  # Set this to true to delete the installation notes files after the installation is complete.
+  # When not set to true, installation notes are saved in the .instrumental/component_installation_logs folder.
+  delete_installation_notes_files: false
