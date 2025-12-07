@@ -1,0 +1,58 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= @account.name %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.accounts.title', default: 'Accounts'),
+                link: admin_accounts_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @account.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-20">
+
+  <%= render "shared/components/page_header",
+              title: @account.name %>
+
+
+  <%= render "shared/components/data_list/data_list",
+              border_top_and_bottom: true do %>
+    <%= render "shared/components/data_list/data_list_item",
+              label: t('admin.accounts.account_name', default: 'Account Name'),
+              value: @account.name %>
+    <%= render "shared/components/data_list/data_list_item",
+              label: t('admin.accounts.created_at', default: 'Created at'),
+              value: @account.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") %>
+
+    <% account_owner_link = capture do %>
+      <%= link_to @account.owner.name, admin_user_path(@account.owner) %>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+              label: t('admin.accounts.owner', default: 'Owner'),
+              value: account_owner_link %>
+
+    <% team_list = capture do %>
+      <%= render "admin/multi_value",
+                  record_count: @account.users.count,
+                  records: @account.users,
+                  record_link_text_attribute: "name",
+                  record_link_path: admin_user_path %>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+              label: t('admin.accounts.team_members', default: 'Team Members'),
+              value: team_list %>
+
+    <!-- PLACEHOLDER: Stripe Customer -->
+  <% end %>
+
+  <!-- PLACEHOLDER: Account Commerce Records -->
+
+</div>

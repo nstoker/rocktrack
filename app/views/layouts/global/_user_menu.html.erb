@@ -30,7 +30,13 @@
                 link_text: t('user_menu.sign_out', default: 'Sign out'),
                 icon_name: "log-out" %>
 
-    <!-- PLACEHOLDER: Admin link -->
+    <% if current_user.admin? %>
+      <%= render "shared/components/dropdown/dropdown_link",
+                  link_path: admin_dashboard_path,
+                  link_text: t('user_menu.admin', default: 'Admin'),
+                  icon_name: "sliders-vertical" %>
+    <% end %>
+
 
   <% end %>
 

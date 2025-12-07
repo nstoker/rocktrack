@@ -1,0 +1,43 @@
+<%
+  record_count = local_assigns[:record_count]
+  records = local_assigns[:records]
+  record_link_text_attribute = local_assigns[:record_link_text_attribute]
+  record_link_path = local_assigns[:record_link_path]
+  record_link_path_when_only_one = local_assigns[:record_link_path_when_only_one]
+%>
+
+<% if record_count == 1 %>
+  <%= link_to records.first.send(record_link_text_attribute),
+              record_link_path_when_only_one.present? ? record_link_path_when_only_one : record_link_path %>
+<% elsif record_count > 1 %>
+  <div class="flex flex-col items-start
+              sm:items-end"
+        data-controller="components--toggle">
+    <div class="cursor-pointer flex items-center space-x-2 text-gray-400 dark:text-gray-600 font-medium
+                hover:text-black dark:hover:text-white"
+          data-action="click->components--toggle#toggle">
+      <span>
+        <%= record_count %>
+      </span>
+      <div>
+        <span class=""
+              data-components--toggle-target="toggleable">
+          <%= icon("chevron-down", size: "text-sm") %>
+        </span>
+        <span class="hidden"
+              data-components--toggle-target="toggleable">
+            <%= icon("chevron-up", size: "text-sm") %>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="hidden space-y-2 pt-2 flex flex-col items-start
+                sm:items-end"
+        data-components--toggle-target="toggleable">
+      <% records.each do |record| %>
+        <%= link_to record.send(record_link_text_attribute),
+                    record_link_path.is_a?(Proc) ? record_link_path.call(record) : record_link_path %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

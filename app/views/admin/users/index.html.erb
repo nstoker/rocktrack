@@ -1,0 +1,45 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.users.title', default: 'Users') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.users.title', default: 'Users') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @users.any? %>
+    <%= render "shared/components/page_header",
+                title: t('admin.users.title', default: 'Users') %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @users.each do |user| %>
+          <%= render "admin/users/user_listing",
+                      user: user %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: t('admin.users.singular', default: 'user'),
+                plural_object_name: t('admin.users.plural', default: 'users') %>
+  <% end %>
+
+</div>

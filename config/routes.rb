@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
 
+  # Admin > Accounts
+  get "admin/accounts", to: "admin/accounts#index", as: :admin_accounts
+  get "admin/accounts/:id", to: "admin/accounts#show", as: :admin_account
+
+  # Admin > Users
+  get "admin/users", to: "admin/users#index", as: :admin_users
+  get "admin/users/:id", to: "admin/users#show", as: :admin_user
+  post "admin/impersonate/:id", to: "admin/users#impersonate_user", as: :impersonate_user
+  delete "admin/impersonate/:id", to: "admin/users#stop_impersonating_user", as: :stop_impersonating_user
+
+  # Admin
+  get "admin", to: "admin/dashboard#dashboard", as: :admin_dashboard
+
   # Invitations
   get ":account_slug/invitations", to: "invitations#index", as: :invitations
   get ":account_slug/invitations/new", to: "invitations#new", as: :new_invitation

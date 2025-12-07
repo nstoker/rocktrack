@@ -215,3 +215,294 @@ en:
       new_account_ellipsis: New Account...
   page_header:
     new_button: New %{singular}
+  admin:
+    nav:
+      dashboard: Dashboard
+      users: Users
+      back_to_app: Back to App
+      accounts: Accounts
+      commerce:
+        setup: Setup
+        products: Products
+        prices: Prices
+        plans: Plans
+        benefits: Benefits
+        activity: Activity
+        purchases: Purchases
+        payments: Payments
+        subscriptions: Subscriptions
+        commerce: Commerce
+    dashboard:
+      title: Admin Dashboard
+      greeting: Hello, admin!
+    users:
+      title: Users
+      view_user: View User
+      first_name: First Name
+      last_name: Last Name
+      email: Email
+      registered_at: Registered At
+      last_login: Last Login
+      account: Account
+      accounts: Accounts
+      impersonate_user: Impersonate User
+      impersonating: Impersonating
+      stop_impersonating: Stop Impersonating
+    accounts:
+      title: Accounts
+      view_account: View Account
+      account_name: Account Name
+      created_at: Created at
+      owner: Owner
+      team_members: Team Members
+      no_listings:
+        singular: account
+        plural: accounts
+    payments:
+      title: Payments
+      view_payment: View Payment
+      view_on_stripe: View on Stripe
+      delete_payment: Delete Payment
+      confirm_delete: Really delete this payment? This action cannot be undone.
+      by_account_on_date: By %{account} on %{date}
+      payment_from_account: "%{amount} payment from %{account}"
+      amount: Payment amount
+      date: Payment date
+      status: Payment status
+      purchase_details: Purchase details
+      purchase_of_product: "%{account}'s purchase of %{product}"
+      product_purchased: Product purchased
+      subscription: Subscription
+      stripe_payment: Stripe Payment
+      no_listings:
+        singular: payment
+        plural: payments
+    plan_benefits:
+      add_benefit: Add Benefit
+      select_existing_benefit: Select Existing Benefit
+      select_benefit_prompt: Select a benefit...
+      add_benefit_to_plan: Add benefit to %{plan}
+      create_new_benefit: Create a new benefit...
+      no_benefits: No benefits set for this plan.
+    plans:
+      title: Plans
+      button:
+        purchase_label: Button Purchase Label
+        purchase_tooltip: The text on the button when the customer can click it to
+          purchase.  Defaults to 'Purchase {plan name}' if left blank.
+        change_to_plan_label: Change to Plan Label
+        change_to_plan_tooltip: The text on the button when the customer can click
+          it to change to this plan.  Defaults to 'Change to {plan name}' if left
+          blank.
+        current_label: Current Plan Label
+        current_tooltip: The text on the button when the customer is on this plan.  Defaults
+          to 'Current Plan' if left blank.
+        support_text: Button Support Text
+        support_tooltip: Small text shown below the button.  Optional.
+      details:
+        internal_name: Internal Name
+        internal_name_tooltip: This is used internally to identify the plan.  It is
+          not displayed to customers.
+        display_name: Display Name
+        display_name_tooltip: This is the name that will be displayed to customers.
+        highlight_text: Highlight Text
+        highlight_tooltip: If set, this plan will be highlighted along with a label
+          that displays this text.  Use it to highlight one 'popular' plan, for example.
+        active: Active
+        active_tooltip: Uncheck to hide this plan.
+      no_listings:
+        singular: plan
+        plural: plans
+        description: Plans are used to build your pricing tiers view.  First define
+          your Products and Prices, then create Plans to display a set of tiers that
+          a customer can choose to purchase.
+      status:
+        inactive: Inactive
+      flash:
+        created: Plan was successfully created.
+        updated: Plan was successfully updated.
+        deleted: Plan was successfully deleted.
+      new:
+        title: New Plan
+      panels:
+        details:
+          title: Plan Details
+          description: Name, description, image, etc.
+        prices:
+          title: Plan Price(s)
+          description: Price(s) for this plan.
+        benefits:
+          title: Benefits
+          description: List benefits shown for this plan.
+        button:
+          title: Button
+          description: The button and related texts.
+      form:
+        benefits_note: Benefits note
+        benefits_note_tooltip: Optional small text shown above the list of benefits.
+        benefits_note_placeholder: Everything in Basic, plus...
+        save: Save
+      settings:
+        edit: Edit Plan
+        delete: Delete Plan
+        confirm_delete: Really delete this plan?
+    products:
+      title: Products
+      new:
+        title: New Product
+      form:
+        name: Product Name
+        name_placeholder: Product Name
+        slug: Slug
+        slug_placeholder: Slug
+        stripe_product_id: Stripe Product ID
+        stripe_product_id_tooltip: Find this in your Stripe account.  It begins with
+          'prod_'
+        stripe_product_id_placeholder: Stripe Product ID
+        active: Active
+        description: Description
+        image: Image
+      settings:
+        edit_product: Edit Product
+        view_product: View Product
+        delete_product: Delete Product
+        confirm_delete: Really delete this product?
+      panels:
+        details:
+          title: Product Details
+          description: Name, description, image, etc.
+        prices:
+          title: Price(s)
+          description: Set this product's price(s).
+        purchases:
+          title: Purchases
+          description: View all purchases for this product.
+      no_listings:
+        singular: product
+        plural: products
+        description: Products are the main, purchaseable items that customers can
+          buy.  A product can have one or more prices.  If selling subscriptions,
+          each plan tier should be associated with one product.
+      status:
+        inactive: Inactive
+      flash:
+        created: Product was successfully created.
+        updated: Product was successfully updated.
+        deleted: Product was successfully deleted.
+        image_removed: Image removed successfully.
+    benefits:
+      title: Benefits
+      new:
+        title: New Benefit
+      edit:
+        plans_headline: 'Plans that feature this benefit:'
+      form:
+        name: Benefit Name
+        name_placeholder: Benefit Name
+        text: Benefit Text
+        text_placeholder: Benefit Text
+        tooltip: Tooltip
+        tooltip_placeholder: Tooltip
+        save: Save
+        assign_existing: Assign existing benefit...
+      settings:
+        edit: Edit Benefit
+        remove_from_plan: Remove from %{plan}
+        confirm_remove_from_plan: Really remove this benefit from %{plan}?  The benefit
+          itself will not be deleted.
+        delete: Delete Benefit
+        confirm_delete: Really delete this benefit?  This will permanently delete
+          this benefit from this and all other plans.
+      no_listings:
+        singular: benefit
+        plural: benefits
+        description: Benefits are the checkmark items shown on each plan.  Benefits
+          can be shared across several plans.
+      flash:
+        created: Benefit created successfully
+        updated: Benefit updated successfully
+        deleted: Benefit deleted successfully
+    prices:
+      title: Prices
+      add_price: Add Price
+      no_prices: No prices set for this product.
+      form:
+        name: Price Name
+        name_placeholder: Price Name
+        amount: Amount
+        amount_placeholder: Amount in cents
+        stripe_price_id: Stripe Price ID
+        stripe_price_id_placeholder: Stripe Price ID
+        slug: Slug
+        slug_placeholder: Slug
+        recurring: Recurring...
+        recurring_tooltip: This is a tooltip
+        recurring_interval: Recurring Interval
+        recurring_interval_tooltip: This is a tooltip
+        trial_days: Trial Days
+        trial_days_placeholder: Trial Days
+      settings:
+        edit_price: Edit Price
+        copy_checkout_url: Copy Checkout URL
+        view_on_stripe: View on Stripe
+        delete_price: Delete Price
+        confirm_delete: Really delete this price?
+      no_listings:
+        singular: price
+        plural: prices
+        description: Prices are set on a product.  To create a price, first create
+          a product then create a price for that product.
+    purchases:
+      title: Purchases
+      purchase_of_product: "%{account}'s purchase of %{product}"
+      purchase_date: Purchase Date
+      product_purchased: Product purchased
+      first_payment: First Payment
+      payment: Payment
+      subscription: Subscription
+      account_name: Account Name
+      owner: Owner
+      stripe_customer: Stripe Customer
+      settings:
+        view_purchase: View Purchase
+        delete_purchase: Delete Purchase
+        confirm_delete: Really delete this purchase? This action cannot be undone.
+      no_listings:
+        singular: purchase
+        plural: purchases
+    subscriptions:
+      title: Subscriptions
+      subscription_to_product: "%{account}'s subscription to %{product}"
+      account_name: Account Name
+      owner: Owner
+      product_purchased: Product purchased
+      price: Price
+      status: Status
+      subscription_started: Subscription Started
+      next_billing_date: Next Billing Date
+      cancellation_scheduled_for: Cancellation Scheduled for
+      cancellation_date: Cancellation Date
+      cancellation_reason: Cancellation Reason
+      stripe_subscription: Stripe Subscription
+      payments: Payments
+      subscribed_since: Subscribed since %{date}
+      subscribed_since_will_cancel: Subscribed since %{date}, will cancel on %{cancel_date}
+      cancelled_on: Cancelled on %{date}
+      trialing_until: Trialing until %{date}
+      unknown_status: Unknown status
+      settings:
+        actions: Actions
+        view_subscription: View Subscription
+        cancel_subscription: Cancel Subscription
+        confirm_cancel: Are you sure you want to cancel this subscription?
+        view_on_stripe: View on Stripe
+      no_listings:
+        singular: subscription
+        plural: subscriptions
+    common:
+      admin: Admin
+      trial: Trial
+      day: day
+      days: days
+      unauthorized: You are not authorized to access this page.
+      cancel: Cancel

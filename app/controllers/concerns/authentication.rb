@@ -4,11 +4,14 @@ module Authentication
   included do
     before_action :require_authentication
     helper_method :authenticated?
+    helper_method :impersonating?
+    helper_method :impersonated_user
   end
 
   class_methods do
-    def allow_unauthenticated_access(**options)
+    def allow_unauthenticated_access(skip_resume_session: false, **options)
       skip_before_action :require_authentication, **options
+      before_action :resume_session, **options unless skip_resume_session
     end
   end
 
@@ -22,12 +25,14 @@ module Authentication
     end
 
     def resume_session
+      Current.impersonated_user = find_impersonated_user
       Current.session ||= find_session_by_cookie
     end
 
     def find_session_by_cookie
-      Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+      Session.find_by(id: cookies.signed[:session_id])
     end
+
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
@@ -48,5 +53,30 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+      stop_impersonating
+    end
+
+    def impersonating?
+      Current.impersonated_user.present?
+    end
+
+    def impersonate(user)
+      Current.impersonated_user = user
+      session[:impersonated_user_id] = user.id
+    end
+
+    def impersonated_user
+      Current.impersonated_user
+    end
+
+    def find_impersonated_user
+      if (id = session[:impersonated_user_id])
+        User.find_by(id: id)
+      end
+    end
+
+    def stop_impersonating
+      Current.impersonated_user = nil
+      session.delete(:impersonated_user_id)
     end
 end

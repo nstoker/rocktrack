@@ -1,0 +1,124 @@
+<%
+  container_classes = local_assigns[:container_classes]
+  container_flex = local_assigns[:container_flex] || "space-y-2 sm:space-y-0 sm:flex sm:items-start sm:justify-between"
+  padding = local_assigns[:padding] || 'py-4'
+
+  # Custom label overrides the default label
+  custom_label = local_assigns[:custom_label]
+
+  # Label container is the container around the label and label description
+  label_container_classes = local_assigns[:label_container_classes]
+
+  # Label is the main text shown as the label for this data list item
+  label = local_assigns[:label]
+  label_link_url = local_assigns[:label_link_url] # If this is present, the label will be a link
+  label_link_target = local_assigns[:label_link_target] || '_self'
+  label_width = local_assigns[:label_width] || 'w-full sm:w-1/2'
+  label_font_weight = local_assigns[:label_font_weight] || 'font-semibold'
+  label_text_color = local_assigns[:label_text_color] || (label_link_url ? nil : 'text-black dark:text-white')
+  label_text_size = local_assigns[:label_text_size]
+  label_classes = local_assigns[:label_classes]
+  label_classes_final = "#{label_text_size} #{label_text_color} #{label_font_weight} #{label_classes}"
+
+  # Label description is small text shown below the label text
+  label_description = local_assigns[:label_description]
+  label_description_font_weight = local_assigns[:label_description_font_weight] || 'font-medium'
+  label_description_text_color = local_assigns[:label_description_text_color] || 'text-gray-400 dark:text-gray-600'
+  label_description_text_size = local_assigns[:label_description_text_size] || 'text-sm'
+  label_description_classes = local_assigns[:label_description_classes]
+  label_description_classes_final = "#{label_description_text_size} #{label_description_text_color} #{label_description_font_weight} #{label_description_classes}"
+
+  # Custom value overrides the default value + value description
+  custom_value = local_assigns[:custom_value]
+
+  # Value container is the container around the value and value description
+  value_container_classes = local_assigns[:value_container_classes]
+
+  # Value is the main text shown as the value for this data list item
+  value = local_assigns[:value]
+  value_link_url = local_assigns[:value_link_url] # If this is present, the value will be a link
+  value_link_target = local_assigns[:value_link_target] || '_self'
+  value_font_weight = local_assigns[:value_font_weight] || 'font-medium'
+  value_text_color = local_assigns[:value_text_color]
+  value_text_size = local_assigns[:value_text_size]
+  value_text_align = local_assigns[:value_text_align] || 'sm:text-right'
+  value_width = local_assigns[:value_width] || 'w-full sm:w-1/2'
+  value_classes = local_assigns[:value_classes]
+  value_classes_final = "#{value_text_align} #{value_text_size} #{value_text_color} #{value_font_weight} #{value_classes}"
+
+  # Value description is small text shown below the value text
+  value_description = local_assigns[:value_description]
+  value_description_font_weight = local_assigns[:value_description_font_weight] || 'font-medium'
+  value_description_text_color = local_assigns[:value_description_text_color] || 'text-gray-400 dark:text-gray-600'
+  value_description_text_size = local_assigns[:value_description_text_size] || 'text-sm'
+  value_description_text_align = local_assigns[:value_description_text_align] || 'sm:text-right'
+  value_description_classes = local_assigns[:value_description_classes]
+  value_description_classes_final = "#{value_description_text_align} #{value_description_text_size} #{value_description_text_color} #{value_description_font_weight} #{value_description_classes}"
+
+  # Append content is used for additional content that spans the entire width of the data list item
+  append_content = local_assigns[:append_content]
+  append_content_classes = local_assigns[:append_content_classes]
+
+  data = local_assigns[:data] || {}
+
+  # Convert the merged data hash to HTML attributes
+  link_data_atts_html = data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+%>
+
+<div class="<%= padding %>
+            <%= container_classes %>"
+        <%= link_data_atts_html %>>
+  <div class="<%= container_flex %>">
+
+    <% if custom_label %>
+      <%= custom_label %>
+    <% else %>
+      <div class="space-y-1 <%= label_container_classes %>">
+        <% if label_link_url %>
+          <%= link_to label_link_url,
+                      class: label_classes_final,
+                      target: label_link_target do %>
+            <%= label %>
+          <% end %>
+        <% else %>
+          <div class="<%= label_classes_final %>">
+            <%= label %>
+          </div>
+        <% end %>
+        <% if label_description %>
+          <div class="<%= label_description_classes_final %>">
+            <%= label_description %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if custom_value %>
+      <%= custom_value %>
+    <% else %>
+      <div class="space-y-1 <%= value_container_classes %>">
+        <% if value_link_url %>
+          <%= link_to value_link_url,
+                      class: "inline-flex items-center gap-3 #{value_classes_final}",
+                      target: value_link_target do %>
+            <%= value %>
+          <% end %>
+        <% else %>
+          <div class="<%= value_classes_final %>">
+            <%= value %>
+          </div>
+        <% end %>
+        <div class="<%= value_description_classes_final %>">
+          <%= value_description %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+  <% if append_content %>
+    <div class="<%= append_content_classes %>">
+      <%= append_content %>
+    </div>
+  <% end %>
+</div>

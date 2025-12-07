@@ -1,0 +1,9 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.accounts.view_account', default: 'View Account'),
+             link_path: admin_account_path(account),
+             icon_name: "arrow-right" %>
+
+<% end %>

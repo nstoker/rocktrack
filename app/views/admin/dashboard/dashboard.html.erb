@@ -1,0 +1,23 @@
+<%= content_for(:title) do %>
+  <%= t('admin.dashboard.title', default: 'Admin Dashboard') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.dashboard.title', default: 'Admin Dashboard') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: t('admin.dashboard.title', default: 'Admin Dashboard') %>
+
+  <div class="space-y-6">
+
+    <%= t('admin.dashboard.greeting', default: 'Hello, admin!') %>
+
+  </div>
+
+</div>

@@ -13,7 +13,7 @@ cli_options:
   # Set this to true to enable fast mode on all generators.
   # This will prevent the short delay between each step in the installation process.
   # Alternatively, you can pass --fast_mode to any generator to enable fast mode for the current command.
-  fast_mode: false
+  fast_mode: true
 
   # Set this to true to have generator commands proceed immediately with installing a component
   # and skip the prompt to ask permission before proceeding.

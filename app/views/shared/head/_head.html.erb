@@ -36,4 +36,7 @@
 
 <!-- PLACEHOLDER: Stripe JS -->
 
-<!-- PLACEHOLDER: Impersonation control -->
+<% if impersonating? %>
+  <%= render "admin/users/impersonating" %>
+<% end %>
+
