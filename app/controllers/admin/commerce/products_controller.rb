@@ -1,7 +1,7 @@
 module Admin
   module Commerce
     class ProductsController < AdminController
-      # include Pagy::Backend
+      include Pagy::Backend
 
       before_action :set_product, only: [ :edit, :update, :destroy, :remove_image ]
 

@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  # include Pagy::Backend
+  include Pagy::Backend
   allow_unauthenticated_access only: [ :accept_invitation, :process_invitation ]
   before_action :set_account
   before_action :authorize_user, except: [ :accept_invitation, :process_invitation ]

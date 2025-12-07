@@ -1,7 +1,7 @@
 module Admin
   module Commerce
     class PricesController < AdminController
-      # include Pagy::Backend
+      include Pagy::Backend
 
       before_action :set_product, except: [ :index ]
       before_action :set_price, only: [ :edit, :update, :destroy ]

@@ -1,6 +1,6 @@
 module Commerce
   class ProductsController < ApplicationController
-    # include Pagy::Backend # The usual error with `uninitialized constant Pagy::Backend`
+    include Pagy::Backend # The usual error with `uninitialized constant Pagy::Backend`
     allow_unauthenticated_access(only: [ :index, :show ])
     before_action :set_product, only: [ :show ]
 

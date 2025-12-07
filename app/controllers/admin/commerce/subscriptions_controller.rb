@@ -1,7 +1,7 @@
 module Admin
   module Commerce
     class SubscriptionsController < AdminController
-      # include Pagy::Backend
+      include Pagy::Backend
 
       before_action :set_subscription, only: [ :show, :cancel, :destroy ]
 

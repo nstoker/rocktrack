@@ -71,9 +71,9 @@ end
 
 gem "lucide-rails"
 
-gem "pagy"
+gem "pagy", "9.4.0"
 
 gem "stripe"
 
 gem "positioning"
-bbun
+

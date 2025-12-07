@@ -1,6 +1,6 @@
 module Commerce
   class PaymentMethodsController < ApplicationController
-    # include Pagy::Backend
+    include Pagy::Backend
 
     before_action :set_account
     before_action :authorize_account_admin_user

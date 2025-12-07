@@ -4,7 +4,7 @@ module Admin
       # This manages the main benefits list.
       # Manageme of benefits on plans is handled by the PlanBenefitsController.
 
-      # include Pagy::Backend
+      include Pagy::Backend
 
       before_action :set_benefit, only: [ :edit, :update, :destroy ]
 
