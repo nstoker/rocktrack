@@ -1,5 +1,5 @@
 class AccountUsersController < ApplicationController
-  include Pagy::Backend
+  # include Pagy::Backend
   before_action :set_account
   before_action :authorize_user
   before_action :set_account_user, only: [ :edit, :update, :destroy ]

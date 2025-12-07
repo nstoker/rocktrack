@@ -1,0 +1,8 @@
+<%= render "shared/components/listings/listing",
+           listing_link: admin_edit_benefit_path(benefit),
+           title: benefit.name,
+           description: benefit.benefit_text do %>
+  <%= render "admin/commerce/benefits/benefit_settings",
+              benefit: benefit,
+              context: "index" %>
+<% end %>

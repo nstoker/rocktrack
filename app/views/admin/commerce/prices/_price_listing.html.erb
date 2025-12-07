@@ -1,0 +1,13 @@
+<% product = price.product %>
+<%= render "shared/components/listings/listing",
+           listing_link: admin_edit_product_path(product, active_panel: "prices"),
+           title: price.name,
+           description: display_price(price) do %>
+  <div class="text-gray-400 dark:text-gray-600 font-medium">
+    <%= product.name %>
+  </div>
+  <%= render "admin/commerce/prices/price_settings",
+              product: product,
+              price: price,
+              context: "index" %>
+<% end %>

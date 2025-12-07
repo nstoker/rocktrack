@@ -1,0 +1,10 @@
+<%= render "shared/components/listings/listing",
+           listing_link: admin_edit_product_path(product),
+           title: product.name do %>
+  <% unless product.active? %>
+    <%= render "shared/components/label",
+                text: t('admin.products.status.inactive', default: 'Inactive') %>
+  <% end %>
+  <%= render "admin/commerce/products/product_settings",
+              product: product %>
+<% end %>

@@ -1,0 +1,4 @@
+<%= turbo_stream.update dom_id(@plan_benefit) do %>
+  <%= render "admin/commerce/plan_benefits/plan_benefit",
+              plan_benefit: @plan_benefit %>
+<% end %>

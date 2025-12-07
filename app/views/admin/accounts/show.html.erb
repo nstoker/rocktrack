@@ -50,9 +50,66 @@
               label: t('admin.accounts.team_members', default: 'Team Members'),
               value: team_list %>
 
-    <!-- PLACEHOLDER: Stripe Customer -->
+    <% if @account.processor_customer_id.present? %>
+    <% stripe_customer_link_content = capture do %>
+      <span>
+        <%= @account.processor_customer_id %>
+      </span>
+      <%= icon("square-arrow-out-up-right", size: "text-sm") %>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+                label: "Stripe Customer",
+                value: stripe_customer_link_content,
+                value_link_url: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}customers/#{@account.processor_customer_id}",
+                value_link_target: "_blank" %>
   <% end %>
 
-  <!-- PLACEHOLDER: Account Commerce Records -->
+  <% end %>
+
+  <% if @account.subscriptions.any? %>
+    <div class="space-y-6">
+      <h3>
+        <%= @account.name %>'s Subscriptions
+      </h3>
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @account.subscriptions.each do |subscription| %>
+          <%= render "admin/commerce/subscriptions/subscription_listing",
+                      subscription: subscription %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @account.purchases.any? %>
+    <div class="space-y-6">
+      <h3>
+        <%= @account.name %>'s Purchases
+      </h3>
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @account.purchases.each do |purchase| %>
+          <%= render "admin/commerce/purchases/purchase_listing",
+                      purchase: purchase %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @account.payments.any? %>
+    <div class="space-y-6">
+      <h3>
+        <%= @account.name %>'s Payments
+      </h3>
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @account.payments.each do |payment| %>
+          <%= render "admin/commerce/payments/payment_listing",
+                      payment: payment %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
 
 </div>

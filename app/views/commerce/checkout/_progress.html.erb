@@ -1,0 +1,18 @@
+<div class="hidden
+            sm:block sm:relative sm:bg-gray-200 sm:dark:sm:bg-gray-800 sm:py-3.5 sm:px-4 sm:rounded-t-lg">
+  <div class="relative z-50 flex items-center justify-between space-x-2">
+    <%= render "commerce/checkout/progress_item",
+                number: 1,
+                text: mode == "register" ? t('commerce.checkout.progress.register', default: 'Register') : t('commerce.checkout.progress.login', default: 'Login'),
+                active: ["register", "login"].include?(mode) %>
+    <%= render "commerce/checkout/progress_item",
+                number: 2,
+                text: t('commerce.checkout.progress.payment_details', default: 'Payment details'),
+                active: !["register", "login"].include?(mode) %>
+    <%= render "commerce/checkout/progress_item",
+                number: 3,
+                text: t('commerce.checkout.progress.dive_in', default: 'Dive in...') %>
+  </div>
+  <div class="hidden
+              sm:block sm:absolute sm:z-10 sm:top-[calc(50%-1px)] sm:left-6 sm:w-[90%] sm:border-b-2 sm:border-dashed sm:border-gray-500 dark:sm:border-gray-600"></div>
+</div>

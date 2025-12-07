@@ -1,0 +1,27 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-56" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.payments.view_payment', default: 'View Payment'),
+             link_path: admin_payment_path(payment),
+             icon_name: "eye" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.payments.view_on_stripe', default: 'View on Stripe'),
+             link_path: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}payments/#{payment.processor_payment_id}",
+             icon_name: "square-arrow-out-up-right",
+             link_target: "_blank" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.payments.delete_payment', default: 'Delete Payment'),
+             link_path: admin_destroy_payment_path(payment),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.payments.confirm_delete', default: 'Really delete this payment? This action cannot be undone.')
+             } %>
+
+<% end %>

@@ -1,0 +1,23 @@
+<%
+  btn_classes = local_assigns[:btn_classes] || "btn btn-secondary btn-small"
+  classes = local_assigns[:classes] # Use this to add additional classes to the button
+  final_classes = "#{btn_classes} #{classes}"
+
+  default_icon_name = local_assigns[:default_icon_name] || "clipboard"
+  copied_icon_name = local_assigns[:copied_icon_name] || "clipboard-check"
+  icon_size = local_assigns[:icon_size] || 16
+
+  default_text = local_assigns[:default_text] || t('copy.button.default_text', default: 'Copy')
+%>
+
+<span class="<%= final_classes %>"
+      data-action="click->components--copy#copy"
+      data-components--copy-target="copyButton">
+  <span>
+    <%= icon(default_icon_name, size: icon_size, data: { "components--copy-target": "defaultIcon" }) %>
+    <%= icon(copied_icon_name, size: icon_size, data: { "components--copy-target": "copiedIcon" }, classes: "hidden") %>
+  </span>
+  <span data-components--copy-target="copyText">
+    <%= default_text %>
+  </span>
+</span>

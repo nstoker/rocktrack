@@ -1,0 +1,26 @@
+<%
+  number = local_assigns[:number]
+  active = local_assigns[:active]
+  text = local_assigns[:text]
+  text_color = active ? "text-black dark:text-white" : "text-gray-500 dark:text-gray-500"
+  number_text_color = active ? "text-white dark:text-black" : "text-gray-200 dark:text-gray-200"
+  number_bg_color = active ? "bg-black dark:bg-white" : "bg-gray-400 dark:bg-gray-600"
+  align = if number == 1
+            "justify-start"
+          elsif number == 2
+            "justify-center"
+          else
+            "justify-end"
+          end
+%>
+
+<div class="bg-gray-200 dark:bg-gray-800 py-2 px-4 inline-flex items-center space-x-2.5 <%= align %>">
+  <div class="size-6 text-xs font-semibold rounded-full flex items-center justify-center
+              <%= number_bg_color %> <%= number_text_color %>">
+    <%= number %>
+  </div>
+  <div class="inline-block font-medium
+              <%= text_color %>">
+    <%= text %>
+  </div>
+</div>

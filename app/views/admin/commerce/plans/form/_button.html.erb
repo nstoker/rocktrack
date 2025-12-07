@@ -1,0 +1,49 @@
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.button.purchase_label', default: 'Button Purchase Label'),
+            name: :button_purchase_label,
+            tooltip: t('admin.plans.button.purchase_tooltip', default: 'The text on the button when the customer can click it to purchase.  Defaults to \'Purchase {plan name}\' if left blank.') do %>
+  <%= f.text_field :button_purchase_label,
+                  placeholder: "Purchase #{@plan.display_name}",
+                  class: form_control_classes %>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.button.change_to_plan_label', default: 'Change to Plan Label'),
+            name: :button_change_to_plan_label,
+            tooltip: t('admin.plans.button.change_to_plan_tooltip', default: 'The text on the button when the customer can click it to change to this plan.  Defaults to \'Change to {plan name}\' if left blank.') do %>
+  <%= f.text_field :button_change_to_plan_label,
+                  placeholder: "Change to #{@plan.display_name}",
+                  class: form_control_classes %>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.button.current_label', default: 'Current Plan Label'),
+            name: :button_current_label,
+            tooltip: t('admin.plans.button.current_tooltip', default: 'The text on the button when the customer is on this plan.  Defaults to \'Current Plan\' if left blank.') do %>
+  <%= f.text_field :button_current_label,
+                  placeholder: "Current Plan",
+                  class: form_control_classes %>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.button.support_text', default: 'Button Support Text'),
+            name: :button_support_text,
+            tooltip: t('admin.plans.button.support_tooltip', default: 'Small text shown below the button.  Optional.') do %>
+  <%= f.text_field :button_support_text,
+                  placeholder: "You'll love it!",
+                  class: form_control_classes %>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: "Button Link URL (override)",
+            name: :button_url,
+            tooltip: "Only set this if you DON'T want the button to link to the checkout page.  For example, use this to link to a contact page instead." do %>
+  <%= f.text_field :button_url,
+                  placeholder: "https://example.com/contact",
+                  class: form_control_classes %>
+<% end %>

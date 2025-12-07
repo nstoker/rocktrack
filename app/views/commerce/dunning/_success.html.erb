@@ -1,0 +1,18 @@
+<div class="space-y-4 text-center">
+  <h1 class="text-xl">
+    <%= t('commerce.dunning.success.title', default: 'All set!') %>
+  </h1>
+
+  <p class="font-medium text-pretty">
+    <%= t('commerce.dunning.success.description', default: 'Thanks for resolving your subscription!') %>
+  </p>
+
+  <%= link_to root_path,
+              class: "btn btn-primary",
+              data: { turbo_frame: "_top" } do %>
+    <span>
+      <%= t('commerce.dunning.success.dashboard', default: 'Go to your dashboard') %>
+    </span>
+    <%= icon("arrow-right") %>
+  <% end %>
+</div>

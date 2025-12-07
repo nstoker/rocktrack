@@ -1,0 +1,24 @@
+<%
+  date = subscription.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y")
+  subscription_description = if subscription.active? && !subscription.cancellation_scheduled?
+                                t('admin.subscriptions.subscribed_since', default: 'Subscribed since %{date}', date: date)
+                              elsif subscription.cancellation_scheduled?
+                                t('admin.subscriptions.subscribed_since_will_cancel', default: 'Subscribed since %{date}, will cancel on %{cancel_date}', date: date, cancel_date: subscription.cancellation_date.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y"))
+                              elsif subscription.cancelled?
+                                t('admin.subscriptions.cancelled_on', default: 'Cancelled on %{date}', date: subscription.cancellation_date.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y"))
+                              elsif subscription.trialing?
+                                t('admin.subscriptions.trialing_until', default: 'Trialing until %{date}', date: subscription.current_period_end.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y"))
+                              else
+                                t('admin.subscriptions.unknown_status', default: 'Unknown status')
+                              end
+%>
+
+<%= render "shared/components/listings/listing",
+            listing_link: admin_subscription_path(subscription),
+            title: t('admin.subscriptions.subscription_to_product', default: '%{account}\'s subscription to %{product}', account: subscription.account.name, product: subscription.product.name),
+            description: subscription_description do %>
+  <%= render "shared/components/label",
+              text: subscription.status_label_text %>
+  <%= render "admin/commerce/subscriptions/subscription_settings",
+              subscription: subscription %>
+<% end %>

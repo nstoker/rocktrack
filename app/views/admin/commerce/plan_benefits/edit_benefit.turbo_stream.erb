@@ -1,0 +1,15 @@
+<%= turbo_stream.update dom_id(@plan_benefit) do %>
+  <%= render "admin/commerce/plan_benefits/plan_benefit_container",
+              padding: "py-6 px-8",
+              plan_benefit: @plan_benefit do %>
+    <%= render "admin/commerce/benefits/form",
+                plan: @plan,
+                benefit: @benefit,
+                plan_benefit: @plan_benefit,
+                context: "plan" %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "new_plan_benefit" do %>
+  <%= render "admin/commerce/plan_benefits/add_benefit_button" %>
+<% end %>

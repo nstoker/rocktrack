@@ -1,0 +1,12 @@
+<%= content_for :page_max_width, @plans.any? ? "max-w-7xl" : "max-w-xl" %>
+<%= content_for :center_logo, true %>
+
+<% if @plans.any? %>
+  <%= render "commerce/plans/plans", context: "plans" %>
+<% else %>
+  <div class="text-center font-medium pt-24">
+    <p>
+      <%= t('commerce.plans.index.no_plans', default: 'No plans available.') %>
+    </p>
+  </div>
+<% end %>

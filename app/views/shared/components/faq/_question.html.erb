@@ -1,0 +1,47 @@
+<%
+  question = local_assigns[:question]
+  question_classes = local_assigns[:question_classes]
+  question_padding = local_assigns[:question_padding] || 'py-4'
+  question_text_color = local_assigns[:question_text_color] || 'text-black dark:text-white'
+  question_text_size = local_assigns[:question_text_size] || 'text-base'
+  question_font_weight = local_assigns[:question_font_weight] || 'font-medium'
+  question_classes = local_assigns[:question_classes]
+
+  content_padding = local_assigns[:content_padding] || 'pt-4 pb-8 lg:pt-6 lg:pb-10'
+  content_space_y = local_assigns[:content_space_y] || 'space-y-4'
+%>
+
+<div class="<%= question_classes %>"
+     data-controller="components--toggle">
+  <div class="cursor-pointer flex items-start justify-between space-x-8
+              <%= question_padding %>"
+       data-action="click->components--toggle#toggle">
+
+    <div class="flex-1
+                <%= question_font_weight %>
+                <%= question_text_color %>
+                <%= question_text_size %>
+                <%= question_classes %>">
+      <%= question %>
+    </div>
+
+    <div>
+      <div class="h-[1.5rem] flex flex-col justify-center"
+           data-components--toggle-target="toggleable">
+        <%= icon("chevron-down", size: 16) %>
+      </div>
+      <div class="h-[1.5rem] flex flex-col justify-center
+                  hidden"
+           data-components--toggle-target="toggleable">
+        <%= icon("chevron-up", size: 16) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden
+              <%= content_space_y %>
+              <%= content_padding %>"
+       data-components--toggle-target="toggleable">
+    <%= yield %>
+  </div>
+</div>

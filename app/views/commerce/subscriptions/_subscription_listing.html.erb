@@ -1,0 +1,21 @@
+
+<%= render "shared/components/listings/listing",
+           listing_link: subscription_path(account_slug: @account.slug, id: subscription.id),
+           title: subscription.product.name,
+           description: subscription.price.name do %>
+  <% if subscription.past_due? %>
+    <% failed_payment = subscription.payments.where(status: "failed").first %>
+    <%= link_to resolve_payment_path(@account.slug, failed_payment.id, token: failed_payment.resolve_token),
+                class: "btn bg-red-500 text-white hover:bg-red-600 dark:hover:bg-red-400" do %>
+      <span>
+        <%= t('commerce.subscriptions.listing.past_due', default: 'Past Due.  Resolve Now') %>
+      </span>
+      <%= icon("arrow-right") %>
+    <% end %>
+  <% else %>
+    <%= render "shared/components/label",
+                text: subscription.cancellation_scheduled? ? t('commerce.subscriptions.listing.cancelling_on', date: subscription.cancellation_date.strftime("%B %-d, %Y"), default: 'Cancelling on %{date}') : t("commerce.subscriptions.listing.status.#{subscription.status}", default: subscription.status.humanize) %>
+  <% end %>
+  <%= render "commerce/subscriptions/subscription_settings",
+              subscription: subscription %>
+<% end %>

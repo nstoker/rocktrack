@@ -1,0 +1,28 @@
+<%# Payment method listing %>
+<% title = case payment_method.brand
+  when 'visa', 'mastercard', 'amex', 'discover'
+    "#{payment_method.brand.titleize} #{t('commerce.payment_methods.listing.ending_in', default: 'ending in')} #{payment_method.last4}"
+  when 'amazon_pay'
+    t('commerce.payment_methods.listing.amazon_pay', default: 'Amazon Pay')
+  when 'cash_app'
+    t('commerce.payment_methods.listing.cash_app_pay', default: 'Cash App Pay')
+  end %>
+
+<%= render "shared/components/listings/listing",
+           no_link: true,
+           title: title,
+           description: case payment_method.brand
+                       when 'amazon_pay'
+                         t('commerce.payment_methods.listing.amazon_pay', default: 'Amazon Pay')
+                       when 'cash_app'
+                         t('commerce.payment_methods.listing.cash_app_pay', default: 'Cash App Pay')
+                       else
+                         t('commerce.payment_methods.listing.expires', month: Date::MONTHNAMES[payment_method.expiration_month], year: payment_method.expiration_year, default: 'Expires %{month} %{year}')
+                       end do %>
+  <% if payment_method.default? %>
+    <%= render "shared/components/label",
+                text: t('commerce.payment_methods.listing.default', default: 'Default') %>
+  <% end %>
+  <%= render "commerce/payment_methods/payment_method_settings",
+              payment_method: payment_method %>
+<% end %>

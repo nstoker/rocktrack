@@ -1,0 +1,33 @@
+<% content_for(:page_max_width, "max-w-2xl") %>
+
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.products.new.title', default: 'New Product') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.products.title', default: 'Products'),
+                link: admin_products_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.products.new.title', default: 'New Product') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: t('admin.products.new.title', default: 'New Product') %>
+
+  <div class="space-y-6">
+
+    <%= render "form", product: @product, price: @price %>
+
+  </div>
+
+</div>

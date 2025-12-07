@@ -1,0 +1,24 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4" do %>
+
+  <% unless payment_method.default? %>
+    <%= render "shared/components/dropdown/dropdown_link",
+               button_link: true,
+               link_text: t('commerce.payment_methods.settings.make_default', default: 'Make Default'),
+               link_path: make_default_payment_method_path(account_slug: current_account.slug, id: payment_method.id),
+               link_method: :patch,
+               icon_name: "circle-check" %>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('commerce.payment_methods.settings.delete', default: 'Delete Payment Method'),
+             link_path: destroy_payment_method_path(account_slug: current_account.slug, id: payment_method.id),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('commerce.payment_methods.settings.confirm_delete', default: 'Really delete this payment method?')
+             } %>
+
+<% end %>

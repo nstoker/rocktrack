@@ -1,0 +1,35 @@
+<% content_for(:page_max_width, "max-w-2xl") %>
+
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.benefits.new.title', default: 'New Benefit') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.benefits.title', default: 'Benefits'),
+                link: admin_benefits_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.benefits.new.title', default: 'New Benefit') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: t('admin.benefits.new.title', default: 'New Benefit') %>
+
+  <div class="space-y-6">
+
+    <%= render "form",
+                benefit: @benefit,
+                context: "direct" %>
+
+  </div>
+
+</div>

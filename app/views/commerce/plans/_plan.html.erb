@@ -1,0 +1,62 @@
+<div class="bg-gray-100 dark:bg-gray-800 rounded px-8 py-8 flex-1 space-y-8 text-left
+            md:min-w-sm md:max-w-sm"
+     data-commerce--plans-target="plan">
+
+  <div class="space-y-2">
+
+    <h3 class="font-medium text-primary
+               md:text-lg">
+      <%= plan.display_name %>
+    </h3>
+
+    <% if plan.price_a.present? || plan.price_b.present? %>
+      <div>
+        <% if plan.price_a.present? %>
+          <%= render "commerce/plans/plan_price",
+                      price: plan.price_a,
+                      plan_price_alt_amount: plan.price_a_alt_amount,
+                      plan_price_append_text: plan.price_a_append_text,
+                      plan_price_note: plan.price_a_note,
+                      interval: "a" %>
+        <% end %>
+        <% if plan.price_b.present? %>
+          <%= render "commerce/plans/plan_price",
+                      price: plan.price_b,
+                      plan_price_alt_amount: plan.price_b_alt_amount,
+                      plan_price_append_text: plan.price_b_append_text,
+                      plan_price_note: plan.price_b_note,
+                      interval: "b" %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <%= render "commerce/plans/plan_benefits",
+              plan: plan %>
+
+  <div class="pt-3">
+    <% if plan.price_a.present? %>
+      <div class="hidden"
+          data-commerce--plans-target="toggleableContent"
+          data-interval="a">
+        <%= render "commerce/plans/plan_button",
+                    plan: plan,
+                    price: plan.price_a,
+                    interval: "a" %>
+      </div>
+    <% end %>
+
+    <% if plan.price_b.present? %>
+      <div class=""
+          data-commerce--plans-target="toggleableContent"
+          data-interval="b">
+        <%= render "commerce/plans/plan_button",
+                    plan: plan,
+                    price: plan.price_b,
+                    interval: "b" %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

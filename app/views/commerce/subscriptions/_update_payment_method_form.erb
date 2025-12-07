@@ -1,0 +1,43 @@
+<%= form_with url: update_payment_method_subscription_path(@account.slug, @subscription),
+              method: :patch,
+              data: { turbo: true } do |f| %>
+  <div class="space-y-4">
+    <% if local_assigns[:error].present? %>
+      <div class="rounded-md bg-red-50 dark:bg-red-900/50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <%= icon("triangle-alert", color: "text-red-400 dark:text-red-500") %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+              <%= error %>
+            </h3>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                  form: f,
+                  no_label: true,
+                  name: :payment_method_id,
+                  select_field: true do %>
+      <%= f.select :payment_method_id,
+                    options_from_collection_for_select(@account.payment_methods, :id, ->(pm) { "#{pm.brand.humanize} #{t('commerce.subscriptions.update_payment_method_form.ending_in', default: 'ending in')} #{pm.last4}" }, @subscription.payment_method_id),
+                    {},
+                    class: form_control_classes %>
+    <% end %>
+
+    <div class="flex justify-end space-x-3">
+
+      <%= f.submit t('commerce.subscriptions.update_payment_method_form.update', default: 'Update Payment Method'),
+          class: "btn btn-primary" %>
+
+      <%= link_to t('commerce.subscriptions.update_payment_method_form.cancel', default: 'Cancel'),
+          subscription_path(@account.slug, @subscription),
+          class: "btn btn-ghost",
+          data: { turbo_frame: "payment_method" } %>
+
+    </div>
+  </div>
+<% end %>

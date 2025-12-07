@@ -1,0 +1,8 @@
+<%= link_to admin_render_assign_benefit_select_path(plan_id: @plan.id),
+            class: "btn btn-primary",
+            data: { turbo_stream: true } do %>
+  <%= icon("circle-plus") %>
+  <span>
+    <%= t('admin.plan_benefits.add_benefit', default: 'Add Benefit') %>
+  </span>
+<% end %>

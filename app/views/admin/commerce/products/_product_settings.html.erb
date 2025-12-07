@@ -1,0 +1,26 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.products.settings.edit_product', default: 'Edit Product'),
+             link_path: admin_edit_product_path(product),
+             icon_name: "square-pen" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.products.settings.view_product', default: 'View Product'),
+             link_path: product_path(product),
+             icon_name: "square-arrow-out-up-right",
+             link_target: "_blank" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.products.settings.delete_product', default: 'Delete Product'),
+             link_path: admin_destroy_product_path(product),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.products.settings.confirm_delete', default: 'Really delete this product?')
+             } %>
+
+<% end %>

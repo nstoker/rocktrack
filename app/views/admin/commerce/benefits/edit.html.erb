@@ -1,0 +1,48 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= @benefit.name %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.benefits.title', default: 'Benefits'),
+                link: admin_benefits_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @benefit.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: @benefit.name %>
+
+  <div class="space-y-6">
+
+    <%= render "admin/commerce/benefits/form",
+                benefit: @benefit,
+                context: "direct" %>
+
+    <% if @plans.any? %>
+      <div class="py-6">
+        <hr class="border-2 border-gray-300 dark:border-gray-700">
+      </div>
+
+      <h3><%= t('admin.benefits.edit.plans_headline', default: 'Plans that feature this benefit:') %></h3>
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @plans.each do |plan| %>
+          <%= render "admin/commerce/plans/plan_listing",
+                      plan: plan %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+
+</div>

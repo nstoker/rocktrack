@@ -1,0 +1,20 @@
+<%
+  context = local_assigns[:context]
+  button_text = "Pay #{display_amount(@payment.amount, hide_zero_cents: true)}"
+%>
+
+<button class="btn btn-primary w-full text-center justify-center btn-large"
+        data-commerce--dunning-target="submitButton"
+        data-action="<%= 'click->commerce--dunning#clickCurrentPaymentButton' if context == 'current_method' %>"
+        data-default-text="<%= button_text %>"
+        data-processing-text="Processing">
+  <%= icon("rocket", data: {
+    "commerce--dunning-target": "defaultButtonIcon"
+  }) %>
+  <%= icon("loader-circle", classes: "animate-spin hidden!", data: {
+    "commerce--dunning-target": "processingButtonIcon"
+  }) %>
+  <span data-commerce--dunning-target="buttonText">
+    <%= button_text %>
+  </span>
+</button>

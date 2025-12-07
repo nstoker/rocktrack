@@ -1,0 +1,22 @@
+<%= t('commerce.mailers.admin_subscription_plan_changed.title', default: 'An account changed plans:') %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.account_name_label', default: 'Account name:') %>
+<%= @account.name %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.account_owner_label', default: 'Account owner:') %>
+<%= @account.owner.email_address %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.stripe_customer_label', default: 'Stripe customer:') %>
+https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @subscription.processor_customer_id %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.stripe_subscription_label', default: 'Stripe subscription:') %>
+https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.admin_account_profile_label', default: 'Admin account profile:') %>
+<%= admin_account_url(@account.id) %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.previous_plan_label', default: 'Previous plan:') %>
+<%= @previous_product_name %> | <%= @previous_price_name %>
+
+<%= t('commerce.mailers.admin_subscription_plan_changed.new_plan_label', default: 'New plan:') %>
+<%= @new_product_name %> | <%= @new_price_name %>

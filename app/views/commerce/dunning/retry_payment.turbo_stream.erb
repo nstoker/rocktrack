@@ -1,0 +1,18 @@
+<%= turbo_stream.update "resolve_payment" do %>
+  <% if @error_message.present? %>
+    <% if @new_payment_method_form %>
+      <%= render "commerce/dunning/new_payment_method_form",
+                  payment: @payment,
+                  payment_method: @payment_method %>
+    <% else %>
+      <%= render "commerce/dunning/pay_with_current_method",
+                  payment: @payment %>
+    <% end %>
+  <% else %>
+    <%= render "commerce/dunning/success" %>
+  <% end %>
+<% end %>
+
+<% unless @error_message.present? %>
+  <%= turbo_stream.remove "pre_success_content" %>
+<% end %>

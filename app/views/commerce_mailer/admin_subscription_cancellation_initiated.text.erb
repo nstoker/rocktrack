@@ -1,0 +1,21 @@
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.title', default: 'An account cancelled :(') %>
+
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.account_name_label', default: 'Account name:') %>
+<%= @account.name %>
+
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.account_owner_label', default: 'Account owner:') %>
+<%= @account.owner.email_address %>
+
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.stripe_customer_label', default: 'Stripe customer:') %>
+https://dashboard.stripe.com/customers/<%= @subscription.processor_customer_id %>
+
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.stripe_subscription_label', default: 'Stripe subscription:') %>
+https://dashboard.stripe.com/subscriptions/<%= @subscription.processor_subscription_id %>
+
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.admin_account_profile_label', default: 'Admin account profile:') %>
+<%= admin_account_url(@account.id) %>
+
+<% if @subscription.cancellation_reason.present? %>
+<%= t('commerce.mailers.admin_subscription_cancellation_initiated.cancellation_reason_label', default: 'Cancellation reason:') %>
+<%= @subscription.cancellation_reason %>
+<% end %>

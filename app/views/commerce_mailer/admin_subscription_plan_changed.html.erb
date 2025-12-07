@@ -1,0 +1,22 @@
+<p><%= t('commerce.mailers.admin_subscription_plan_changed.title', default: 'An account changed plans:') %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.account_name_label', default: 'Account name:') %></strong><br>
+<%= @account.name %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.account_owner_label', default: 'Account owner:') %></strong><br>
+<%= @account.owner.email_address %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.stripe_customer_label', default: 'Stripe customer:') %></strong><br>
+<a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @subscription.processor_customer_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @subscription.processor_customer_id %></a></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.stripe_subscription_label', default: 'Stripe subscription:') %></strong><br>
+<a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %></a></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.admin_account_profile_label', default: 'Admin account profile:') %></strong><br>
+<a href="<%= admin_account_url(@account.id) %>"><%= admin_account_url(@account.id) %></a></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.previous_plan_label', default: 'Previous plan:') %></strong><br>
+<%= @previous_product_name %> | <%= @previous_price_name %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_plan_changed.new_plan_label', default: 'New plan:') %></strong><br>
+<%= @new_product_name %> | <%= @new_price_name %></p>

@@ -1,0 +1,8 @@
+<%= turbo_stream.update dom_id(@price) do %>
+  <%= render "admin/commerce/prices/price_container",
+              padding: "py-6 px-8" do %>
+    <%= render "admin/commerce/prices/price",
+                product: @product,
+                price: @price %>
+  <% end %>
+<% end %>

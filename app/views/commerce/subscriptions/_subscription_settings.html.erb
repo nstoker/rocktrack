@@ -1,0 +1,26 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-64" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('commerce.subscriptions.settings.view', default: 'View Subscription'),
+              link_path: subscription_path(account_slug: @account.slug, id: subscription.id),
+              icon_name: "eye" %>
+
+  <% if subscription.cancellation_scheduled? || subscription.cancelled? %>
+    <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('commerce.subscriptions.settings.resume', default: 'Resume Subscription'),
+              link_path: resume_subscription_path(account_slug: @account.slug, id: subscription.id),
+              icon_name: "rocket" %>
+  <% else %>
+    <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('commerce.subscriptions.settings.change_plan', default: 'Change Plan'),
+              link_path: edit_plan_path(account_slug: @account.slug, id: subscription.id),
+              icon_name: "arrow-right-left" %>
+
+    <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('commerce.subscriptions.settings.cancel', default: 'Cancel Subscription'),
+              link_path: cancel_subscription_path(account_slug: @account.slug, id: subscription.id),
+              icon_name: "x" %>
+  <% end %>
+<% end %>

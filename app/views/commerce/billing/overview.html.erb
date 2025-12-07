@@ -1,0 +1,35 @@
+<%= content_for(:title) do %>
+  <%= @account.name %> <%= t('commerce.billing.title', default: 'Billing') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.billing.breadcrumbs.settings', default: 'Settings'),
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.billing.breadcrumbs.billing', default: 'Billing') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: "#{@account.name} #{t('commerce.billing.title', default: 'Billing')}" %>
+
+  <%= render "commerce/billing/subscriptions" %>
+
+  <% unless @account.subscriptions.any? %>
+    <%= render "commerce/billing/purchases" %>
+  <% end %>
+
+</div>

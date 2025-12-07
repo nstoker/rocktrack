@@ -1,0 +1,7 @@
+<%= render "shared/components/listings/listing",
+            listing_link: admin_purchase_path(purchase),
+            title: t('admin.purchases.purchase_of_product', default: '%{account}\'s purchase of %{product}', account: purchase.account.name, product: purchase.product.name),
+            description: purchase.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") do %>
+  <%= render "admin/commerce/purchases/purchase_settings",
+              purchase: purchase %>
+<% end %>

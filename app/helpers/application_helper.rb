@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include CommerceHelper
+
   # include Pagy::Frontend # Causes a NameError (uninitialized constant Pagy::Frontend)
 
   include AvatarsHelper

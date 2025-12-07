@@ -1,0 +1,11 @@
+<%= t('commerce.mailers.dunning_email.greeting', name: @user.name, default: 'Hi %{name},') %>
+
+<%= t('commerce.mailers.dunning_email.unable_to_process', product: @product.name, default: 'We were unable to process your payment for your subscription to %{product}.') %>
+
+<%= t('commerce.mailers.dunning_email.update_payment', default: 'To ensure uninterrupted service, please update your payment method by clicking here:') %>
+
+<%= resolve_payment_url(@account.slug, @payment.id, token: @payment.resolve_token) %>
+
+<%= t('commerce.mailers.dunning_email.assistance', default: "If you need any assistance, please don't hesitate to contact our support team.") %>
+
+<%= t('commerce.mailers.dunning_email.regards', account: @account.name, default: 'Best regards,\nThe %{account} Team') %>

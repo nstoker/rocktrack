@@ -1,0 +1,14 @@
+<%
+  default_panel_id = local_assigns[:default_panel_id] # set if you want one panel to be open by default
+  one_open = local_assigns.fetch(:one_open, true) # true by default.  Set to false if you want to allow multiple panels to be active simultaneously.
+%>
+
+<div class="panels
+            border-t border-gray-200 dark:border-gray-700"
+     data-controller="components--panels"
+     <% if default_panel_id %>
+       data-components--panels-default-panel-id-value="<%= default_panel_id %>"
+     <% end %>
+     data-components--panels-one-open-value="<%= one_open %>">
+  <%= yield %>
+</div>

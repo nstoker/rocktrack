@@ -1,0 +1,35 @@
+<% content_for(:page_max_width, "max-w-2xl") %>
+
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.plans.new.title', default: 'New Plan') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.plans.title', default: 'Plans'),
+                link: admin_plans_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.plans.new.title', default: 'New Plan') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: t('admin.plans.new.title', default: 'New Plan') %>
+
+  <div class="space-y-6">
+
+    <%= render "admin/commerce/plans/form",
+                plan: @plan,
+                context: "new" %>
+
+  </div>
+
+</div>

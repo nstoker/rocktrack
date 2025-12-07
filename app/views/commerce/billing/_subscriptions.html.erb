@@ -1,0 +1,20 @@
+<% if @account.subscriptions.any? %>
+  <% if @account.subscriptions.count > 1 %>
+    <div class="space-y-8">
+      <h3>
+        <%= t('commerce.billing.subscriptions.title', default: 'Subscriptions') %>
+      </h3>
+      <%= render "shared/components/listings/listings" do %>
+        <% @account.subscriptions.each do |subscription| %>
+          <%= render "commerce/subscriptions/subscription_listing",
+                      subscription: subscription %>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div>
+      <%= render "commerce/subscriptions/subscription_details",
+                  subscription: @account.subscriptions.first %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,55 @@
+<%
+  context = local_assigns[:context] || "plans"
+%>
+
+<div class="space-y-24 text-center"
+     data-controller="commerce--plans <%= 'commerce--coupon' unless context == 'edit_plan' %>"
+     data-commerce--plans-active-interval-class="bg-white dark:bg-black text-black dark:text-white"
+     data-commerce--plans-inactive-interval-class="bg-transparent dark:bg-transparent text-gray-500 dark:text-gray-600 hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white"
+     data-commerce--plans-default-interval-value="<%= @current_interval.present? ? @current_interval : default_plan_identifier %>"
+     <% unless context == 'edit_plan' %>
+       data-commerce--coupon-url-coupon-value="<%= params[:coupon] %>"
+       data-commerce--coupon-context-value="plans"
+       data-commerce--coupon-round-direction-value="down"
+       data-commerce--coupon-coupon-applied-message-value="<%= t('commerce.checkout.coupon_applied_message') %>"
+       data-commerce--coupon-invalid-coupon-message-value="<%= t('commerce.checkout.invalid_coupon_message') %>"
+       data-commerce--coupon-error-checking-coupon-message-value="<%= t('commerce.checkout.error_checking_coupon_message') %>"
+     <% end %>>
+
+  <% if params[:intent].present? %>
+    <%= render "commerce/plans/intent_notice", intent: params[:intent] %>
+  <% end %>
+
+  <div class="space-y-12 pt-12">
+
+    <div>
+      <h1 class="text-2xl lg:text-4xl">
+        <% if @account&.active_subscription? %>
+          <%= t('commerce.plans.plans.change', default: 'Change your plan') %>
+        <% else %>
+          <%= t('commerce.plans.plans.choose', default: 'Choose a plan') %>
+        <% end %>
+      </h1>
+    </div>
+
+    <% if show_plan_toggle? %>
+      <div>
+        <%= render "commerce/plans/toggle_interval" %>
+      </div>
+    <% end %>
+
+    <div class="flex flex-col items-center gap-8 max-w-sm mx-auto pt-4
+                md:space-y-0 md:flex-row md:items-start md:flex-wrap md:justify-center md:max-w-none
+                lg:gap-12">
+      <% @plans.order(:position).each do |plan| %>
+        <%= render "commerce/plans/plan", plan: plan %>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div>
+    <%= render "commerce/plans/faq" %>
+  </div>
+
+</div>

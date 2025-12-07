@@ -1,0 +1,82 @@
+<%= form_with(model: @product,
+              url: @product.new_record? ? admin_create_product_path : admin_update_product_path(@product),
+              local: true) do |f| %>
+  <%= render 'shared/components/forms/errors', model: @product %>
+
+  <div class="space-y-8">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.products.form.name', default: 'Product Name'),
+                name: :name do %>
+      <%= f.text_field :name,
+                        autofocus: true,
+                        placeholder: t('admin.products.form.name', default: 'Product Name'),
+                        class: form_control_classes %>
+    <% end %>
+
+    <% unless @product.new_record? %>
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.products.form.slug', default: 'Slug'),
+                  name: :slug do %>
+        <%= f.text_field :slug,
+                          autofocus: true,
+                          placeholder: t('admin.products.form.slug', default: 'Slug'),
+                          class: form_control_classes %>
+      <% end %>
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.products.form.stripe_product_id', default: 'Stripe Product ID'),
+                  tooltip: t('admin.products.form.stripe_product_id_tooltip', default: 'Find this in your Stripe account.  It begins with \'prod_\''),
+                  name: :processor_product_id do %>
+        <%= f.text_field :processor_product_id,
+                          placeholder: t('admin.products.form.stripe_product_id', default: 'Stripe Product ID'),
+                          class: form_control_classes %>
+      <% end %>
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.products.form.active', default: 'Active'),
+                  wrap_label: true,
+                  name: :active do %>
+        <%= f.check_box :active %>
+      <% end %>
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.products.form.description', default: 'Description'),
+                  name: :description,
+                  rich_text_field: true do %>
+        <%= f.rich_text_area :description,
+                             data: {
+                               controller: "components--rich-text",
+                               action: "focus->components--rich-text#focus blur->components--rich-text#unfocus"
+                             } %>
+      <% end %>
+
+      <%= render "shared/components/forms/field",
+                  image_upload_field: true,
+                  form: f,
+                  label: "Image",
+                  name: :image,
+                  image_object: @product.image,
+                  delete_image_path: admin_remove_product_image_path(@product) do %>
+        <%= f.file_field :image,
+                         accept: 'image/*',
+                         data: {
+                           "components--image-upload-target": "input",
+                           action: "components--image-upload#updateImage components--image-upload#revealImagePreview"
+                         } %>
+      <% end %>
+
+    <% end %>
+
+    <div>
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+
+  </div>
+<% end %>

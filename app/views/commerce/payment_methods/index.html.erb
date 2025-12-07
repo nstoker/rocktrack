@@ -1,0 +1,52 @@
+<%= content_for(:title) do %>
+  <%= @account.name %> <%= t('commerce.payment_methods.title', default: 'Payment Methods') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payment_methods.breadcrumbs.billing', default: 'Billing'),
+               link: billing_overview_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payment_methods.breadcrumbs.payment_methods', default: 'Payment Methods') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: "#{@account.name} #{t('commerce.payment_methods.title', default: 'Payment Methods')}",
+              title: "#{@account.name} Payment Methods",
+              button_link_path: new_payment_method_path(@account.slug),
+              button_link_text: "Add Payment Method",
+              button_link_icon: "circle-plus" %>
+
+  <div>
+
+      <% if @account.payment_methods.any? %>
+        <%= render "shared/components/listings/listings" do %>
+          <% @payment_methods.each do |payment_method| %>
+            <%= render "commerce/payment_methods/payment_method_listing",
+                        payment_method: payment_method %>
+          <% end %>
+        <% end %>
+
+        <% if @pagy.pages > 1 %>
+          <div class="pagy-container">
+            <%== pagy_nav(@pagy) %>
+          </div>
+        <% end %>
+      <% end %>
+
+  </div>
+
+</div>

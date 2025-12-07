@@ -1,0 +1,102 @@
+<%= form_with(model: [product, price],
+              url: price.new_record? ? admin_create_price_path(product) : admin_update_price_path(product, price),
+              local: true) do |f| %>
+  <div class="space-y-6">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.prices.form.name', default: 'Price Name'),
+                name: :name do %>
+      <%= f.text_field :name,
+                      autofocus: true,
+                      placeholder: t('admin.prices.form.name_placeholder', default: 'Price Name'),
+                      class: form_control_classes %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.prices.form.amount', default: 'Amount'),
+                name: :amount do %>
+      <%= f.number_field :amount,
+                          autofocus: true,
+                          placeholder: t('admin.prices.form.amount_placeholder', default: 'Amount in cents'),
+                          class: form_control_classes %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.prices.form.stripe_price_id', default: 'Stripe Price ID'),
+                name: :processor_price_id do %>
+      <%= f.text_field :processor_price_id,
+                        autofocus: true,
+                        placeholder: t('admin.prices.form.stripe_price_id_placeholder', default: 'Stripe Price ID'),
+                        class: form_control_classes %>
+    <% end %>
+
+    <% unless price.new_record? %>
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.prices.form.slug', default: 'Slug'),
+                  name: :slug do %>
+        <%= f.text_field :slug,
+                          autofocus: true,
+                          placeholder: t('admin.prices.form.slug_placeholder', default: 'Slug'),
+                          class: form_control_classes %>
+      <% end %>
+    <% end %>
+
+    <div class="space-y-6"
+         data-controller="components--toggle">
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.prices.form.recurring', default: 'Recurring...'),
+                  wrap_label: true,
+                  name: :recurring,
+                  tooltip: t('admin.prices.form.recurring_tooltip', default: 'This is a tooltip') do %>
+        <%= f.check_box :recurring,
+                        data: {
+                          action: "change->components--toggle#toggle"
+                        } %>
+      <% end %>
+
+      <div class="space-y-6
+                  <%= 'hidden' unless price.recurring? %>"
+           data-components--toggle-target="toggleable">
+
+        <%= render "shared/components/forms/field",
+                    form: f,
+                    label: t('admin.prices.form.recurring_interval', default: 'Recurring Interval'),
+                    name: :recurring_interval,
+                    tooltip: t('admin.prices.form.recurring_interval_tooltip', default: 'This is a tooltip'),
+                    select_field: true do %>
+          <%= f.select :recurring_interval,
+                      Commerce::Price.recurring_intervals.keys.map { |type| [type.humanize, type] },
+                      {},
+                      { class: "form-control" } %>
+        <% end %>
+
+        <%= render "shared/components/forms/field",
+                    form: f,
+                    label: t('admin.prices.form.trial_days', default: 'Trial Days'),
+                    name: :trial_days do %>
+          <%= f.number_field :trial_days,
+                             autofocus: true,
+                             placeholder: t('admin.prices.form.trial_days_placeholder', default: 'Trial Days'),
+                             class: form_control_classes %>
+        <% end %>
+      </div>
+
+    </div>
+
+
+    <div class="pt-3 flex items-center space-x-2">
+      <%= f.submit class: "btn btn-primary" %>
+
+      <%= link_to t('admin.common.cancel', default: 'Cancel'),
+                  "#",
+                  class: "btn btn-ghost",
+                  data: { turbo_stream: turbo_stream.update("new_price", partial: "admin/commerce/prices/add_price_button") } %>
+    </div>
+  </div>
+<% end %>

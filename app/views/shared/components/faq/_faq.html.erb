@@ -1,0 +1,24 @@
+<%
+  headline = local_assigns[:headline] || "Frequently asked questions"
+  headline_classes = local_assigns[:headline_classes]
+  headline_align = local_assigns[:headline_align] || "text-center"
+
+  container_classes = local_assigns[:container_classes]
+
+  questions_divider_classes = local_assigns[:questions_divider_classes] || "divide-y divide-gray-200 dark:divide-gray-700"
+  questions_container_classes = local_assigns[:questions_container_classes]
+%>
+
+<div class="<%= container_classes %>">
+
+  <h2 class="<%= headline_align %>
+             <%= headline_classes %>">
+    <%= headline %>
+  </h2>
+
+  <div class="<%= questions_divider_classes %>
+             <%= questions_container_classes %>">
+    <%= yield %>
+  </div>
+
+</div>

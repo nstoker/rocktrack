@@ -28,7 +28,22 @@
 
   <% end %>
 
-  <!-- PLACEHOLDER: Commerce link -->
+  <% if current_user.account_admin?(current_account) %>
+    <% if current_account.subscriptions.any? || current_account.purchases.any? %>
+      <%= render "shared/components/subnav/subnav_link",
+                  link_path: billing_overview_path(account_slug: current_account.slug),
+                  link_text: t('teams.subnav.commerce.billing', default: 'Billing'),
+                  icon_name: "credit-card",
+                  active: current_page?(billing_overview_path(account_slug: current_account.slug)) %>
+    <% else %>
+      <%= render "shared/components/subnav/subnav_link",
+                  link_path: plans_path,
+                  link_text: t('teams.subnav.commerce.choose_plan', default: 'Choose a Plan'),
+                  icon_name: "rocket",
+                  active: current_page?(plans_path) %>
+    <% end %>
+  <% end %>
+
 
   <% if current_user.accounts.count > 1 %>
     <%= render "shared/components/subnav/subnav_link",

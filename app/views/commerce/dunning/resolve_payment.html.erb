@@ -1,0 +1,25 @@
+<% content_for :center_logo, true %>
+
+<div class="bg-gray-100 rounded-lg p-8 space-y-8 max-w-md mx-auto">
+
+  <%= turbo_frame_tag "pre_success_content" do %>
+    <div class="space-y-4 text-center pb-8">
+      <h1 class="text-xl">
+        <%= t('commerce.dunning.resolve_payment.title', product: @subscription.product.name, default: 'Resolve your payment for %{product}') %>
+      </h1>
+
+      <p class="font-medium text-pretty">
+        <%= t('commerce.dunning.resolve_payment.description', default: 'Your subscription is currently past due.  Please use the form below to resolve your payment and avoid any disruption to your service.') %>
+      </p>
+    </div>
+  <% end %>
+
+  <div>
+    <%= turbo_frame_tag "resolve_payment" do %>
+      <%= render "commerce/dunning/new_payment_method_form",
+                  payment: @payment,
+                  payment_method: @payment_method %>
+    <% end %>
+  </div>
+
+</div>

@@ -1,0 +1,61 @@
+<%= form_with url: create_payment_intent_path(product: @product.slug, price: @price.slug, coupon: params[:coupon]),
+              method: :post,
+              id: 'payment-form',
+              data: {
+                controller: "commerce--checkout",
+                "commerce--checkout-stripe-publishable-key-value": Rails.application.credentials.dig(:stripe, :publishable_key),
+                "commerce--checkout-price-slug-value": @price.slug,
+                "commerce--checkout-is-subscription-value": @price.recurring?,
+                "commerce--checkout-trial-days-value": @price.trial_days,
+                "commerce--checkout-customer-email-value": current_user.email_address,
+                "commerce--checkout-use-existing-payment-method-value": true,
+                "commerce--checkout-error-message-value": t('commerce.checkout.error_message')
+              } do %>
+  <%= hidden_field_tag :price, @price.slug %>
+  <%= hidden_field_tag :coupon, params[:coupon] %>
+
+  <div class="space-y-6">
+    <%= render "commerce/checkout/payment_message" %>
+
+    <%= render "commerce/checkout/coupon_field",
+                coupon: local_assigns[:coupon] || params[:coupon] %>
+
+    <% if current_account.payment_methods.count > 1 %>
+      <%= render "shared/components/forms/field",
+                label: t('commerce.checkout.existing_payment_method.select_label', default: 'Select payment method'),
+                select_field: true do %>
+        <%= select_tag :payment_method_id,
+                      options_for_select(
+                        current_account.payment_methods.map do |payment_method|
+                          [
+                            "#{payment_method.brand.titleize} #{t('commerce.checkout.existing_payment_method.ending_in', default: 'ending in')} #{payment_method.last4}#{' (' + t('commerce.checkout.existing_payment_method.default', default: 'Default') + ')' if payment_method.default}",
+                            payment_method.id
+                          ]
+                        end,
+                        current_account.payment_methods.find_by(default: true)&.id || current_account.payment_methods.first.id
+                      ),
+                      class: "form-control",
+                      data: {
+                        "commerce--checkout-target": "paymentMethodId"
+                      } %>
+      <% end %>
+    <% else %>
+      <%= render "shared/components/forms/field",
+                label: t('commerce.checkout.existing_payment_method.current_label', default: 'Current payment method') do %>
+        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-800 rounded-md p-4">
+          <%= current_account.payment_methods.first.brand.titleize %> <%= t('commerce.checkout.existing_payment_method.ending_in', default: 'ending in') %> <%= current_account.payment_methods.first.last4 %>
+        </div>
+        <%= hidden_field_tag :payment_method_id,
+                              current_account.payment_methods.first.id,
+                              data: {
+                                "commerce--checkout-target": "paymentMethodId"
+                              } %>
+      <% end %>
+    <% end %>
+
+    <div class="pt-4">
+      <%= render "commerce/checkout/form_actions",
+                  context: "existing_payment_method" %>
+    </div>
+  </div>
+<% end %>

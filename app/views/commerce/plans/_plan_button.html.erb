@@ -1,0 +1,84 @@
+<%
+  plan = local_assigns[:plan]
+  price = local_assigns[:price]
+  interval = local_assigns[:interval]
+  base_button_classes = "btn btn-large w-full text-center justify-center text-lg"
+  editing_subscription_plan = @account.present? && @current_plan.present? && @current_price.present?
+
+  if editing_subscription_plan
+    # Account is subscribed to a plan
+
+    if @current_price.id == price.id
+      # Current plan is the same as the plan we're looking at
+      no_link = true
+      button_label = local_assigns[:button_label] || plan.button_current_label.present? ? plan.button_current_label : t("commerce.plans.plan_button.current_plan")
+    else
+      # Current plan is different from the plan we're looking at
+      button_label = local_assigns[:button_label] ||
+                     plan.button_change_to_plan_label ||
+                     if @current_plan.id == plan.id
+                       t("commerce.plans.plan_button.switch_to_billing", interval: display_recurring_interval(price.recurring_interval))
+                     else
+                       t("commerce.plans.plan_button.change_to_plan", plan_name: plan.name)
+                     end
+
+      button_url = update_subscription_path(account_slug: @account.slug, id: @subscription.id, new_price_id: price.id, coupon: params[:coupon])
+    end
+
+  else
+    # User is not logged in, or is logged in but account is not subscribed to a plan
+    button_label = local_assigns[:button_label] || plan.button_purchase_label.present? ? plan.button_purchase_label : t("commerce.plans.plan_button.purchase_plan", plan_name: plan.name)
+    button_url = local_assigns[:button_url] ||
+                 if interval == "a"
+                   checkout_path(product: plan.price_a.product.slug, price: plan.price_a.slug, coupon: params[:coupon])
+                 else
+                   checkout_path(product: plan.price_b.product.slug, price: plan.price_b.slug, coupon: params[:coupon])
+                 end
+  end
+
+%>
+
+
+<div class="space-y-4">
+
+  <% if no_link %>
+
+    <div class="<%= base_button_classes %> bg-white dark:bg-black text-gray-400 dark:text-gray-600 cursor-default">
+      <%= button_label %>
+    </div>
+
+  <% elsif editing_subscription_plan %>
+
+    <%= form_with url: button_url,
+                 method: :patch,
+                 data: {
+                   action: "submit->commerce--plans#clickChangePlanButton",
+                   "processing-text": t("commerce.plans.plan_button.processing")
+                 } do |f| %>
+      <%= button_tag type: "submit",
+                     class: "#{base_button_classes} btn-primary change-plan-button" do %>
+        <span class="hidden change-plan-button-icon">
+          <%= icon("loader-circle", size: "text-lg", classes: "animate-spin") %>
+        </span>
+        <span class="change-plan-button-text">
+          <%= button_label %>
+        </span>
+      <% end %>
+    <% end %>
+
+  <% else %>
+
+    <%= link_to button_url,
+                class: "#{base_button_classes} btn-primary" do %>
+      <%= button_label %>
+    <% end %>
+
+  <% end %>
+
+  <% if plan.button_support_text.present? %>
+    <div class="text-center text-sm italic font-medium text-gray-500 dark:text-gray-400">
+      <%= plan.button_support_text %>
+    </div>
+  <% end %>
+
+</div>

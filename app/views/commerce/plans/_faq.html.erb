@@ -1,0 +1,26 @@
+<div>
+  <%= render "shared/components/faq/faq",
+              headline: t('commerce.plans.faq.headline', default: 'Frequently asked questions'),
+              headline_align: "text-center",
+              container_classes: "max-w-lg mx-auto space-y-12",
+              questions_container_classes: "text-left" do %>
+
+    <%= render "shared/components/faq/question",
+                question: t('commerce.plans.faq.q1.question', default: 'Is this really the best product on the market?') do %>
+      <p>
+        <%= t('commerce.plans.faq.q1.answer', default: 'Yes, it is.') %>
+        Yes, it is.
+      </p>
+
+    <% end %>
+
+    <%= render "shared/components/faq/question",
+                question: t('commerce.plans.faq.q2.question', default: 'Should I buy this?') do %>
+      <p>
+        <%= t('commerce.plans.faq.q2.answer', default: 'Our recommendation is, yes, you should.') %>
+      </p>
+
+    <% end %>
+
+  <% end %>
+</div>

@@ -1,0 +1,21 @@
+<%
+  mode = local_assigns[:mode] || "register"
+%>
+
+<%= render "commerce/checkout/progress", mode: mode %>
+
+<div class="pt-10 pb-8 px-8">
+
+  <% if authenticated? %>
+    <%= turbo_frame_tag "payment_form" do %>
+      <% if current_account&.payment_methods&.any? %>
+        <%= render "commerce/checkout/existing_payment_method" %>
+      <% else %>
+        <%= render "commerce/checkout/payment_form", coupon: local_assigns[:coupon] %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= render "commerce/checkout/register_or_login_form", mode: mode %>
+  <% end %>
+
+</div>

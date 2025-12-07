@@ -1,0 +1,34 @@
+<%= render "commerce/dunning/form_container" do %>
+
+  <%= form_with url: retry_payment_path(@account.slug, id: @payment.id, token: @payment.resolve_token),
+                method: :post,
+                data: {
+                  action: "submit->commerce--dunning#clickCurrentPaymentButton"
+                } do |f| %>
+    <div class="space-y-4">
+      <% if @error_message.present? %>
+        <%= render "shared/components/forms/errors", error_message: @error_message %>
+      <% end %>
+
+      <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg">
+        <span class="font-medium">
+          <%= @payment_method.brand.humanize %> <%= t('commerce.dunning.pay_with_current_method.ending_in', default: 'ending in') %> <%= @payment_method.last4 %>
+        </span>
+
+        <span class="font-medium text-gray-400 dark:text-gray-600">
+          <%= t('commerce.dunning.pay_with_current_method.expires', default: 'Expires') %> <%= @payment_method.expiration_month %>/<%= @payment_method.expiration_year %>
+        </span>
+      </div>
+
+      <%= render "commerce/dunning/button" %>
+
+      <div class="text-center">
+        <%= link_to t('commerce.dunning.pay_with_current_method.use_different', default: 'Use a different payment method'),
+              resolve_with_new_method_path(account_slug: @account.slug, id: @payment.id, token: @payment.resolve_token),
+              data: { turbo_frame: "resolve_payment" },
+              class: "inline-block font-medium" %>
+      </div>
+    </div>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,99 @@
+<%
+  alt_amount_tooltip = "Set this to override the default amount shown for this price.  For example, use this to display a yearly price in its' monthly form."
+  append_text_tooltip = "Set this to override the default text shown after the price.  If price is recurring, it will default to '/month' or '/year'.  You might use this to display '/month' for an annual price."
+  note_tooltip = "Small text shown next to the price.  For example, use this to add 'billed annually' to a yearly price that's displayed as a monthly price."
+%>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: "Price A",
+            name: :price_a_id,
+            select_field: true,
+            tooltip: "Price A is typically the monthly price for the plan. Prices are created and managed on Products." do %>
+  <%= f.select :price_a_id,
+              [["Select a price", nil]] + ::Commerce::Price.all.map { |price| ["#{price.product.name} › #{price.name}: #{display_price(price)}", price.id] },
+              {},
+              { class: form_control_classes } %>
+<% end %>
+
+<% unless context == "new" %>
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price A alternative amount",
+              name: :price_a_alt_amount,
+              tooltip: alt_amount_tooltip do %>
+    <%= f.text_field :price_a_alt_amount,
+                     placeholder: "10",
+                     class: form_control_classes %>
+  <% end %>
+
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price A append text",
+              name: :price_a_append_text,
+              tooltip: append_text_tooltip do %>
+    <%= f.text_field :price_a_append_text,
+                     placeholder: "/month",
+                     class: form_control_classes %>
+  <% end %>
+
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price A note",
+              name: :price_a_note,
+              tooltip: note_tooltip do %>
+    <%= f.text_field :price_a_note,
+                    placeholder: "billed annually",
+                    class: form_control_classes %>
+  <% end %>
+<% end %>
+
+<% unless context == "new" %>
+  <div class="pt-8 pb-6">
+    <hr class="border border-gray-300 dark:border-gray-700" />
+  </div>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: "Price B",
+            name: :price_b_id,
+            select_field: true,
+            tooltip: "Price B is typically the annual price for the plan. Prices are created and managed on Products." do %>
+  <%= f.select :price_b_id,
+              [["Select a price", nil]] + ::Commerce::Price.all.map { |price| ["#{price.product.name} › #{price.name}: #{display_price(price)}", price.id] },
+              {},
+              { class: form_control_classes } %>
+<% end %>
+
+<% unless context == "new" %>
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price B alternative amount",
+              name: :price_b_alt_amount,
+              tooltip: alt_amount_tooltip do %>
+    <%= f.text_field :price_b_alt_amount,
+                    placeholder: "10",
+                    class: form_control_classes %>
+  <% end %>
+
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price B append text",
+              name: :price_b_append_text,
+              tooltip: append_text_tooltip do %>
+    <%= f.text_field :price_b_append_text,
+                     placeholder: "/month",
+                     class: form_control_classes %>
+  <% end %>
+
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: "Price B note",
+              name: :price_b_note,
+              tooltip: note_tooltip do %>
+    <%= f.text_field :price_b_note,
+                    placeholder: "billed annually",
+                    class: form_control_classes %>
+  <% end %>
+<% end %>

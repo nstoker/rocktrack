@@ -1,0 +1,49 @@
+<%
+  price = local_assigns[:price]
+  interval = local_assigns[:interval]
+  price_hash = display_price(price, { output_hash: true })
+  symbol_position = local_assigns[:symbol_position] || price_hash[:symbol_position]
+  amount = local_assigns[:plan_price_alt_amount].present? ? local_assigns[:plan_price_alt_amount] : price_hash[:amount]
+  append_text = local_assigns[:plan_price_append_text].present? ? local_assigns[:plan_price_append_text] : price_hash[:append_content]
+  note = local_assigns[:plan_price_note]
+%>
+
+<% currency_symbol = capture do %>
+  <span class="currency-symbol
+               text-2xl font-semibold font-medium text-black dark:text-white relative bottom-[1px]">
+    <%= price_hash[:symbol] %>
+  </span>
+<% end %>
+
+<div class="plan-price-container
+            hidden"
+     data-commerce--plans-target="toggleableContent"
+     data-interval="<%= interval %>">
+  <div class="space-y-1
+              md:space-y-0 md:flex md:items-baseline md:space-x-2">
+    <div class="plan-price-display
+                flex items-baseline">
+      <% if symbol_position == "before" %>
+        <%= currency_symbol %>
+      <% end %>
+      <span class="price-amount
+                   text-4xl font-semibold tracking-tighter text-black dark:text-white">
+        <%= amount %>
+      </span>
+      <% if symbol_position == "after" %>
+        <%= currency_symbol %>
+      <% end %>
+      <span class="price-append-text
+                   pl-1 text-2xl font-medium text-gray-500 dark:text-gray-400">
+        <%= append_text %>
+      </span>
+    </div>
+
+    <% if note.present? %>
+      <span class="price-note
+                   text-gray-400 dark:text-gray-600 italic font-medium">
+        <%= note %>
+      </span>
+    <% end %>
+  </div>
+</div>

@@ -1,4 +1,8 @@
 class Account < ApplicationRecord
+  has_many :payments, class_name: "Commerce::Payment", dependent: :destroy
+  has_many :payment_methods, class_name: "Commerce::PaymentMethod", dependent: :destroy
+  has_many :purchases, class_name: "Commerce::Purchase", dependent: :destroy
+  has_many :subscriptions, class_name: "Commerce::Subscription", dependent: :destroy
   include SlugGenerator
 
   belongs_to :owner, class_name: "User"
@@ -11,7 +15,20 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
 
-  # PLACEHOLDER: Commerce Methods
+  enum :subscription_status, {
+    no_subscription: 0,
+    paying_subscription: 1,
+    trialing_subscription: 2,
+    subscription_past_due: 3,
+    inactive_subscription: 4,
+    cancelled_subscription: 5
+  }
+
+  def active_subscription?
+    [ "paying_subscription", "trialing_subscription", "subscription_past_due" ].include?(subscription_status.to_s) ||
+    gifted?
+  end
+
 
   private
 

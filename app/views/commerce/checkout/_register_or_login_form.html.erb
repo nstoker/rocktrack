@@ -1,0 +1,71 @@
+<%
+  mode = local_assigns[:mode] || "register"
+  form_url = mode == "register" ? register_at_checkout_path : login_at_checkout_path
+%>
+
+<%= form_with(url: form_url, method: :post) do |f| %>
+  <%= render "shared/components/forms/errors", model: @user %>
+
+  <div class="space-y-6">
+    <% if mode == "register" %>
+      <%= f.hidden_field :timezone,
+                          id: "user_timezone",
+                          name: "user[timezone]",
+                          data: { controller: "timezone" } %>
+    <% end %>
+    <%= f.hidden_field :product, value: @product.slug %>
+    <%= f.hidden_field :price, value: @price.slug %>
+    <%= f.hidden_field :coupon, value: params[:coupon] %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('commerce.checkout.register_or_login_form.email_label', default: 'Email address'),
+                name: "user[email_address]" do %>
+      <%= f.email_field "user[email_address]",
+                        placeholder: "name@domain.com",
+                        class: form_control_classes,
+                        autofocus: true %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: mode == "register" ? t('commerce.checkout.register_or_login_form.create_password_label', default: 'Create a password') : t('commerce.checkout.register_or_login_form.enter_password_label', default: 'Enter your password'),
+                name: "user[password]" do %>
+      <%= f.password_field "user[password]",
+                            placeholder: mode == "register" ? t('commerce.checkout.register_or_login_form.create_password_label', default: 'Create a password') : t('commerce.checkout.register_or_login_form.enter_password_label', default: 'Enter your password'),
+                            class: form_control_classes %>
+    <% end %>
+
+    <div class="space-y-6 pt-2
+                sm:flex sm:items-center sm:justify-between sm:space-x-6 sm:space-y-0">
+      <%= button_tag type: "submit",
+                     class: "text-center btn btn-primary btn-large shadow-sm",
+                     data: {
+                       action: params[:coupon].present? && params[:coupon] != "true" ? "click->commerce--coupon#validateCoupon" : nil
+                     } do %>
+        <span>
+          <%= mode == "register" ? t('commerce.checkout.register_or_login_form.register_button', default: 'Register') : t('commerce.checkout.register_or_login_form.login_button', default: 'Login') %> <span class="hidden xs:inline-block">&amp; <%= t('commerce.checkout.register_or_login_form.continue', default: 'continue') %></span>
+        </span>
+        <%= icon("arrow-right") %>
+      <% end %>
+
+      <%
+        if mode == "register"
+          switch_link_url = switch_to_login_at_checkout_path(product: @product.slug)
+          switch_link_text = t('commerce.checkout.register_or_login_form.already_registered', default: 'Already registered? Login')
+        else
+          switch_link_url = switch_to_register_at_checkout_path(product: @product.slug)
+          switch_link_text = t('commerce.checkout.register_or_login_form.new_user', default: 'New user? Register')
+        end
+      %>
+      <%= link_to switch_link_url,
+                  class: "flex items-center space-x-2 font-medium
+                          sm:pr-4",
+                  data: { turbo_frame: "checkout_form" } do %>
+        <span>
+          <%= switch_link_text %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

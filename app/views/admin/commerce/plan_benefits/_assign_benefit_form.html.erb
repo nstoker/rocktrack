@@ -1,0 +1,28 @@
+<%= form_with(url: admin_create_plan_benefit_path(plan_id: plan.id), local: true) do |f| %>
+  <div class="space-y-6">
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.plan_benefits.select_existing_benefit', default: 'Select Existing Benefit'),
+                name: :benefit_id,
+                select_field: true do %>
+      <%= f.select :benefit_id,
+                  Commerce::Benefit.where.not(id: plan.benefits.pluck(:id)).map { |b| [b.name, b.id] },
+                  { prompt: t('admin.plan_benefits.select_benefit_prompt', default: 'Select a benefit...') },
+                  { class: form_control_classes } %>
+    <% end %>
+
+    <div class="pt-3 flex items-center space-x-2">
+      <%= f.submit t('admin.plan_benefits.add_benefit_to_plan', default: 'Add benefit to %{plan}', plan: plan.name), class: "btn btn-primary" %>
+
+      <%= link_to t('admin.plan_benefits.create_new_benefit', default: 'Create a new benefit...'),
+                  admin_new_plan_benefit_path(plan_id: plan.id),
+                  class: "btn btn-ghost",
+                  data: { turbo_stream: true } %>
+
+      <%= link_to t('admin.common.cancel', default: 'Cancel'),
+                  "#",
+                  class: "btn btn-ghost",
+                  data: { turbo_stream: turbo_stream.update("new_plan_benefit", partial: "admin/commerce/plan_benefits/add_benefit_button") } %>
+    </div>
+  </div>
+<% end %>

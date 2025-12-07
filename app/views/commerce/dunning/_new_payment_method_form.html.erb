@@ -1,0 +1,42 @@
+<%
+  payment = local_assigns[:payment]
+%>
+
+<%= render "commerce/dunning/form_container" do %>
+
+  <%= form_with model: payment_method,
+                url: retry_payment_path(@account.slug, id: @payment.id, token: @payment.resolve_token),
+                method: :post,
+                id: 'payment-form' do |f| %>
+
+    <div id="error-message"
+        class="hidden bg-red-200 dark:bg-red-950 text-red-700 dark:text-red-300 py-4 px-6 rounded-md mb-8 font-medium space-y-4">
+    </div>
+
+    <div class="space-y-6">
+      <div id="payment-element"
+            class=""
+            data-commerce--dunning-target="paymentElement">
+        <div class="text-center py-12">
+          <%= icon("loader-circle", size: "text-2xl", color: "text-gray-400 dark:text-gray-600", classes: "animate-spin") %>
+        </div>
+      </div>
+
+      <div class="pt-4 space-y-4 text-center">
+        <%= render "commerce/dunning/button" %>
+
+        <%= link_to resolve_with_current_method_path(account_slug: @account.slug, id: @payment.id, token: @payment.resolve_token),
+                    class: "inline-block font-medium" do %>
+          <div>
+            <%= t('commerce.dunning.new_payment_method_form.use_current', default: 'Or use your current payment method') %>
+          </div>
+          <div class="text-sm font-medium text-gray-400 dark:text-gray-600">
+            <%= @payment_method.brand.humanize %> <%= t('commerce.dunning.new_payment_method_form.ending_in', default: 'ending in') %> <%= @payment_method.last4 %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+
+<% end %>

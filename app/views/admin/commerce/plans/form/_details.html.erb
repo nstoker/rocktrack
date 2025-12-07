@@ -1,0 +1,44 @@
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.details.internal_name', default: 'Internal Name'),
+            name: :name,
+            tooltip: t('admin.plans.details.internal_name_tooltip', default: 'This is used internally to identify the plan.  It is not displayed to customers.') do %>
+  <%= f.text_field :name,
+                  autofocus: true,
+                  placeholder: t('admin.plans.details.internal_name', default: 'Internal Name'),
+                  class: form_control_classes %>
+<% end %>
+
+<%= render "shared/components/forms/field",
+            form: f,
+            label: t('admin.plans.details.display_name', default: 'Display Name'),
+            name: :display_name,
+            tooltip: t('admin.plans.details.display_name_tooltip', default: 'This is the name that will be displayed to customers.') do %>
+  <%= f.text_field :display_name,
+                  autofocus: true,
+                  placeholder: t('admin.plans.details.display_name', default: 'Display Name'),
+                  class: form_control_classes %>
+<% end %>
+
+<% unless context == "new" %>
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: t('admin.plans.details.highlight_text', default: 'Highlight Text'),
+              name: :highlight_text,
+              tooltip: t('admin.plans.details.highlight_tooltip', default: 'If set, this plan will be highlighted along with a label that displays this text.  Use it to highlight one \'popular\' plan, for example.') do %>
+    <%= f.text_field :highlight_text,
+                    placeholder: "Most Popular!",
+                    class: form_control_classes %>
+  <% end %>
+<% end %>
+
+<% unless context == "new" %>
+  <%= render "shared/components/forms/field",
+              form: f,
+              label: t('admin.plans.details.active', default: 'Active'),
+              wrap_label: true,
+              name: :active,
+              tooltip: t('admin.plans.details.active_tooltip', default: 'Uncheck to hide this plan.') do %>
+    <%= f.check_box :active %>
+  <% end %>
+<% end %>

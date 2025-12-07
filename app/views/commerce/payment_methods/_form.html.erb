@@ -1,0 +1,42 @@
+<%= form_with model: payment_method,
+              url: payment_methods_path(@account.slug),
+              method: :post,
+              id: 'payment-form',
+              data: {
+                controller: "commerce--payment-method",
+                "commerce--payment-method-stripe-publishable-key-value": Rails.application.credentials.dig(:stripe, :publishable_key),
+                "commerce--payment-method-error-message-value": t('commerce.payment_methods.error_message')
+              } do |f| %>
+
+  <% if @error_message.present? %>
+    <%= render "shared/components/forms/errors", error_message: @error_message %>
+  <% end %>
+
+  <div class="space-y-6">
+    <div id="payment-element"
+          class=""
+          data-commerce--payment-method-target="paymentElement">
+      <div class="text-center py-12">
+        <%= icon("loader-circle", size: "text-2xl", color: "text-gray-400 dark:text-gray-600", classes: "animate-spin") %>
+      </div>
+    </div>
+
+    <div class="pt-4 space-y-4">
+      <button class="btn btn-primary btn-large shadow-sm"
+              data-commerce--payment-method-target="submitButton"
+              data-default-text="<%= t('commerce.payment_methods.form.add', default: 'Add Payment Method') %>"
+              data-processing-text="<%= t('commerce.payment_methods.form.processing', default: 'Processing') %>">
+        <%= icon("rocket", data: {
+          "commerce--payment-method-target": "defaultButtonIcon"
+        }) %>
+        <%= icon("loader-circle", size: "text-2xl", color: "text-gray-400 dark:text-gray-600", classes: "animate-spin hidden!", data: {
+          "commerce--payment-method-target": "processingButtonIcon"
+        }) %>
+        <span data-commerce--payment-method-target="buttonText">
+          <%= t('commerce.payment_methods.form.add', default: 'Add Payment Method') %>
+        </span>
+      </button>
+
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render "shared/head/head" %>
+  </head>
+
+  <body class="instrumental-layout">
+    <%= turbo_frame_tag "flash_message" do %>
+      <%= render "shared/flash" %>
+    <% end %>
+
+    <div class="py-12 px-8 mx-auto
+                <% if content_for?(:page_max_width) %>
+                  <%= yield :page_max_width %>
+                <% else %>
+                  <%= content_for?(:side_col) ? 'max-w-5xl' : 'max-w-4xl' %>
+                <% end %>">
+
+      <div class="space-y-12">
+        <div class="<%= content_for?(:center_logo) ? 'text-center' : '' %>">
+          <%= render "shared/components/logo",
+                      link_path: root_path,
+                      logo_text: "Logo",
+                      link_classes: content_for?(:center_logo) ? "mx-auto inline-block" : "inline-block" %>
+        </div>
+
+        <div>
+          <%= yield %>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

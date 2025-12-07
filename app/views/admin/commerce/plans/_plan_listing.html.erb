@@ -1,0 +1,15 @@
+<%= render "shared/components/listings/listing",
+           listing_link: admin_edit_plan_path(plan),
+           title: plan.name,
+           data: {
+              "components--reorder-target": "reorderable",
+              "save-path": admin_reorder_plan_path(plan.id),
+              "starting-position": plan.position,
+           } do %>
+  <% unless plan.active? %>
+    <%= render "shared/components/label",
+                text: t('admin.plans.status.inactive', default: 'Inactive') %>
+  <% end %>
+  <%= render "admin/commerce/plans/plan_settings",
+              plan: plan %>
+<% end %>
