@@ -1,0 +1,26 @@
+<%= content_for(:title) do %>
+  <%= @account.name %> <%= t('teams.accounts.settings', default: 'Settings') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.accounts.settings', default: 'Settings') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('teams.accounts.settings', default: 'Settings') %>
+
+  <%= render "accounts/form", account: @account %>
+</div>

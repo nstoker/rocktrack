@@ -1,0 +1,45 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.accounts.title', default: 'Accounts') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.accounts.title', default: 'Accounts') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @accounts.any? %>
+    <%= render "shared/components/page_header",
+                title: t('admin.accounts.title', default: 'Accounts') %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @accounts.each do |account| %>
+          <%= render "admin/accounts/account_listing",
+                      account: account %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: t('admin.accounts.no_listings.singular', default: 'account'),
+                plural_object_name: t('admin.accounts.no_listings.plural', default: 'accounts') %>
+  <% end %>
+
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="h-screen">
+  <head>
+    <%= render "shared/head/head" %>
+    <style>
+      :root {
+        --color-primary: var(--color-secondary);
+        --color-primary-50: var(--color-secondary-50);
+        --color-primary-100: var(--color-secondary-100);
+        --color-primary-200: var(--color-secondary-200);
+        --color-primary-300: var(--color-secondary-300);
+        --color-primary-400: var(--color-secondary-400);
+        --color-primary-500: var(--color-secondary-500);
+        --color-primary-600: var(--color-secondary-600);
+        --color-primary-700: var(--color-secondary-700);
+        --color-primary-800: var(--color-secondary-800);
+        --color-primary-900: var(--color-secondary-900);
+        --color-primary-950: var(--color-secondary-950);
+        --color-primary-light: var(--color-secondary-400);
+        --color-primary-light-50: var(--color-secondary-50);
+        --color-primary-light-100: var(--color-secondary-50);
+        --color-primary-light-200: var(--color-secondary-100);
+        --color-primary-light-300: var(--color-secondary-200);
+        --color-primary-light-400: var(--color-secondary-300);
+        --color-primary-light-500: var(--color-secondary-400);
+        --color-primary-light-600: var(--color-secondary-500);
+        --color-primary-light-700: var(--color-secondary-600);
+        --color-primary-light-800: var(--color-secondary-700);
+        --color-primary-light-900: var(--color-secondary-800);
+        --color-primary-light-950: var(--color-secondary-900);
+      }
+    </style>
+
+  </head>
+
+  <body class="instrumental-layout h-full group/sidebar"
+        data-controller="mobile-nav"
+        data-mobile-nav-open-value="false">
+    <%= turbo_frame_tag "flash_message" do %>
+      <%= render "shared/flash" %>
+    <% end %>
+
+    <%= render "layouts/admin/mobile_nav" %>
+
+    <div class="h-screen lg:flex">
+      <%= render "layouts/admin/sidebar" %>
+      <div class="flex-1 overflow-auto h-full">
+        <%= render "layouts/admin/top" %>
+        <div class="pt-12 lg:pt-20">
+          <div class="px-6 py-12 mx-auto
+                      md:py-16 md:px-8 md:flex md:items-start md:space-x-12
+                      xl:space-x-24
+            <% if content_for?(:page_max_width) %>
+              <%= yield :page_max_width %>
+            <% else %>
+              <%= content_for?(:side_col) ? 'max-w-5xl' : 'max-w-4xl' %>
+            <% end %>">
+            <% if content_for?(:side_col) %>
+              <div class="pb-8 mb-8 border-b-2 border-gray-100 dark:border-gray-700
+                          md:w-1/4 md:border-0 md:mt-1">
+                <%= yield :side_col %>
+              </div>
+            <% end %>
+            <div class="flex-1">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

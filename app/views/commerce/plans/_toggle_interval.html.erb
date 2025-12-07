@@ -1,0 +1,26 @@
+<%
+  interval_button_classes = "toggle-interval
+                             text-sm font-medium inline-flex items-baseline gap-2 py-2 px-4 rounded cursor-pointer"
+%>
+<div class="inline-flex flex-col items-center gap-1 mx-auto bg-gray-100 dark:bg-gray-800 rounded p-1 font-medium
+            sm:flex-row sm:gap-1">
+  <div class="<%= interval_button_classes %>"
+        data-action="click->commerce--plans#clickIntervalToggle"
+        data-commerce--plans-target="intervalButton"
+        data-interval="a">
+    <span class="whitespace-nowrap">
+      <%= t('commerce.plans.toggle_interval.monthly', default: 'Monthly billing') %>
+    </span>
+  </div>
+  <div class="<%= interval_button_classes %>"
+        data-action="click->commerce--plans#clickIntervalToggle"
+        data-commerce--plans-target="intervalButton"
+        data-interval="b">
+    <span class="whitespace-nowrap">
+      <%= t('commerce.plans.toggle_interval.yearly', default: 'Yearly billing') %>
+    </span>
+    <span class="whitespace-nowrap text-secondary text-sm">
+      <%= t('commerce.plans.toggle_interval.save', default: 'Save 20%!') %>
+    </span>
+  </div>
+</div>

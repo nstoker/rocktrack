@@ -1,0 +1,53 @@
+<%
+  button_text = if @price.recurring?
+                   if @price.trial_days.present? && @price.trial_days > 0
+                     t('commerce.checkout.form_actions.start_trial', days: @price.trial_days, default: "Start #{@price.trial_days}-day trial")
+                   else
+                     t('commerce.checkout.form_actions.subscribe', default: 'Subscribe')
+                   end
+                 else
+                   t('commerce.checkout.form_actions.purchase', default: 'Purchase')
+                 end
+  context = local_assigns[:context] || "payment_form"
+%>
+
+<div class="space-y-4 flex flex-col items-start
+            sm:flex-row sm:items-center sm:justify-between sm:space-x-6 sm:space-y-0">
+  <button class="btn btn-primary btn-large shadow-sm w-full justify-center items-center
+                 sm:w-auto sm:justify-start"
+          data-commerce--checkout-target="submitButton"
+          data-default-text="<%= button_text %>"
+          data-processing-text="Processing">
+    <%= icon("rocket", data: {
+      "commerce--checkout-target": "defaultButtonIcon"
+    }) %>
+    <%= icon("loader-circle", classes: "animate-spin hidden!", data: {
+      "commerce--checkout-target": "processingButtonIcon"
+    }) %>
+    <span data-commerce--checkout-target="buttonText">
+      <%= button_text %>
+    </span>
+  </button>
+
+  <% if context == "payment_form" && current_account&.payment_methods&.any? %>
+    <%= link_to t('commerce.checkout.form_actions.use_saved', default: 'Use your saved payment method'),
+                switch_to_existing_payment_method_path(product: @product.slug,
+                                                       price: @price.slug,
+                                                       coupon: local_assigns[:coupon] || params[:coupon]),
+                class: "font-medium",
+                data: {
+                  turbo_frame: "payment_form",
+                  action: "click->commerce--coupon#validateCoupon"
+                } %>
+  <% elsif context == "existing_payment_method" %>
+    <%= link_to t('commerce.checkout.form_actions.use_different', default: 'Use a different payment method'),
+                switch_to_new_payment_method_path(product: @product.slug,
+                                                  price: @price.slug,
+                                                  coupon: local_assigns[:coupon] || params[:coupon]),
+                class: "font-medium",
+                data: {
+                  turbo_frame: "payment_form",
+                  action: "click->commerce--coupon#validateCoupon"
+                } %>
+  <% end %>
+</div>

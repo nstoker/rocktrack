@@ -1,0 +1,48 @@
+<% if current_user %>
+
+  <% trigger_content = capture do %>
+    <div class="inline-flex items-center space-x-3">
+      <%= render "shared/components/avatar", resource: current_user %>
+      <div class="flex-1 dark:text-gray-400">
+        <%= current_user.name %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown",
+              id: "user-menu",
+              trigger_content: trigger_content,
+              dropdown_classes: "hidden lg:block",
+              menu_position: "left-auto right-0" do %>
+
+    <%= render "shared/components/dropdown/dropdown_link",
+                link_path: edit_user_profile_path,
+                icon_name: "circle-user",
+                link_text: t('user_menu.my_profile', default: 'My Profile') %>
+
+    <%= render "layouts/global/account_menu" %>
+
+
+    <%= render "shared/components/dropdown/dropdown_link",
+                link_path: session_path,
+                link_method: :delete,
+                button_link: true,
+                link_text: t('user_menu.sign_out', default: 'Sign out'),
+                icon_name: "log-out" %>
+
+    <% if current_user.admin? %>
+      <%= render "shared/components/dropdown/dropdown_link",
+                  link_path: admin_dashboard_path,
+                  link_text: t('user_menu.admin', default: 'Admin'),
+                  icon_name: "sliders-vertical" %>
+    <% end %>
+
+
+  <% end %>
+
+<% else %>
+
+  <%= render "layouts/global/unauthenticated_links" %>
+
+<% end %>
+

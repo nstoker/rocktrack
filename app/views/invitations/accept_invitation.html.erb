@@ -1,0 +1,52 @@
+<%= content_for(:title, t('teams.invitations.accept_invitation', default: 'Accept Invitation')) %>
+
+<%= form_with(url: process_invitation_path(@invitation.account.slug, @invitation, token: params[:token]), method: :post) do |f| %>
+  <%= render "shared/components/forms/errors",
+              model: @invitation %>
+
+  <div class="space-y-6">
+
+    <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded font-medium text-lg">
+      <%= t('teams.invitations.invited_to_join', account: @invitation.account.name, default: "You've been invited to join %{account}.") %>
+    </div>
+
+    <%= render "shared/components/forms/field",
+               form: f,
+               label: t('teams.invitations.email_address', default: 'Email address'),
+               name: :email_address do %>
+      <%= f.email_field :email_address,
+                        value: @invitation.email,
+                        placeholder: "name@domain.com",
+                        class: form_control_classes %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+               form: f,
+               label: t('teams.invitations.create_password', default: 'Create a password'),
+               name: :password do %>
+      <%= f.password_field :password,
+                            placeholder: t('teams.invitations.create_password_placeholder', default: 'Create a password'),
+                            class: form_control_classes,
+                            autofocus: true %>
+    <% end %>
+
+    <div class="space-y-6 text-center pt-2">
+      <%= f.submit t('teams.invitations.accept_invitation', default: 'Accept Invitation'),
+                    class: "w-full text-center btn btn-primary btn-large" %>
+
+      <div class="space-y-4 font-medium
+                  sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:space-x-4">
+        <div>
+          <%= t('teams.invitations.already_registered', default: 'Already registered?') %>
+          <%= link_to new_session_path,
+                      class: "inline-block ml-2" do %>
+            <%= t('teams.invitations.sign_in', default: 'Sign in') %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<% end %>

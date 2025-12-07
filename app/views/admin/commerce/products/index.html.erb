@@ -1,0 +1,49 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.products.title', default: 'Products') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.products.title', default: 'Products') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @products.any? %>
+    <%= render "shared/components/page_header",
+                title: t('admin.products.title', default: 'Products'),
+                button_link_path: admin_new_product_path,
+                button_link_icon: "circle-plus" %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @products.each do |product| %>
+          <%= render "admin/commerce/products/product_listing",
+                      product: product %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: t('admin.products.no_listings.singular', default: 'product'),
+                plural_object_name: t('admin.products.no_listings.plural', default: 'products'),
+                new_path: admin_new_product_path,
+                description: t('admin.products.no_listings.description', default: 'Products are the main, purchaseable items that customers can buy.  A product can have one or more prices.  If selling subscriptions, each plan tier should be associated with one product.') %>
+  <% end %>
+
+</div>

@@ -1,0 +1,34 @@
+<%= render "admin/commerce/prices/price_container" do %>
+  <div class="w-full flex items-start justify-between">
+    <div class="space-y-3 flex-1
+                md:flex md:items-start md:justify-start md:space-y-0">
+      <!-- Price name and amount -->
+      <div class="space-y-1 w-full
+                  md:w-1/3">
+        <div class="font-medium text-gray-400 dark:text-gray-600">
+          <%= price.name %>
+        </div>
+        <div class="text-black dark:text-white font-medium">
+          <%= display_price(price) %>
+        </div>
+      </div>
+
+      <% if price.trial_days.present? && price.trial_days > 0 %>
+        <div class="space-y-1 w-full
+                    md:w-1/3">
+          <div class="font-medium text-gray-400 dark:text-gray-600">
+            <%= t('admin.common.trial', default: 'Trial') %>
+          </div>
+          <div class="font-medium">
+            <%= pluralize(price.trial_days, t('admin.common.day', default: 'day'), t('admin.common.days', default: 'days')) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="text-right pr-2 pt-1.5">
+      <%= render "admin/commerce/prices/price_settings",
+                  price: price,
+                  product: product %>
+    </div>
+  </div>
+<% end %>

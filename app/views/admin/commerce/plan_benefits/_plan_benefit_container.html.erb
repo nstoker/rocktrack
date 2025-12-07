@@ -1,0 +1,12 @@
+<%
+  padding = local_assigns[:padding] || "py-3 px-4"
+  plan_benefit = local_assigns[:plan_benefit]
+%>
+<div class="<%= padding %> bg-gray-50 dark:bg-gray-900 rounded mb-2"
+     <% if plan_benefit.present? %>
+       data-components--reorder-target="reorderable"
+       data-save-path="<%= admin_reorder_plan_benefit_path(id: plan_benefit.id) %>"
+       data-starting-position="<%= plan_benefit.position %>"
+     <% end %>>
+  <%= yield %>
+</div>

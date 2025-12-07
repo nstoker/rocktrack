@@ -1,0 +1,92 @@
+<%= content_for(:title) do %>
+  <%= t('authentication.users.edit_profile_title', default: 'Edit Profile') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('authentication.users.breadcrumbs.my_profile', default: 'My Profile'),
+               link: edit_user_profile_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('authentication.users.breadcrumbs.edit', default: 'Edit') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "users/user_profile_subnav",
+             active: "edit_profile" %>
+<% end %>
+
+  <%= form_for @user, url: update_user_profile_path, method: :patch do |f| %>
+    <%= render 'shared/components/forms/errors', model: @user %>
+
+    <div class="space-y-8">
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('authentication.users.form.email_label', default: 'Email address'),
+                  name: :email_address do %>
+        <%= f.email_field :email_address,
+                          placeholder: t('authentication.users.form.email_placeholder', default: 'name@domain.com'),
+                          class: form_control_classes,
+                          autofocus: true %>
+      <% end %>
+
+      <div class="space-y-8
+                  sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:space-x-6">
+
+        <%= render "shared/components/forms/field",
+                    form: f,
+                    label: t('authentication.users.form.first_name_label', default: 'First name'),
+                    name: :first_name do %>
+          <%= f.text_field :first_name,
+                            placeholder: t('authentication.users.form.first_name_placeholder', default: 'First name'),
+                            class: form_control_classes %>
+        <% end %>
+
+        <%= render "shared/components/forms/field",
+                    form: f,
+                    label: t('authentication.users.form.last_name_label', default: 'Last name'),
+                    name: :last_name do %>
+          <%= f.text_field :last_name,
+                            placeholder: t('authentication.users.form.last_name_placeholder', default: 'Last name'),
+                            class: form_control_classes %>
+        <% end %>
+
+      </div>
+
+      <%= render "shared/components/forms/field",
+                  image_upload_field: true,
+                  avatar_field: true,
+                  form: f,
+                  label: t('authentication.users.form.avatar_label', default: 'Avatar'),
+                  name: :avatar,
+                  avatar_resource: current_user,
+                  delete_image_path: remove_user_avatar_path do %>
+        <%= f.file_field :avatar,
+                         accept: 'image/*',
+                         data: {
+                           "components--image-upload-target": "input",
+                           action: "components--image-upload#updateImage components--image-upload#revealImagePreview"
+                         } %>
+      <% end %>
+
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('authentication.users.form.timezone_label', default: 'Timezone'),
+                  name: :timezone,
+                  select_field: true do %>
+        <%= f.select :timezone,
+                     time_zone_options_for_select(current_user.timezone),
+                     {},
+                     { class: "form-control" } %>
+      <% end %>
+
+    </div>
+
+    <div class="mt-12">
+      <%= f.submit t('authentication.users.form.update_button', default: 'Update'), class: "btn btn-primary" %>
+    </div>
+  <% end %>

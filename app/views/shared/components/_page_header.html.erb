@@ -1,0 +1,54 @@
+  <%
+    title = local_assigns[:title]
+    button_link_path = local_assigns[:button_link_path]
+    button_link_text = local_assigns[:button_link_text] || t('page_header.new_button', singular: title.singularize, default: 'New %{singular}')
+    button_link_icon = local_assigns[:button_link_icon] || "circle-plus"
+    button_link_classes = local_assigns[:button_link_classes] || "btn btn-primary"
+    button_link_type = local_assigns[:button_link_type] || "link"
+    button_link_method = local_assigns[:button_link_method] || :get
+    custom_meta_content = local_assigns[:custom_meta_content]
+    container_classes = local_assigns[:container_classes]
+  %>
+
+  <div class="space-y-4
+              md:space-y-0 md:flex md:items-start md:justify-between md:space-x-8
+              <%= container_classes %>">
+
+    <div>
+      <h1 class="text-pretty">
+        <%= title %>
+      </h1>
+    </div>
+
+    <div class="flex items-center space-x-2">
+
+      <%= yield %>
+
+      <% if custom_meta_content %>
+        <div class="flex items-center space-x-2">
+          <%= custom_meta_content %>
+        </div>
+      <% elsif button_link_path %>
+        <% button_content = capture do %>
+          <%= icon(button_link_icon) %>
+          <span>
+            <%= button_link_text %>
+          </span>
+        <% end %>
+        <% if button_link_type == "button" %>
+          <%= button_to button_link_path,
+                      class: button_link_classes,
+                      method: button_link_method do %>
+            <%= button_content %>
+          <% end %>
+        <% else %>
+          <%= link_to button_link_path,
+                      class: button_link_classes,
+                      method: button_link_method do %>
+            <%= button_content %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>

@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@import './base.css';
+@import './config.css';
+@import './colors.css';
+@import './fonts.css';
+@import './flash.css';
+@import './forms.css';
+@import './buttons.css';
+@import './pagination.css';

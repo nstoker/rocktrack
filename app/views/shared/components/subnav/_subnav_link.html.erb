@@ -1,0 +1,29 @@
+<%
+  link_path = local_assigns[:link_path]
+  link_text = local_assigns[:link_text]
+  link_target = local_assigns[:link_target]
+  icon_name = local_assigns[:icon_name]
+  active = local_assigns[:active]
+
+%>
+
+<%= link_to link_path,
+            class: "#{'active-subnav-item' if active}
+                    group flex items-start space-x-2 py-2 rounded
+                    #{icon_name ? 'pl-2 pr-4' : 'px-4' }
+                    hover:bg-gray-100 dark:hover:bg-gray-900
+                    #{'bg-gray-100 dark:bg-gray-900' if active}",
+            target: link_target do %>
+  <% if icon_name %>
+    <div class="w-8 h-[1.7rem] flex items-center justify-center text-center text-gray-400 dark:text-gray-700
+                group-hover:text-primary-500 dark:group-hover:text-primary-500
+                <%= 'text-primary-500 dark:text-primary-700' if active %>">
+      <%= icon(icon_name) %>
+    </div>
+  <% end %>
+  <div class="subnav-link-text
+              flex-1 min-h-[1.7rem] font-medium
+              <%= 'text-black dark:text-white' if active %>">
+    <%= link_text %>
+  </div>
+<% end %>

@@ -1,0 +1,8 @@
+<%= render "shared/components/listings/listing",
+           listing_link: edit_invitation_path(@account.slug, invitation.id),
+           title: invitation.email do %>
+  <%= render "shared/components/label",
+             text: invitation.status.capitalize %>
+  <%= render "invitation_settings",
+             invitation: invitation %>
+<% end %>

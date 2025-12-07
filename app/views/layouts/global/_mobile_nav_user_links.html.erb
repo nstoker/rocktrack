@@ -1,0 +1,49 @@
+<% if authenticated? %>
+
+  <%
+    icon_container_classes = "group w-8 h-[1.5rem] flex flex-col items-center justify-center text-primary hover:text-black"
+    label_classes = "flex-1 font-medium pr-4 leading-[1.5rem] text-gray-600 dark:text-gray-200
+                     group-hover:text-black dark:group-hover:text-white"
+  %>
+
+  <div class=""
+       id="mobile-nav-user-links">
+    <div class="flex items-center space-x-3 mb-4">
+      <%= render "shared/components/avatar",
+                  resource: current_user,
+                  size: 20 %>
+      <div class="flex-1 dark:text-gray-400">
+        <%= current_user.name %>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <%= link_to edit_user_profile_path,
+                  class: "flex items-center justify-start space-x-3 p-1 pl-0" do %>
+        <div class="<%= icon_container_classes %>">
+          <%= icon("circle-user-round", size: "text-lg") %>
+        </div>
+        <div class="<%= label_classes %>">
+          <%= t('user_menu.my_profile', default: 'My Profile') %>
+        </div>
+      <% end %>
+
+      <%= button_to session_path,
+                    method: :delete,
+                    class: "flex items-center justify-start space-x-3 p-1 pl-0" do %>
+        <div class="<%= icon_container_classes %>">
+          <%= icon("log-out", size: "text-lg") %>
+        </div>
+        <div class="<%= label_classes %>">
+          <%= t('user_menu.sign_out', default: 'Sign out') %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+
+  <%= render "layouts/global/unauthenticated_links" %>
+
+<% end %>
+

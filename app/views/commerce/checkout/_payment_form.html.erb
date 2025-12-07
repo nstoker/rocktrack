@@ -1,0 +1,39 @@
+<%= form_with url: create_payment_intent_path(product: @product.slug, coupon: local_assigns[:coupon] || params[:coupon]),
+              method: :post,
+              id: 'payment-form',
+              data: {
+                controller: "commerce--checkout",
+                "commerce--checkout-stripe-publishable-key-value": Rails.application.credentials.dig(:stripe, :publishable_key),
+                "commerce--checkout-price-slug-value": @price.slug,
+                "commerce--checkout-is-subscription-value": @price.recurring?,
+                "commerce--checkout-trial-days-value": @price.trial_days,
+                "commerce--checkout-customer-email-value": current_user.email_address,
+                "commerce--checkout-error-message-value": t('commerce.checkout.error_message')
+              } do %>
+  <%= hidden_field_tag :price, @price.slug %>
+  <%= hidden_field_tag :coupon, local_assigns[:coupon] || params[:coupon] %>
+
+  <% if @error_message.present? %>
+    <%= render "shared/components/forms/errors", error_message: @error_message %>
+  <% end %>
+
+  <div class="space-y-6">
+    <%= render "commerce/checkout/payment_message" %>
+
+    <div id="payment-element"
+          class=""
+          data-commerce--checkout-target="paymentElement">
+      <div class="text-center py-12">
+        <%= icon("loader-circle", classes: "text-2xl text-gray-400 dark:text-gray-600 animate-spin") %>
+      </div>
+    </div>
+
+    <%= render "commerce/checkout/coupon_field" %>
+
+    <div class="pt-4">
+      <%= render "commerce/checkout/form_actions",
+                  context: "payment_form" %>
+    </div>
+
+  </div>
+<% end %>

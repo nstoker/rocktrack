@@ -1,0 +1,48 @@
+<%= content_for(:title) do %>
+  <%= @account.name %> <%= t('commerce.payments.title', default: 'Payments History') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payments.breadcrumbs.billing', default: 'Billing'),
+               link: billing_overview_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payments.breadcrumbs.payments_history', default: 'Payments History') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: "#{@account.name} #{t('commerce.payments.title', default: 'Payments History')}" %>
+
+  <div>
+
+      <% if @account.payments.any? %>
+        <%= render "shared/components/listings/listings" do %>
+          <% @payments.each do |payment| %>
+            <%= render "commerce/payments/payment_listing",
+                        payment: payment %>
+          <% end %>
+        <% end %>
+
+        <% if @pagy.pages > 1 %>
+          <div class="pagy-container">
+            <%== pagy_nav(@pagy) %>
+          </div>
+        <% end %>
+      <% end %>
+
+  </div>
+
+</div>

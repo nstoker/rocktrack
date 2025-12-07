@@ -1,0 +1,48 @@
+<%
+  url = local_assigns[:url]
+  active = local_assigns[:active]
+  label = local_assigns[:label]
+  label_container_classes = local_assigns[:label_container_classes]
+  icon = local_assigns[:icon]
+  icon_container_classes = local_assigns[:icon_container_classes]
+  classes = local_assigns[:classes]
+  link_target = local_assigns[:link_target] || "_self"
+  active_classes = local_assigns[:active_classes] || "text-black dark:text-white"
+  inactive_classes = local_assigns[:inactive_classes] || "text-primary dark:text-primary hover:text-black dark:hover:text-white"
+  sub_link_header = local_assigns.fetch(:sub_link_header, false)
+  sub_link_header_padding = local_assigns[:sub_link_header_padding] || "pt-3 pb-1"
+  sub_link_header_text_size = local_assigns[:sub_link_header_text_size] || "text-xs"
+  sub_link_header_font_weight = local_assigns[:sub_link_header_font_weight] || "font-semibold"
+  sub_link_header_text_color = local_assigns[:sub_link_header_text_color] || "text-gray-400 dark:text-gray-600"
+  sub_link_header_tracking = local_assigns[:sub_link_header_tracking] || "tracking-[2px]"
+  sub_link_header_classes = local_assigns[:sub_link_header_classes] || "uppercase"
+%>
+
+<% if sub_link_header %>
+  <h3 class="<%= sub_link_header_padding %>
+             <%= sub_link_header_text_size %>
+             <%= sub_link_header_font_weight %>
+             <%= sub_link_header_text_color %>
+             <%= sub_link_header_tracking %>
+             <%= sub_link_header_classes %>">
+    <%= label %>
+  </h3>
+<% else %>
+  <%= link_to url,
+              target: link_target,
+              class: "#{classes} #{active ? active_classes : inactive_classes}" do %>
+    <div class="flex items-start gap-2">
+      <% if icon.present? %>
+        <div class="w-6 h-[1.7rem] flex items-center justify-center text-center
+                  <%= icon_container_classes %>">
+          <%= icon(icon) %>
+        </div>
+      <% end %>
+      <span class="flex-1 leading-[1.7rem]
+                  <%= 'min-h-8' if icon.present? %>
+                  <%= label_container_classes %>">
+        <%= label %>
+      </span>
+    </div>
+  <% end %>
+<% end %>

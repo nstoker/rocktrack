@@ -1,0 +1,87 @@
+<%
+  if @purchase.subscriptions.any?
+    subscription = @purchase.subscriptions.first
+  end
+%>
+
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.purchases.purchase_of_product', default: '%{account}\'s purchase of %{product}', account: @account.name, product: @purchase.product.name) %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.purchases.title', default: 'Purchases'),
+                link: admin_purchases_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @purchase.product.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: t('admin.purchases.purchase_of_product', default: '%{account}\'s purchase of %{product}', account: @account.name, product: @purchase.product.name) %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/data_list/data_list",
+                border_top_and_bottom: true do %>
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.purchases.purchase_date', default: 'Purchase Date'),
+                  value: @purchase.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.purchases.product_purchased', default: 'Product purchased'),
+                value: @purchase.product.name,
+                value_link_url: admin_edit_product_path(@purchase.product.slug) %>
+
+      <% if @purchase.first_payment.present? %>
+        <% payment = @purchase.first_payment %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: subscription.present? ? t('admin.purchases.first_payment', default: 'First Payment') : t('admin.purchases.payment', default: 'Payment'),
+                    value: "#{currency_symbol(payment.currency)}#{display_amount(payment.amount)}",
+                    value_link_url: admin_payment_path(payment) %>
+      <% end %>
+
+      <% if subscription.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.purchases.subscription', default: 'Subscription'),
+                    value: subscription.product.name,
+                    value_link_url: admin_subscription_path(id: subscription.id),
+                    value_description: display_price(subscription.price) %>
+      <% end %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.purchases.account_name', default: 'Account Name'),
+                  value: @account.name,
+                  value_link_url: admin_account_path(@account) %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.purchases.owner', default: 'Owner'),
+                  value: @account.owner.name,
+                  value_link_url: admin_user_path(@account.owner) %>
+
+      <% if @purchase.processor_customer_id.present? %>
+        <% stripe_customer_link_content = capture do %>
+          <span>
+            <%= @purchase.processor_customer_id %>
+          </span>
+          <%= icon("square-arrow-out-up-right", size: "text-sm") %>
+        <% end %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.purchases.stripe_customer', default: 'Stripe Customer'),
+                    value: stripe_customer_link_content,
+                    value_link_url: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}customers/#{@purchase.processor_customer_id}",
+                    value_link_target: "_blank" %>
+      <% end %>
+    <% end %>
+
+  </div>
+
+</div>

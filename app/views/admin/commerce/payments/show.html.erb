@@ -1,0 +1,94 @@
+<%
+  payment_title = t('admin.payments.payment_from_account', default: '%{amount} payment from %{account}', amount: display_amount(@payment.amount), account: @account.name)
+%>
+
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= payment_title %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.payments.title', default: 'Payments'),
+                link: admin_payments_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: payment_title %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: payment_title %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/data_list/data_list",
+                border_top_and_bottom: true do %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.payments.amount', default: 'Payment amount'),
+                  value: "#{currency_symbol(@payment.currency)}#{display_amount(@payment.amount)}" %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.payments.date', default: 'Payment date'),
+                  value: @payment.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.payments.status', default: 'Payment status'),
+                  value: @payment.status.humanize %>
+
+      <% if @payment.purchase.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.payments.purchase_details', default: 'Purchase details'),
+                    value: t('admin.payments.purchase_of_product', default: '%{account}\'s purchase of %{product}', account: @account.name, product: @payment.purchase.product.name),
+                    value_link_url: admin_purchase_path(@payment.purchase) %>
+
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.payments.product_purchased', default: 'Product purchased'),
+                    value: @payment.purchase.product.name,
+                    value_link_url: admin_edit_product_path(@payment.purchase.product.slug) %>
+      <% end %>
+
+      <% if @payment.subscription.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.payments.subscription', default: 'Subscription'),
+                    value: @payment.subscription.product.name,
+                    value_link_url: admin_subscription_path(@payment.subscription) %>
+      <% end %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.accounts.account_name', default: 'Account Name'),
+                  value: @account.name,
+                  value_link_url: admin_account_path(@account) %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.accounts.owner', default: 'Owner'),
+                  value: @account.owner.name,
+                  value_link_url: admin_user_path(@account.owner) %>
+
+      <% if @payment.processor_payment_id.present? %>
+        <% stripe_payment_link_content = capture do %>
+          <span>
+            <%= @payment.processor_payment_id %>
+          </span>
+          <%= icon("square-arrow-out-up-right", size: "text-sm") %>
+        <% end %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.payments.stripe_payment', default: 'Stripe Payment'),
+                    value: stripe_payment_link_content,
+                    value_link_url: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}payments/#{@payment.processor_payment_id}",
+                    value_link_target: "_blank" %>
+      <% end %>
+
+    <% end %>
+
+  </div>
+
+</div>

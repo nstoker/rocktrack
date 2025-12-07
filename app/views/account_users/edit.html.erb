@@ -1,0 +1,59 @@
+<%
+  user = @account_user.user
+  user_name = user.name
+  is_me = current_user.id == user.id
+%>
+
+<%= content_for(:title) do %>
+  <%= t('teams.account_users.member_settings_title', name: user_name, default: '%{name} Member Settings') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.account_users.team_members', default: 'Team Members'),
+               link: account_users_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: user_name %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<% end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('teams.account_users.member_settings_header', name: user_name, default: '%{name} member settings') %>
+
+  <div class="space-y-8">
+    <% if user.account_owner?(@account) %>
+      <div class="bg-gray-50 dark:bg-gray-900 p-8 space-y-4 rounded-lg">
+        <h3><%= t('teams.account_users.account_owner_header', name: user_name, default: '%{name} owns this account.') %></h3>
+        <p><%= t('teams.account_users.account_owner_paragraph', name: user_name, role: @account_user.role, default: '%{name} has the role of %{role} and as the owner, %{name} has full access to all settings and management of other members.') %></p>
+      </div>
+    <% else %>
+      <%= render "account_users/form",
+                  account_user: @account_user,
+                  is_me: is_me %>
+
+      <%= link_to destroy_account_user_path(@account.slug, @account_user.id),
+                  class: "font-medium",
+                  data: {
+                    turbo_method: :delete,
+                    turbo_confirm: is_me ? t('teams.account_users.leave_confirm', team: @account.name, default: 'Do you really want to leave the %{team} team?') : t('teams.account_users.remove_confirm', name: user_name, team: @account.name, default: 'Do you really want to remove %{name} from %{team}?')
+                  } do %>
+        <span>
+          <%= is_me ? t('teams.account_users.leave_team', team: @account.name, default: 'Leave the %{team} team') : t('teams.account_users.remove_member', name: user_name, team: @account.name, default: 'Remove %{name} from %{team}') %>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

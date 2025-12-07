@@ -1,0 +1,68 @@
+<%
+  context = local_assigns[:context] # "new", "details", "prices", "button"
+
+  space_y = if context == "benefits"
+              "space-y-2"
+            else
+              "space-y-8"
+            end
+
+  actions_padding = if context == "benefits"
+                      "pt-2"
+                    else
+                      "pt-6"
+                    end
+%>
+
+<%= form_with(model: @plan,
+              url: @plan.new_record? ? admin_create_plan_path : admin_update_plan_path(@plan),
+              local: true) do |f| %>
+  <%= render 'shared/components/forms/errors', model: @plan %>
+  <%= f.hidden_field :active_panel, value: context %>
+
+  <div class="<%= space_y %>">
+
+    <% if ["new", "details"].include?(context) %>
+
+      <%= render "admin/commerce/plans/form/details",
+                  f: f,
+                  context: context %>
+
+    <% end %>
+
+
+    <% if ["new", "prices"].include?(context) %>
+
+      <%= render "admin/commerce/plans/form/prices",
+                  f: f,
+                  context: context %>
+
+    <% end %>
+
+    <% if context == "benefits" %>
+      <%= render "shared/components/forms/field",
+                  form: f,
+                  label: t('admin.plans.form.benefits_note', default: 'Benefits note'),
+                  name: :benefits_note,
+                  tooltip: t('admin.plans.form.benefits_note_tooltip', default: 'Optional small text shown above the list of benefits.') do %>
+        <%= f.text_field :benefits_note,
+                          placeholder: t('admin.plans.form.benefits_note_placeholder', default: 'Everything in Basic, plus...'),
+                          class: form_control_classes %>
+      <% end %>
+    <% end %>
+
+    <% if context == "button" %>
+
+      <%= render "admin/commerce/plans/form/button",
+                  f: f,
+                  context: context %>
+
+    <% end %>
+
+    <div class="<%= actions_padding %>">
+      <%= f.submit t('admin.plans.form.save', default: 'Save'), class: "btn btn-primary" %>
+    </div>
+
+  </div>
+
+<% end %>

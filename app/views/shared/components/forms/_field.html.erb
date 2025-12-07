@@ -1,0 +1,256 @@
+<%
+  # =================================================
+  # Field container, label, description, tooltip, etc.
+  # =================================================
+
+  # Form object & Field name
+  form = local_assigns[:form]
+  name = local_assigns[:name]
+
+  # Label
+  wrap_label = local_assigns.fetch(:wrap_label, false)
+  no_label = local_assigns.fetch(:no_label, false)
+  label = local_assigns[:label] || name.to_s.humanize
+  label_flex = local_assigns[:label_flex] || "inline-flex"
+  label_text_size = local_assigns[:label_text_size]
+  label_font_weight = local_assigns[:label_font_weight] || "font-medium"
+  label_text_color = local_assigns[:label_text_color] || "text-gray-400 dark:text-gray-600"
+  label_classes = local_assigns[:label_classes] # additional classes for label
+  label_all_classes = "#{label_flex} #{label_text_size} #{label_font_weight} #{label_text_color}"
+  label_data = local_assigns[:label_data]
+
+  # Description
+  description = local_assigns[:description]
+  description_position = local_assigns[:description_position] || "above" # above or below
+  description_text_size = local_assigns[:description_text_size]
+  description_text_color = local_assigns[:description_text_color] || "text-gray-400 dark:text-gray-600"
+  description_font_weight = local_assigns[:description_font_weight] || "font-medium"
+  description_classes = local_assigns[:description_classes] # additional classes for description
+  description_all_classes = "#{description_text_size} #{description_font_weight} #{description_text_color}"
+
+  # Tooltip
+  tooltip = local_assigns[:tooltip] # text for tooltip
+  tooltip_margin = local_assigns[:tooltip_margin]
+  tooltip_icon_size = local_assigns[:tooltip_icon_size]
+  tooltip_icon = local_assigns[:tooltip_icon]
+  tooltip_icon_color = local_assigns[:tooltip_icon_color]
+  tooltip_icon_position = local_assigns[:tooltip_icon_position]
+
+
+  # ========================================
+  # Special handling for certain field types
+  # ========================================
+
+  # Rich text field
+  rich_text_field = local_assigns.fetch(:rich_text_field, false)
+  hide_rich_text_toolbar = local_assigns.fetch(:hide_rich_text_toolbar, false)
+
+  # Select field
+  select_field = local_assigns.fetch(:select_field, false)
+
+  # Image upload field
+  image_upload_field = local_assigns.fetch(:image_upload_field, false)
+  image_object = local_assigns[:image_object]
+  attachment_name = local_assigns[:attachment_name]
+  delete_image_path = local_assigns[:delete_image_path]
+  preview_container_classes = local_assigns[:preview_container_classes]
+
+  # Avatar field
+  avatar_field = local_assigns.fetch(:avatar_field, false)
+  avatar_resource = local_assigns[:avatar_resource]
+
+  # Color field
+  color_field = local_assigns.fetch(:color_field, false)
+  color_value = local_assigns[:color_value]
+  color_placeholder = local_assigns[:color_placeholder]
+  color_required = local_assigns[:color_required]
+
+  # =================================================
+  # Input wrapper & end caps
+  # =================================================
+
+  # Prepend & Append caps on text fields
+  prepend_content = local_assigns[:prepend_content]
+  append_content = local_assigns[:append_content]
+  prepend_width = local_assigns[:prepend_width] || 'w-full xs:w-auto'
+  append_width = local_assigns[:append_width] || 'w-full xs:w-auto'
+  xpend_base_classes = local_assigns[:xpend_base_classes] || "py-3 px-4 xs:whitespace-nowrap border border-transparent"
+  xpend_bg_classes = local_assigns[:xpend_bg_classes] || "bg-gray-100 dark:bg-gray-800"
+  xpend_text_classes = local_assigns[:xpend_text_classes] || "font-medium text-gray-500 dark:text-gray-400"
+  xpend_ring_classes = local_assigns[:xpend_ring_classes] || "inset-ring-2 inset-ring-gray-200 dark:inset-ring-gray-700"
+  prevent_xpend = rich_text_field || select_field
+
+  # Input wrapper classes
+  input_wrapper_classes_override = local_assigns[:input_wrapper_classes]
+  input_wrapper_classes = if wrap_label
+                            "w-4 h-[1.5rem] flex items-center justify-center"
+                          elsif rich_text_field
+                            if hide_rich_text_toolbar
+                              "rich-text-container form-control hide-rich-text-toolbar"
+                            else
+                              "rich-text-container form-control"
+                            end
+                          elsif select_field
+                            "relative"
+                          elsif prepend_content.present? || append_content.present?
+                            "xs:flex xs:items-center xs:justify-start"
+                          end
+  input_wrapper_classes = input_wrapper_classes_override || input_wrapper_classes
+
+  # Container div
+  base_container_classes = if wrap_label
+                             "w-full"
+                           elsif rich_text_field
+                             "space-y-3 w-full"
+                           elsif image_upload_field
+                             if avatar_field
+                               "image-upload-field w-full"
+                             else
+                               "image-upload-field w-full space-y-2"
+                             end
+                           elsif color_field
+                             "color-field w-full"
+                           else
+                             "space-y-2 w-full"
+                           end
+  container_classes = local_assigns[:container_classes]
+  container_classes_override = local_assigns[:container_classes_override]
+  final_container_classes = if container_classes_override.present?
+                             "#{container_classes} #{container_classes_override}"
+                           else
+                             "#{base_container_classes} #{container_classes}"
+                           end
+  container_data = local_assigns[:container_data]
+  container_data_atts_html = data_attributes_html(container_data) if container_data.present?
+
+%>
+
+
+
+<% description_element = capture do %>
+  <% if description.present? %>
+    <div class="<%= description_all_classes %>">
+      <%= description %>
+    </div>
+  <% end %>
+<% end %>
+
+<% tooltip_element = capture do %>
+  <% if tooltip.present? %>
+    <%= render "shared/components/tooltip",
+                margin: tooltip_margin,
+                icon_size: tooltip_icon_size,
+                icon: tooltip_icon,
+                icon_color: tooltip_icon_color,
+                icon_position: tooltip_icon_position do %>
+      <%= tooltip %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% input_yield = capture do %>
+  <% if image_upload_field %>
+    <%= render "shared/components/forms/image_upload",
+                image_object: image_object,
+                attachment_name: attachment_name,
+                delete_image_path: delete_image_path,
+                preview_container_classes: preview_container_classes,
+                avatar_field: avatar_field,
+                avatar_resource: avatar_resource do %>
+      <%= yield %>
+    <% end %>
+  <% elsif color_field %>
+    <%= render "shared/components/forms/color",
+                value: color_value,
+                placeholder: color_placeholder,
+                required: color_required do %>
+      <%= yield %>
+    <% end %>
+  <% else %>
+    <div class="<%= input_wrapper_classes %>">
+      <% if prepend_content && !prevent_xpend %>
+        <div class="<%= prepend_width %> <%= xpend_base_classes %> <%= xpend_bg_classes %> <%= xpend_text_classes %> <%= xpend_ring_classes %>
+                    rounded-tl rounded-tr inset-ring-r-0
+                    xs:rounded-tr-none xs:rounded-tl xs:rounded-bl">
+          <%= prepend_content %>
+        </div>
+      <% end %>
+      <%= yield %>
+      <% if append_content && !prevent_xpend %>
+        <div class="<%= append_width %> <%= xpend_base_classes %> <%= xpend_bg_classes %> <%= xpend_text_classes %> <%= xpend_ring_classes %>
+                    rounded-bl rounded-br
+                    xs:rounded-bl-none xs:rounded-tr xs:rounded-br">
+          <%= append_content %>
+        </div>
+      <% end %>
+      <% if select_field %>
+        <div class="absolute top-3.25 right-3.75 text-gray-400 dark:text-gray-500">
+          <%= icon("chevron-down") %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="<%= final_container_classes %>"
+     <%= container_data_atts_html %>>
+
+  <% if wrap_label %>
+
+    <% wrapped_content = capture do %>
+      <div class="flex items-start space-x-2">
+        <%= input_yield %>
+        <div class="flex-1 min-h-[1.5rem]">
+          <%= label %>
+          <%= tooltip_element %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if form.present? %>
+      <%= form.label name,
+                    class: label_all_classes,
+                    data: label_data do %>
+        <%= wrapped_content %>
+      <% end %>
+    <% else %>
+      <%= label_tag name,
+                    class: label_all_classes,
+                    data: label_data do %>
+        <%= wrapped_content %>
+      <% end %>
+    <% end %>
+
+  <% else %>
+
+    <% unless no_label %>
+
+      <% if form.present? %>
+        <%= form.label name,
+                      class: label_all_classes,
+                      data: label_data do %>
+          <%= label %>
+          <%= tooltip_element %>
+        <% end %>
+      <% else %>
+        <%= label_tag name,
+                      class: label_all_classes,
+                      data: label_data do %>
+          <%= label %>
+          <%= tooltip_element %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if description.present? && description_position == "above" %>
+      <%= description_element %>
+    <% end %>
+
+    <%= input_yield %>
+
+    <% if description.present? && description_position == "below" %>
+      <%= description_element %>
+    <% end %>
+
+  <% end %>
+</div>

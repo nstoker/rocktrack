@@ -1,0 +1,22 @@
+<%
+  link = local_assigns[:link]
+  text = local_assigns[:text]
+  text_color = local_assigns[:text_color] || "text-black dark:text-white"
+
+  classes = local_assigns[:classes]
+%>
+
+<div class="hidden last:inline-block mr-3 last:mr-0
+            lg:inline-block">
+  <% if link %>
+    <%= link_to link,
+                class: classes do %>
+      <%= text %>
+    <% end %>
+  <% else %>
+    <div class="<%= classes %>
+                <%= text_color %>">
+      <%= text %>
+    </div>
+  <% end %>
+</div>

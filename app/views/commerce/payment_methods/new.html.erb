@@ -1,0 +1,44 @@
+<%= content_for(:title) do %>
+  <%= @account.name %> <%= t('commerce.payment_methods.title', default: 'Payment Methods') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payment_methods.breadcrumbs.billing', default: 'Billing'),
+               link: billing_overview_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payment_methods.breadcrumbs.payment_methods', default: 'Payment Methods'),
+               link: payment_methods_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payment_methods.breadcrumbs.new', default: 'New') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('commerce.payment_methods.new', default: 'New Payment Method'),
+              button_link_path: payment_methods_path(@account.slug),
+              button_link_text: t('commerce.payment_methods.all', default: 'All Payment Methods'),
+              button_link_icon: "credit-card",
+              button_link_classes: "btn btn-secondary" %>
+
+  <div>
+
+      <%= render "commerce/payment_methods/form",
+                  payment_method: @payment_method %>
+
+  </div>
+
+</div>

@@ -1,0 +1,43 @@
+<%
+  passed_value = local_assigns[:coupon] || params[:coupon]
+  prefill_value = if passed_value.present? && passed_value != "true"
+                    passed_value
+                  else
+                    nil
+                  end
+%>
+
+<%= render "shared/components/forms/field",
+            label: t('commerce.checkout.coupon_field.label', default: 'Coupon Code'),
+            name: :coupon_code,
+            container_classes: "flex-1 hidden",
+            container_data: {
+              controller: "commerce--coupon",
+              "commerce--coupon-url-coupon-value": passed_value,
+              "commerce--coupon-context-value": "field",
+              "commerce--coupon-coupon-applied-message-value": t('commerce.checkout.coupon_applied_message'),
+              "commerce--coupon-invalid-coupon-message-value": t('commerce.checkout.invalid_coupon_message'),
+              "commerce--coupon-error-checking-coupon-message-value": t('commerce.checkout.error_checking_coupon_message')
+            } do %>
+  <div class="space-y-2
+              sm:flex sm:items-start sm:space-y-0">
+
+    <%= text_field_tag :coupon_code,
+        prefill_value,
+        placeholder: t('commerce.checkout.coupon_field.placeholder', default: 'Coupon Code'),
+        class: form_control_classes + " flex-1",
+        data: {
+          "commerce--coupon-target": "input",
+          "action": "keyup->commerce--coupon#validateCoupon"
+        } %>
+    <div class="hidden px-4 py-3 rounded bg-amber-100 dark:bg-amber-900 font-medium relative top-[2px]
+                sm:ml-2"
+        data-commerce--coupon-target="fieldValidationMessage">
+      <span class="hidden" data-commerce--coupon-target="fieldCheckingMessage">
+        <%= icon("loader-circle", class: "animate-spin") %>
+      </span>
+      <span class="hidden" data-commerce--coupon-target="fieldSuccessMessage"></span>
+      <span class="hidden" data-commerce--coupon-target="fieldFailureMessage"></span>
+    </div>
+  </div>
+<% end %>

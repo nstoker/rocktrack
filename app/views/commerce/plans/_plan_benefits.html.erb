@@ -1,0 +1,33 @@
+<div class="space-y-4 px-4">
+
+  <% if plan.benefits_note.present? %>
+    <div class="font-medium">
+      <%= plan.benefits_note %>
+    </div>
+  <% end %>
+
+  <% if plan.benefits.any? %>
+    <div class="space-y-4">
+      <% plan.plan_benefits.order(:position).each do |plan_benefit| %>
+        <div class="flex items-start justify-start">
+          <div class="w-8 h-[1.6rem] flex items-center justify-left text-primary">
+            <%= icon("circle-check", size: 20) %>
+          </div>
+          <div class="flex-1 min-h-[1.5rem] font-medium">
+            <%= plan_benefit.benefit.benefit_text %>
+
+            <% if plan_benefit.benefit.tooltip.present? %>
+              <%= render "shared/components/tooltip",
+                          tooltip_icon_color: "text-gray-400 dark:text-gray-500" do %>
+                <%= plan_benefit.benefit.tooltip %>
+              <% end %>
+            <% end %>
+          </div>
+
+        </div>
+
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

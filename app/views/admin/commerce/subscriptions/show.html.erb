@@ -1,0 +1,120 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.subscriptions.subscription_to_product', default: '%{account}\'s subscription to %{product}', account: @account.name, product: @subscription.product.name) %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.subscriptions.title', default: 'Subscriptions'),
+                link: admin_subscriptions_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @subscription.product.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% subscription_actions = capture do %>
+    <%= render "admin/commerce/subscriptions/subscription_settings",
+                subscription: @subscription,
+                context: "show" %>
+  <% end %>
+  <%= render "shared/components/page_header",
+              title: t('admin.subscriptions.subscription_to_product', default: '%{account}\'s subscription to %{product}', account: @account.name, product: @subscription.product.name),
+              custom_meta_content: subscription_actions %>
+
+  <div class="space-y-20">
+
+    <%= render "shared/components/data_list/data_list",
+                border_top_and_bottom: true do %>
+
+      <% account_link = capture do %>
+        <%= link_to @account.name, admin_account_path(@account) %>
+      <% end %>
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.subscriptions.account_name', default: 'Account Name'),
+                  value: account_link %>
+
+      <% account_owner_link = capture do %>
+        <%= link_to @account.owner.name, admin_user_path(@account.owner) %>
+      <% end %>
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.subscriptions.owner', default: 'Owner'),
+                  value: account_owner_link %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.subscriptions.product_purchased', default: 'Product purchased'),
+                value: @subscription.product.name,
+                value_link_url: admin_edit_product_path(@subscription.product.slug) %>
+
+      <% if @subscription.price.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.subscriptions.price', default: 'Price'),
+                    value: display_price(@subscription.price),
+                    value_description: @subscription.price.name %>
+      <% end %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.subscriptions.status', default: 'Status'),
+                  value: @subscription.status_label_text %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('admin.subscriptions.subscription_started', default: 'Subscription Started'),
+                  value: @subscription.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") %>
+
+      <% if @subscription.current_period_end.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: @subscription.cancellation_scheduled? ? t('admin.subscriptions.cancellation_scheduled_for', default: 'Cancellation Scheduled for') : t('admin.subscriptions.next_billing_date', default: 'Next Billing Date'),
+                    value: @subscription.current_period_end.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y") %>
+      <% end %>
+
+      <% if @subscription.cancellation_date.present? && !@subscription.cancellation_scheduled? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.subscriptions.cancellation_date', default: 'Cancellation Date'),
+                    value: @subscription.cancellation_date.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y") %>
+      <% end %>
+
+      <% if @subscription.cancellation_reason.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.subscriptions.cancellation_reason', default: 'Cancellation Reason'),
+                    value: @subscription.cancellation_reason %>
+      <% end %>
+
+      <% if @subscription.processor_subscription_id.present? %>
+        <% stripe_subscription_link_content = capture do %>
+          <span>
+            <%= @subscription.processor_subscription_id %>
+          </span>
+          <%= icon("square-arrow-out-up-right", size: "text-sm") %>
+        <% end %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('admin.subscriptions.stripe_subscription', default: 'Stripe Subscription'),
+                    value: stripe_subscription_link_content,
+                    value_link_url: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}subscriptions/#{@subscription.processor_subscription_id}",
+                    value_link_target: "_blank" %>
+      <% end %>
+
+    <% end %>
+
+    <% if @subscription.payments.any? %>
+      <div class="space-y-6">
+        <h3>
+          <%= t('admin.subscriptions.payments', default: 'Payments') %>
+        </h3>
+        <%= render "shared/components/listings/listings" do %>
+          <% @subscription.payments.each do |payment| %>
+            <%= render "admin/commerce/payments/payment_listing",
+                        payment: payment %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

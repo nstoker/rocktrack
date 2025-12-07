@@ -1,0 +1,36 @@
+<%= content_for(:title) do %>
+  <%= t('commerce.subscriptions.show.title', product: @subscription.product.name, default: 'Subscription for %{product}') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.subscriptions.breadcrumbs.settings', default: 'Settings'),
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.subscriptions.breadcrumbs.billing', default: 'Billing'),
+               link: billing_overview_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.subscriptions.breadcrumbs.subscription', product: @subscription.product.name, default: 'Subscription for %{product}') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('commerce.subscriptions.show.title', product: @subscription.product.name, default: 'Subscription for %{product}') %>
+
+  <%= render "commerce/subscriptions/subscription_details",
+              subscription: @subscription %>
+
+</div>

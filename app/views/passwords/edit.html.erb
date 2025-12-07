@@ -1,0 +1,49 @@
+<%= content_for(:title, t('authentication.passwords.title', default: 'Reset your password')) %>
+
+<%= form_with(url: password_path(params[:token]),
+              method: :put,
+              class: "") do |f| %>
+  <%= render "shared/components/forms/errors",
+              model: @user %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('authentication.passwords.new_password_label', default: 'New password'),
+                name: :password do %>
+      <%= f.password_field :password,
+                            placeholder: t('authentication.passwords.new_password_placeholder', default: 'Create a password'),
+                            class: form_control_classes,
+                            autofocus: true %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('authentication.passwords.confirm_password_label', default: 'Repeat your password'),
+                name: :password_confirmation do %>
+      <%= f.password_field :password_confirmation,
+                            placeholder: t('authentication.passwords.confirm_password_placeholder', default: 'Repeat your password'),
+                            class: form_control_classes %>
+    <% end %>
+
+    <div class="space-y-6 text-center pt-2">
+      <%= f.submit t('authentication.passwords.submit_reset', default: 'Reset password'),
+                    class: "w-full text-center btn btn-primary btn-large" %>
+
+      <div class="space-y-4 font-medium
+                  sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:space-x-4">
+        <div>
+          <%= link_to new_session_path,
+                      class: "inline-block ml-2" do %>
+            <%= t('authentication.sessions.submit', default: 'Sign in') %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<% end %>

@@ -1,0 +1,76 @@
+<%
+  # Used for all image upload fields
+  image_object = local_assigns[:image_object]
+  attachment_name = local_assigns[:attachment_name]
+  delete_image_path = local_assigns[:delete_image_path]
+  preview_container_classes = local_assigns[:preview_container_classes]
+
+  # Use these when it's an avatar image field
+  avatar_field = local_assigns.fetch(:avatar_field, false)
+  avatar_resource = local_assigns[:avatar_resource]
+
+  wrapper_classes = if avatar_field
+                      "flex flex-wrap items-center space-x-4 justify-start mt-4"
+                    else
+                      "space-y-4"
+                    end
+%>
+
+<div class="space-y-3">
+  <div class="<%= wrapper_classes %>"
+      data-controller="components--image-upload">
+
+    <% if avatar_field %>
+      <div class="w-16 h-16 relative">
+        <%= render "shared/components/avatar",
+                    resource: avatar_resource,
+                    size: 64 %>
+        <%= image_tag("preview.png",
+                      width: "100%",
+                      height: "100%",
+                      data: {
+                        "components--image-upload-target": "output"
+                      },
+                      class: "absolute top-0 left-0 rounded-full") %>
+      </div>
+    <% end %>
+
+    <div class="group cursor-pointer relative">
+      <div class="relative z-50 opacity-0">
+        <%= yield %>
+      </div>
+      <label class="inline-flex items-center space-x-2 px-4 py-2 mb-0 rounded font-medium cursor-pointer bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300
+                    absolute left-0 z-10 <%= avatar_field ? '-top-2' : 'top-0' %>
+                    group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black">
+        <%= icon("image", size: "text-sm", classes: "mr-2") %>
+        <span class="whitespace-nowrap">
+          <%= image_object.present? ? t('forms.image_upload.change', default: 'Change') : t('forms.image_upload.select', default: 'Select') %> image
+        </span>
+      </label>
+    </div>
+    <% unless avatar_field %>
+      <div class="<%= preview_container_classes %>">
+        <% if image_object.present? %>
+          <%= image_tag image_object,
+                        class: "w-full",
+                        data: {
+                          "components--image-upload-target": "savedImage"
+                        } %>
+        <% end %>
+        <%= image_tag("preview.png",
+                      data: {
+                        "components--image-upload-target": "output"
+                      },
+                      class: "hidden") %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if image_object.present? ||
+        (avatar_field && avatar_resource.present? && avatar_resource.avatar.present?) %>
+    <%= link_to delete_image_path,
+                class: "flex items-center space-x-2 font-medium mt-2" do %>
+      <span><%= t('forms.image_upload.remove', default: 'Remove image') %></span>
+    <% end %>
+  <% end %>
+</div>

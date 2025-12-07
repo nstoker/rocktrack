@@ -1,0 +1,64 @@
+<%
+  context = local_assigns[:context]
+  if context == "direct"
+    form_url = benefit.new_record? ? admin_create_benefit_path : admin_update_benefit_path(benefit)
+  else # context == "plan"
+    form_url = benefit.new_record? ? admin_create_plan_benefit_path(plan_id: plan.id) : admin_update_benefit_on_plan_path(id: plan_benefit.id)
+  end
+%>
+
+<%= form_with(model: benefit,
+              url: form_url,
+              local: true) do |f| %>
+  <div class="space-y-6">
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.benefits.form.name', default: 'Benefit Name'),
+                name: :name do %>
+      <%= f.text_field :name,
+                      autofocus: true,
+                      placeholder: t('admin.benefits.form.name_placeholder', default: 'Benefit Name'),
+                      class: form_control_classes %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.benefits.form.text', default: 'Benefit Text'),
+                name: :benefit_text do %>
+      <%= f.text_field :benefit_text,
+                          autofocus: true,
+                          placeholder: t('admin.benefits.form.text_placeholder', default: 'Benefit Text'),
+                          class: form_control_classes %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('admin.benefits.form.tooltip', default: 'Tooltip'),
+                name: :tooltip do %>
+      <%= f.text_field :tooltip,
+                        autofocus: true,
+                        placeholder: t('admin.benefits.form.tooltip_placeholder', default: 'Tooltip'),
+                        class: form_control_classes %>
+    <% end %>
+
+    <div class="pt-3 flex items-center space-x-2">
+      <%= f.submit t('admin.benefits.form.save', default: 'Save'), class: "btn btn-primary" %>
+
+      <% unless context == "direct" %>
+        <% if benefit.new_record? %>
+          <%= link_to t('admin.benefits.form.assign_existing', default: 'Assign existing benefit...'),
+                      admin_render_assign_benefit_select_path(plan_id: plan.id),
+                      class: "btn btn-ghost",
+                      data: { turbo_stream: true } %>
+        <% end %>
+
+        <%= link_to t('admin.common.cancel', default: 'Cancel'),
+                    "#",
+                    class: "btn btn-ghost",
+                    data: { turbo_stream: turbo_stream.update("new_plan_benefit", partial: "admin/commerce/plan_benefits/add_benefit_button") } %>
+
+      <% end %>
+    </div>
+  </div>
+<% end %>

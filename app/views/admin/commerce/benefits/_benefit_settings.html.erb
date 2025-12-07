@@ -1,0 +1,47 @@
+<%
+  context = local_assigns[:context] # "index" or "plan"
+  unless context == "index"
+    plan_benefit = local_assigns[:plan_benefit]
+    plan = plan_benefit.plan
+    benefit = plan_benefit.benefit
+  end
+%>
+
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-64" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.benefits.settings.edit', default: 'Edit Benefit'),
+             link_path: context == "index" ? admin_edit_benefit_path(benefit) : admin_edit_benefit_on_plan_path(id: plan_benefit.id),
+             icon_name: "square-pen",
+             data: {
+               turbo_frame: context == "index" ? nil : dom_id(benefit),
+               turbo_stream: context == "index" ? nil : true
+             } %>
+
+  <% unless context == "index" %>
+    <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.benefits.settings.remove_from_plan', plan: plan.name, default: 'Remove from %{plan}'),
+             link_path: admin_destroy_plan_benefit_path(id: plan_benefit.id),
+             icon_name: "x",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.benefits.settings.confirm_remove_from_plan', plan: plan.name, default: 'Really remove this benefit from %{plan}?  The benefit itself will not be deleted.')
+             } %>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.benefits.settings.delete', default: 'Delete Benefit'),
+             link_path: context == "index" ? admin_destroy_benefit_path(benefit) : admin_delete_benefit_on_plan_path(id: plan_benefit.id),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.benefits.settings.confirm_delete', default: 'Really delete this benefit?  This will permanently delete this benefit from this and all other plans.')
+             } %>
+
+<% end %>

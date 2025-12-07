@@ -1,0 +1,15 @@
+<% if @product.prices.any? %>
+  <% @product.prices.each do |price| %>
+    <% if price.persisted? %>
+      <%= turbo_frame_tag dom_id(price) do %>
+        <%= render "admin/commerce/prices/price",
+                    product: @product,
+                    price: price %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>
+    <%= t('admin.prices.no_prices', default: 'No prices set for this product.') %>
+  </p>
+<% end %>

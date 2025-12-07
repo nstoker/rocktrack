@@ -1,0 +1,45 @@
+<%
+  back_link_path = local_assigns[:back_link_path]
+  back_link_text = local_assigns[:back_link_text] || t('subnav.back', default: 'Back')
+  back_link_icon = local_assigns[:back_link_icon] || "arrow-left"
+  id = local_assigns[:id]
+%>
+
+<div class="relative space-y-0
+            md:space-y-10"
+     id="<%= id %>"
+     data-controller="components--subnav">
+
+  <% if back_link_path.present? %>
+    <div class="hidden
+                md:block">
+      <%= link_to back_link_path,
+                  class: "btn btn-ghost btn-small text-gray-400 dark:text-gray-600" do %>
+        <%= icon(back_link_icon, size: "text-sm") %>
+        <span class="">
+          <%= back_link_text %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex items-center space-x-4 bg-gray-50 dark:bg-gray-800 py-3 px-4 rounded
+              md:hidden"
+       data-action="click->components--subnav#toggle">
+    <div class="flex-1"
+         data-components--subnav-target="activeItemText">
+    </div>
+    <div>
+      <%= icon("chevron-down",
+                size: "text-sm",
+                data: { "components--subnav-target": "activeItemChevron" }) %>
+    </div>
+  </div>
+
+  <div class="hidden absolute bg-gray-50 dark:bg-gray-800 rounded top-12 left-0 w-full py-2 px-1.5 space-y-2 z-50
+              md:block md:static md:py-0 md:px-0 md:bg-transparent md:dark:bg-transparent"
+       data-components--subnav-target="menu">
+    <%= yield %>
+  </div>
+
+</div>

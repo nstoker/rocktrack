@@ -1,0 +1,53 @@
+<%
+  logo_format = local_assigns[:logo_format] || "full" # "full" is the full logo in rectangular format, "icon" is just the icon or initial in square format
+  link_path = local_assigns[:link_path] || nil
+  link_classes = local_assigns[:link_classes] || (logo_format == "icon" ? "w-10 h-10 flex items-center justify-center" : "inline-block")
+  container_classes = local_assigns[:container_classes] || logo_format == "icon" ? "w-10 h-10 flex items-center justify-center" : "inline-block"
+  image = local_assigns[:image] || nil # the light mode image, or if no dark mode image is provided, this will be used in both light and dark mode
+  dark_mode_image = local_assigns[:dark_mode_image] || nil # optional dark mode image
+  alt_text = local_assigns[:alt_text] || Rails.application.class.module_parent_name
+  logo_text = local_assigns[:logo_text] || (logo_format == "full" ? alt_text : alt_text.first.to_s.upcase)
+  height = local_assigns[:height] || "h-10"
+  width = local_assigns[:width] || (logo_format == "icon" ? "w-10" : "w-auto")
+  background = local_assigns[:background] || "bg-gray-300 dark:bg-gray-600"
+  text_color = local_assigns[:text_color] || "text-gray-600 dark:text-white"
+  text_container_classes = if logo_format == "full"
+                              "inline-block py-2 px-4 rounded-sm font-semibold #{background} #{text_color}"
+                            else
+                              "flex flex-col items-center justify-center rounded-sm font-semibold #{height} #{width} #{background} #{text_color}"
+                            end
+  image_classes = local_assigns[:image_classes] # Use this to add additional classes to the logo image (both light and dark mode)
+  light_mode_image_classes = local_assigns[:light_mode_image_classes] || dark_mode_image.present? ? "dark:hidden" : nil
+  dark_mode_image_classes = local_assigns[:dark_mode_image_classes] || "hidden dark:block"
+%>
+
+<% logo_content = capture do %>
+  <% if image.present? || dark_mode_image.present? %>
+    <% if image.present? %>
+      <%= image_tag image,
+                    alt: alt_text,
+                    class: "#{height} #{width} #{light_mode_image_classes} #{image_classes}" %>
+    <% end %>
+    <% if dark_mode_image.present? %>
+      <%= image_tag dark_mode_image,
+                    alt: alt_text,
+                    class: "#{height} #{width} #{dark_mode_image_classes} #{image_classes}" %>
+    <% end %>
+  <% else %>
+    <div class="<%= text_container_classes %>">
+      <%= logo_text %>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% if link_path.present? %>
+  <%= link_to link_path,
+              class: link_classes do %>
+    <%= logo_content %>
+  <% end %>
+<% else %>
+  <div class="<%= container_classes %>">
+    <%= logo_content %>
+  </div>
+<% end %>

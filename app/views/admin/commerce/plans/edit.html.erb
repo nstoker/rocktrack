@@ -1,0 +1,97 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= @plan.name %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.plans.title', default: 'Plans'),
+                link: admin_plans_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @plan.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: "#{@plan.name}" %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/panels/panels",
+                id: "edit-plan" do %>
+      <%= render "shared/components/panels/panel",
+                panel_id: "details",
+                title: t('admin.plans.panels.details.title', default: 'Plan Details'),
+                description: t('admin.plans.panels.details.description', default: 'Name, description, image, etc.'),
+                icon_name: "info" do %>
+        <%= render "admin/commerce/plans/form",
+                    plan: @plan,
+                    context: "details" %>
+      <% end %>
+
+      <%= render "shared/components/panels/panel",
+                panel_id: "prices",
+                title: t('admin.plans.panels.prices.title', default: 'Plan Price(s)'),
+                description: t('admin.plans.panels.prices.description', default: 'Price(s) for this plan.'),
+                icon_name: "banknote" do %>
+        <%= render "admin/commerce/plans/form",
+                    plan: @plan,
+                    context: "prices" %>
+      <% end %>
+
+      <%= render "shared/components/panels/panel",
+                panel_id: "benefits",
+                title: t('admin.plans.panels.benefits.title', default: 'Benefits'),
+                description: t('admin.plans.panels.benefits.description', default: 'List benefits shown for this plan.'),
+                icon_name: "list" do %>
+
+        <div>
+          <%= render "admin/commerce/plans/form",
+                      plan: @plan,
+                      context: "benefits" %>
+        </div>
+
+        <div class="pt-8 pb-6">
+          <hr class="border border-gray-300 dark:border-gray-700" />
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <%= turbo_frame_tag "plan_benefits" do %>
+              <%= render "admin/commerce/plan_benefits/plan_benefits",
+                          plan: @plan %>
+            <% end %>
+          </div>
+
+          <div>
+            <%= turbo_frame_tag "new_plan_benefit" do %>
+              <%= render "admin/commerce/plan_benefits/add_benefit_button" %>
+            <% end %>
+          </div>
+        </div>
+
+      <% end %>
+
+      <%= render "shared/components/panels/panel",
+                panel_id: "button",
+                title: t('admin.plans.panels.button.title', default: 'Button'),
+                description: t('admin.plans.panels.button.description', default: 'The button and related texts.'),
+                icon_name: "mouse-pointer-click" do %>
+        <%= render "admin/commerce/plans/form",
+                    plan: @plan,
+                    context: "button" %>
+      <% end %>
+
+
+    <% end %>
+
+  </div>
+
+</div>

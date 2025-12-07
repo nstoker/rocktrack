@@ -8,6 +8,11 @@ Bundler.require(*Rails.groups)
 
 module Rocktrack
   class Application < Rails::Application
+    # Set default locale
+    config.i18n.default_locale = :en
+
+    # Load locale files
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "*.{rb,yml}")]
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
 

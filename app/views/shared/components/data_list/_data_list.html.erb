@@ -1,0 +1,20 @@
+<%
+  border_top_and_bottom = local_assigns.fetch(:border_top_and_bottom, false)
+  border_color = local_assigns[:border_color] || 'border-gray-200 dark:border-gray-700'
+  divide_color = local_assigns[:divide_color] || 'divide-gray-200 dark:divide-gray-700'
+  divide_y = local_assigns[:divide_y] || 'divide-y'
+  classes = local_assigns[:classes]
+
+  data = local_assigns[:data] || {}
+
+  # Convert the merged data hash to HTML attributes
+  link_data_atts_html = data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe
+
+%>
+
+<div class="w-full
+            <%= 'border-t border-b '+border_color if border_top_and_bottom %>
+            <%= 'divide-y '+divide_color if divide_y %>
+            <%= classes %>">
+  <%= yield %>
+</div>

@@ -1,0 +1,52 @@
+<%= content_for(:title) do %>
+  <%= t('teams.accounts.my_accounts', default: 'My Accounts') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.accounts.my_accounts', default: 'My Accounts') %>
+  <% end %>
+<% end %>
+
+<% if @account.present? && current_user.account_admin?(@account) %>
+  <%= content_for(:side_col) do %>
+     <%= render "accounts/account_subnav" %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @accounts.any? %>
+    <%= render "shared/components/page_header",
+                title: t('teams.accounts.my_accounts', default: 'My Accounts'),
+                button_link_path: new_account_path,
+                button_link_text: t('teams.accounts.add_account', default: 'Add Account') %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% multiple_accounts = @accounts.length > 1 %>
+        <% @accounts.each do |account| %>
+          <%= render "accounts/account_listing",
+                      account: account,
+                      multiple_accounts: multiple_accounts %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                description: t('teams.accounts.you_dont_belong_to_accounts', default: "You don't belong to accounts"),
+                singular_object_name: "account",
+                new_path: new_account_path %>
+  <% end %>
+
+</div>

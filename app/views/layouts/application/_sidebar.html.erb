@@ -1,0 +1,32 @@
+<div class="hidden  border-r border-gray-200 dark:border-gray-700 top-0 left-0 right-auto w-full h-full z-40
+            sm:w-3/5
+            md:w-2/5
+            lg:block lg:h-full lg:left-0 lg:right-auto lg:w-1/4
+            xl:w-1/5
+            2xl:w-1/6">
+  <div class="relative flex items-center justify-between space-x-2 mb-12
+              lg:mb-16">
+    <%= render "shared/components/logo",
+                
+                
+                
+                link_path: root_path,
+                link_classes: "py-6 px-6 lg:py-4 lg:px-4" %>
+  </div>
+
+  <%= render "layouts/global/nav",
+              container_classes: "space-y-1 px-2
+                                  lg:fixed lg:overflow-y-auto lg:h-screen lg:w-1/4
+                                  xl:w-1/5
+                                  2xl:w-1/6",
+              link_container_classes: "group/nav-link rounded",
+              active_link_container_classes: "bg-gray-50 dark:bg-gray-950",
+              inactive_link_container_classes: "hover:bg-gray-50 dark:hover:bg-gray-950",
+              link_padding: "py-3 pl-2 pr-4",
+              link_classes: "rounded",
+              inactive_icon_container_classes: "text-gray-600 dark:text-gray-200",
+              active_icon_container_classes: "text-black dark:text-white",
+              inactive_label_classes: "text-primary dark:text-primary font-medium
+                                       group-hover/nav-link:text-black dark:group-hover/nav-link:text-white",
+              active_label_classes: "text-black dark:text-white font-medium" %>
+</div>

@@ -1,0 +1,91 @@
+<%
+  subscription = local_assigns[:subscription]
+%>
+
+<div class="space-y-8">
+
+  <%= render "shared/components/data_list/data_list",
+              border_top_and_bottom: true do %>
+    <% plan_value_description = capture do %>
+      <div class="inline-flex items-center gap-2">
+        <div class="text-sm text-gray-400 dark:text-gray-600 font-medium">
+          <%= subscription.price.name %>
+        </div>
+        <% if @account.active_subscription? && ::Commerce::Plan.active.count > 1 %>
+          <div>
+            <%= link_to edit_plan_path(account_slug: @account.slug, id: subscription.id),
+                        class: "text-sm font-medium" do %>
+              Change
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+                label: t('commerce.subscriptions.details.plan_label', default: 'Plan'),
+                value: subscription.product.name,
+                value_description: plan_value_description %>
+
+    <%= render "shared/components/data_list/data_list_item",
+                label: t('commerce.subscriptions.details.price_label', default: 'Price'),
+                value: display_price(subscription.price),
+                value_description: @account.active_subscription? ? nil : t('commerce.subscriptions.details.cancelled', default: 'Cancelled') %>
+
+    <% payment_method_value = capture do %>
+      <%= render "commerce/subscriptions/payment_method",
+                  subscription: subscription %>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+          label: t('commerce.subscriptions.details.payment_method_label', default: 'Payment Method'),
+          custom_value: payment_method_value %>
+
+    <% status_value = capture do %>
+      <% if subscription.cancellation_scheduled? %>
+        <%= t('commerce.subscriptions.details.cancellation_scheduled', date: subscription.cancellation_date.strftime("%B %-d, %Y"), default: 'Cancellation scheduled for %{date}') %>
+      <% else %>
+        <%= subscription.status.humanize %>
+      <% end %>
+    <% end %>
+    <%= render "shared/components/data_list/data_list_item",
+                label: t('commerce.subscriptions.details.status_label', default: 'Status'),
+                value: status_value %>
+
+    <% if ["active", "trialing"].include?(subscription.status) &&
+          subscription.current_period_end &&
+          subscription.current_period_end > Time.current &&
+          !subscription.cancellation_scheduled? %>
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('commerce.subscriptions.details.next_billing_label', default: 'Next billing date'),
+                  value: subscription.current_period_end.strftime("%B %-d, %Y") %>
+    <% end %>
+
+    <%= render "shared/components/data_list/data_list_item",
+                label: t('commerce.subscriptions.details.purchase_label', default: 'Purchase details'),
+                value: t('commerce.subscriptions.details.view', default: 'View'),
+                value_link_url: purchase_path(account_slug: @account.slug, id: subscription.purchase.id) %>
+  <% end %>
+
+  <% if subscription.cancellation_scheduled? || subscription.cancelled? %>
+    <% resume_link_url = if subscription.cancellation_scheduled?
+                            resume_subscription_path(@account.slug, subscription)
+                          else
+                            plans_path
+                          end
+    %>
+    <%= link_to resume_link_url,
+                class: "btn btn-primary" do %>
+      <%= icon("rocket", size: "text-sm") %>
+      <span>
+        <%= t('commerce.subscriptions.details.resume', default: 'Resume subscription') %>
+      </span>
+    <% end %>
+
+  <% else %>
+
+    <%= link_to t('commerce.subscriptions.details.cancel', default: 'Cancel subscription'),
+                cancel_subscription_path(@account.slug, subscription),
+                class: "font-medium text-gray-400 dark:text-gray-600
+                        hover:text-black dark:hover:text-white" %>
+  <% end %>
+
+</div>

@@ -1,0 +1,10 @@
+<p>
+  <%= t('teams.invitation_mailer.invitation_accepted', name: @invited_user.name, account: @invitation.account.name, default: '%{name} has accepted your invitation to join %{account}') %>
+</p>
+
+<p style="margin-top: 35px;">
+  <%= link_to @manage_member_url,
+      style: @button_style do %>
+    <%= t('teams.invitation_mailer.manage_member_settings', name: @invited_user.name, default: "Manage %{name}'s member settings") %>
+  <% end %>
+</p>

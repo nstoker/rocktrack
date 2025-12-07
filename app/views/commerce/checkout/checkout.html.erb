@@ -1,0 +1,27 @@
+<% content_for :page_max_width, "max-w-6xl" %>
+
+<%= content_for(:title) do %>
+  <%= t('commerce.checkout.title', default: 'Checkout') %>
+<% end %>
+
+<div class="checkout-container
+            space-y-8
+            md:flex md:items-start md:gap-8 md:space-y-0"
+     data-controller="commerce--coupon"
+     data-commerce--coupon-url-coupon-value="<%= params[:coupon] %>"
+     data-commerce--coupon-round-direction-value="down"
+     data-commerce--coupon-coupon-applied-message-value="<%= t('commerce.checkout.coupon_applied_message') %>"
+     data-commerce--coupon-invalid-coupon-message-value="<%= t('commerce.checkout.invalid_coupon_message') %>"
+     data-commerce--coupon-error-checking-coupon-message-value="<%= t('commerce.checkout.error_checking_coupon_message') %>">
+  <div class="flex-1 bg-gray-50 dark:bg-gray-900 rounded-lg">
+    <%= turbo_frame_tag "checkout_form" do %>
+      <%= render "commerce/checkout/checkout_form",
+                  mode: authenticated? ? "payment" : "register" %>
+    <% end %>
+  </div>
+
+  <div class="md:w-1/4 lg:w-1/3">
+    <%= render "commerce/checkout/purchase_details" %>
+  </div>
+
+</div>

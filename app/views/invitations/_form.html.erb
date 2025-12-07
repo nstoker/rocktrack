@@ -1,0 +1,83 @@
+<%= form_with(model: invitation,
+              url: invitation.new_record? ? create_invitation_path(@account.slug) : update_invitation_path(@account.slug, invitation.id),
+              local: true) do |f| %>
+  <%= f.hidden_field :created_by_user_id, value: current_user.id %>
+
+  <div class="space-y-8">
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('teams.invitations.email', default: 'Email'),
+                name: :email do %>
+      <%= f.email_field :email,
+                        placeholder: t('teams.invitations.email', default: 'Email'),
+                        class: form_control_classes,
+                        autofocus: true %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('teams.invitations.invitation_message', default: 'Invitation Message'),
+                name: :message,
+                tooltip: t('teams.invitations.invitation_message_tooltip', default: 'This will be the body of the email sent to the invitee.  Below this message will be a link for the invitee to click to accept their invitation.'),
+                rich_text_field: true do %>
+      <%= f.rich_text_area :message,
+                            placeholder: t('teams.invitations.invitation_message_placeholder', default: 'Write a personalized message to the invitee'),
+                            value: invitation.new_record? ? t('teams.invitations.invitation_message_default', account: @account.name, default: "You're invited to join %{account}.  Click the link below to accept your invitation.") : invitation.message,
+                            data: {
+                              controller: "components--rich-text",
+                              action: "focus->components--rich-text#focus blur->components--rich-text#unfocus"
+                            } %>
+    <% end %>
+
+    <%= render "shared/components/forms/field",
+                form: f,
+                label: t('teams.invitations.role', default: 'Role'),
+                name: :role,
+                tooltip: t('teams.invitations.role_tooltip', account: @account.name, default: "This will be the role of the invitee in %{account} after they accept their invitation.  You can change this later in the member's settings."),
+                select_field: true do %>
+      <%= f.select :role,
+                    options_for_select([[t('teams.invitations.member', default: 'Member'), "member"], [t('teams.invitations.admin', default: 'Admin'), "admin"]], invitation.role || "member"),
+                    {},
+                    { class: "form-control" } %>
+    <% end %>
+
+    <div class="pt-4 space-y-4 flex flex-col items-start
+                sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+      <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+        <% if invitation.new_record? %>
+          <%= icon("send") %>
+          <span>
+            <%= t('teams.invitations.send_invitation', default: 'Send invitation') %>
+          </span>
+        <% else %>
+          <span>
+            <%= t('teams.invitations.update_invitation', default: 'Update invitation') %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <% unless invitation.new_record? %>
+        <%= link_to resend_invitation_path(@account.slug, @invitation.id),
+                    class: "btn btn-secondary" do %>
+          <%= icon("send") %>
+          <span>
+            <%= t('teams.invitations.resend', default: 'Resend') %>
+          </span>
+        <% end %>
+
+        <%= link_to destroy_invitation_path(@account.slug, @invitation.id),
+                    class: "inline-flex items-center space-x-2 sm:btn sm:btn-ghost" ,
+                    data: {
+                      turbo_method: :delete,
+                      turbo_confirm: t('teams.invitations.really_delete_invitation', default: 'Really delete Invitation?')
+                    } do %>
+          <%= icon("x") %>
+          <span>
+            <%= t('teams.invitations.cancel_invitation', default: 'Cancel invitation') %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

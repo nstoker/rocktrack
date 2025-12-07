@@ -1,0 +1,37 @@
+<%
+  subscription = local_assigns[:subscription]
+%>
+
+<%= turbo_frame_tag "payment_method" do %>
+  <% if subscription.payment_method.present? %>
+    <div>
+      <div>
+        <%= subscription.payment_method.brand.humanize %> <%= t('commerce.subscriptions.payment_method.ending_in', default: 'ending in') %> <%= subscription.payment_method.last4 %>
+      </div>
+      <div class="text-sm text-gray-400 dark:text-gray-600 font-medium inline-flex items-center gap-2">
+        <span>
+          <%= t('commerce.subscriptions.payment_method.expires', default: 'Expires') %> <%= subscription.payment_method.expiration_month %>/<%= subscription.payment_method.expiration_year %>
+        </span>
+
+        <% has_other_payment_methods = @account.payment_methods.count > 1 %>
+        <% link_url  = if has_other_payment_methods
+                         edit_payment_method_path(account_slug: @account.slug, id: subscription.id)
+                       else
+                          new_payment_method_path(account_slug: @account.slug)
+                       end
+        %>
+        <%= link_to link_url,
+                    data: { turbo_frame: has_other_payment_methods ? "payment_method" : "_top" } do %>
+          <%= t('commerce.subscriptions.payment_method.change', default: 'Change') %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div>
+      No payment method on file.
+      <%= link_to new_payment_method_path(account_slug: @account.slug) do %>
+        <%= t('commerce.subscriptions.payment_method.add', default: 'Add one') %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,13 @@
+<%= turbo_stream.update "new_price" do %>
+  <%= render "admin/commerce/prices/price_container",
+              padding: "py-6 px-8" do %>
+    <%= render "admin/commerce/prices/form",
+                product: @product,
+                price: @price %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "prices" do %>
+  <%= render "admin/commerce/prices/prices",
+              product: @product %>
+<% end %>

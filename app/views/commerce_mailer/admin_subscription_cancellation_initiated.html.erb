@@ -1,0 +1,21 @@
+<p><%= t('commerce.mailers.admin_subscription_cancellation_initiated.title', default: 'An account cancelled :(') %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.account_name_label', default: 'Account name:') %></strong><br>
+<%= @account.name %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.account_owner_label', default: 'Account owner:') %></strong><br>
+<%= @account.owner.email_address %></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.stripe_customer_label', default: 'Stripe customer:') %></strong><br>
+<a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @subscription.processor_customer_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @subscription.processor_customer_id %></a></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.stripe_subscription_label', default: 'Stripe subscription:') %></strong><br>
+<a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %></a></p>
+
+<p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.admin_account_profile_label', default: 'Admin account profile:') %></strong><br>
+<a href="<%= admin_account_url(@account.id) %>"><%= admin_account_url(@account.id) %></a></p>
+
+<% if @subscription.cancellation_reason.present? %>
+  <p><strong><%= t('commerce.mailers.admin_subscription_cancellation_initiated.cancellation_reason_label', default: 'Cancellation reason:') %></strong><br>
+  <%= @subscription.cancellation_reason %></p>
+<% end %>

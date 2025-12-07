@@ -1,0 +1,8 @@
+<%= link_to admin_new_price_path(@product),
+            class: "btn btn-primary",
+            data: { turbo_stream: true } do %>
+  <%= icon("circle-plus") %>
+  <span>
+    <%= t('admin.prices.add_price', default: 'Add Price') %>
+  </span>
+<% end %>

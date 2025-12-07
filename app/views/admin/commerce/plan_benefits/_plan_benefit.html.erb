@@ -1,0 +1,30 @@
+<%
+  plan_benefit = local_assigns[:plan_benefit]
+  plan = plan_benefit.plan
+  benefit = plan_benefit.benefit
+%>
+
+<%= render "admin/commerce/plan_benefits/plan_benefit_container",
+            plan_benefit: plan_benefit do %>
+  <div class="w-full flex items-start justify-between">
+    <div class="space-y-3 flex-1
+                md:flex md:items-start md:justify-start md:space-y-0">
+      <!-- Benefit name and text -->
+      <div class="space-y-1 w-full
+                  md:w-1/3">
+        <div class="font-medium text-gray-400 dark:text-gray-600">
+          <%= benefit.name %>
+        </div>
+        <div class="text-black dark:text-white font-medium">
+          <%= benefit.benefit_text %>
+        </div>
+      </div>
+
+    </div>
+    <div class="text-right pr-2 pt-1.5">
+      <%= render "admin/commerce/benefits/benefit_settings",
+                  plan_benefit: plan_benefit,
+                  context: "plan" %>
+    </div>
+  </div>
+<% end %>

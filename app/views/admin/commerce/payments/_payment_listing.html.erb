@@ -1,0 +1,11 @@
+<%
+  date = payment.created_at.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z")
+%>
+
+<%= render "shared/components/listings/listing",
+            listing_link: admin_payment_path(payment),
+            title: "#{currency_symbol(payment.currency) if payment.currency.present? }#{display_amount(payment.amount)}",
+            description: t('admin.payments.by_account_on_date', default: 'By %{account} on %{date}', account: payment.account.name, date: date) do %>
+  <%= render "admin/commerce/payments/payment_settings",
+              payment: payment %>
+<% end %>

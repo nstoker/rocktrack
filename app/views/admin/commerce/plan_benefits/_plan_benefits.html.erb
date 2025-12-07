@@ -1,0 +1,17 @@
+<% if @plan.benefits.any? %>
+  <div data-controller="components--reorder"
+       class="space-y-4">
+    <% @plan.plan_benefits.order(:position).each do |plan_benefit| %>
+      <% if plan_benefit.benefit.persisted? %>
+        <%= turbo_frame_tag dom_id(plan_benefit) do %>
+          <%= render "admin/commerce/plan_benefits/plan_benefit",
+                      plan_benefit: plan_benefit %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p>
+    <%= t('admin.plan_benefits.no_benefits', default: 'No benefits set for this plan.') %>
+  </p>
+<% end %>

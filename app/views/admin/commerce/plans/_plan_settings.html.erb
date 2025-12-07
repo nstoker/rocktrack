@@ -1,0 +1,20 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.plans.settings.edit', default: 'Edit Plan'),
+             link_path: admin_edit_plan_path(plan),
+             icon_name: "square-pen" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.plans.settings.delete', default: 'Delete Plan'),
+             link_path: admin_destroy_plan_path(plan),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.plans.settings.confirm_delete', default: 'Really delete this plan?')
+             } %>
+
+<% end %>

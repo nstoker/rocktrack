@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <%= render "shared/head/head" %>
+  </head>
+
+  <body class="h-full">
+    <%= turbo_frame_tag "flash_message" do %>
+      <%= render "shared/flash" %>
+    <% end %>
+    <main class="body-container h-full">
+      <div class="flex min-h-full">
+        <div class="flex relative flex-1 flex-col px-6 py-12
+                sm:px-8
+                lg:justify-center lg:flex-none lg:px-20
+                xl:px-24
+                2xl:px-36">
+          <div class="w-full text-center mb-6
+                  lg:absolute lg:top-12 lg:text-left lg:mb-0">
+            <%= link_to "/", class: "" do %>
+              <%= render "shared/components/logo" %>
+            <% end %>
+          </div>
+          <div class="w-full max-w-sm mx-auto lg:w-96">
+            <h2 class="text-center mb-12 text-3xl
+                    lg:text-left lg:mb-8">
+              <%= yield(:title) %>
+            </h2>
+            <%= yield %>
+          </div>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-900 relative hidden w-0 flex-1
+                lg:block">
+
+          <% if controller_name == 'registrations' && action_name == 'new' %>
+            <div class="absolute z-50 w-full h-full flex-col items-center justify-center">
+              <div class="flex h-full flex-col items-center justify-center">
+                <div class="mx-auto bg-white/50 dark:bg-gray-900/80 text-gray-800 dark:text-gray-200 rounded py-6 px-8 space-y-2">
+                  <div class="italic font-medium">&ldquo;<%= t('authentication.testimonial.quote', default: 'This is a testimonial quote. You should sign up.') %>&rdquo;</div>
+                  <div class="text-sm text-right pr-8 text-gray-400 font-medium">
+                    <span><%= t('authentication.testimonial.author', default: 'Someone\'s name') %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="absolute z-40 top-0 left-0 w-full h-full bg-gray-200/30 dark:bg-black/80"></div>
+          <img class="absolute z-30 inset-0 h-full w-full object-cover opacity-60"
+           src="https://images.unsplash.com/photo-1615799998603-7c6270a45196?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80&color=black_and_white" alt="">
+
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

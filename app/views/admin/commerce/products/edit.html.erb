@@ -1,0 +1,79 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= @product.name %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.products.title', default: 'Products'),
+                link: admin_products_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @product.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: @product.name %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/panels/panels",
+                id: "edit-product" do %>
+      <%= render "shared/components/panels/panel",
+                panel_id: "details",
+                title: t('admin.products.panels.details.title', default: 'Product Details'),
+                description: t('admin.products.panels.details.description', default: 'Name, description, image, etc.'),
+                icon_name: "info" do %>
+        <%= render "admin/commerce/products/form",
+                product: @product %>
+      <% end %>
+
+      <%= render "shared/components/panels/panel",
+                panel_id: "prices",
+                title: t('admin.products.panels.prices.title', default: 'Price(s)'),
+                description: t('admin.products.panels.prices.description', default: 'Set this product\'s price(s).'),
+                icon_name: "dollar-sign" do %>
+
+        <div>
+          <%= turbo_frame_tag "prices" do %>
+            <%= render "admin/commerce/prices/prices",
+                        product: @product %>
+          <% end %>
+        </div>
+
+        <div>
+          <%= turbo_frame_tag "new_price" do %>
+            <%= render "admin/commerce/prices/add_price_button" %>
+          <% end %>
+        </div>
+
+      <% end %>
+
+      <% if @product.purchases.any? %>
+        <%= render "shared/components/panels/panel",
+                    panel_id: "purchases",
+                    title: t('admin.products.panels.purchases.title', default: 'Purchases'),
+                    description: t('admin.products.panels.purchases.description', default: 'View all purchases for this product.'),
+                    icon_name: "list" do %>
+          <div class="px-6">
+            <%= render "shared/components/listings/listings" do %>
+              <% @product.purchases.each do |purchase| %>
+                <%= render "admin/commerce/purchases/purchase_listing",
+                          purchase: purchase %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+
+</div>

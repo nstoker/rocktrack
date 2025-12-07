@@ -1,0 +1,34 @@
+<%= t('commerce.mailers.admin_new_purchase.title', default: 'A new purchase has been made 🎉') %>
+
+<%= t('commerce.mailers.admin_new_purchase.product_label', default: 'Product:') %>
+<%= @product.name %>
+
+<% if @subscription.present? %>
+<%= t('commerce.mailers.admin_new_purchase.subscription_plan_label', default: 'Subscription Plan:') %>
+<%= @subscription.price.name %>
+
+<% end %>
+<%= t('commerce.mailers.admin_new_purchase.product_price_label', default: 'Product price:') %>
+<%= display_price(@purchase.price) %>
+
+<% if @today_payment.present? %>
+  <%= t('commerce.mailers.admin_new_purchase.today_payment_label', default: "Today's payment:") %>
+  $<%= number_with_precision(@today_payment / 100.0, precision: 2) %>
+<% end %>
+
+<%= t('commerce.mailers.admin_new_purchase.account_name_label', default: 'Account name:') %>
+<%= @account.name %>
+
+<%= t('commerce.mailers.admin_new_purchase.account_owner_label', default: 'Account owner:') %>
+<%= @account.owner.email_address %>
+
+<%= t('commerce.mailers.admin_new_purchase.stripe_customer_label', default: 'Stripe customer:') %>
+https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @purchase.processor_customer_id %>
+
+<% if @subscription.present? %>
+<%= t('commerce.mailers.admin_new_purchase.stripe_subscription_label', default: 'Stripe subscription:') %>
+https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %>
+
+<% end %>
+<%= t('commerce.mailers.admin_new_purchase.admin_account_profile_label', default: 'Admin account profile:') %>
+<%= admin_account_url(@account.id) %>

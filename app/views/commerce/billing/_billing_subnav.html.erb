@@ -1,0 +1,43 @@
+<%
+  has_subscriptions = current_account.subscriptions.any?
+%>
+
+<%= render "shared/components/subnav/subnav",
+            back_link_path: account_settings_path(current_account.slug) do %>
+
+  <%
+    billing_active = current_page?(billing_overview_path(account_slug: current_account.slug)) ||
+                    current_account.subscriptions.any? { |subscription| current_page?(subscription_path(account_slug: current_account.slug, id: subscription.id)) } ||
+                    current_account.purchases.any? { |purchase| current_page?(purchase_path(account_slug: current_account.slug, id: purchase.id)) }
+  %>
+  <%= render "shared/components/subnav/subnav_link",
+              link_path: billing_overview_path(account_slug: current_account.slug),
+              link_text: t('commerce.billing.subnav.billing', default: 'Billing'),
+              icon_name: "settings",
+              active: billing_active %>
+
+  <% if current_account.payments.any? %>
+    <%
+      payments_active = current_page?(payments_path(account_slug: current_account.slug)) ||
+                        current_account.payments.any? { |payment| current_page?(payment_path(account_slug: current_account.slug, id: payment.id)) }
+    %>
+    <%= render "shared/components/subnav/subnav_link",
+                link_path: payments_path(account_slug: current_account.slug),
+                link_text: t('commerce.billing.subnav.payments_history', default: 'Payments History'),
+                icon_name: "receipt",
+                active: payments_active %>
+  <% end %>
+
+  <% if current_account.payment_methods.any? %>
+    <%
+      payment_methods_active = current_page?(payment_methods_path(account_slug: current_account.slug)) ||
+                               current_page?(new_payment_method_path(account_slug: current_account.slug))
+    %>
+    <%= render "shared/components/subnav/subnav_link",
+                link_path: payment_methods_path(account_slug: current_account.slug),
+                link_text: t('commerce.billing.subnav.payment_methods', default: 'Payment Methods'),
+                icon_name: "credit-card",
+                active: payment_methods_active %>
+  <% end %>
+
+<% end %>

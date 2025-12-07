@@ -1,0 +1,44 @@
+.pagy-container .pagy {
+  margin-top: --spacing(12);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: --spacing(2);
+}
+
+.pagy-container .pagy a {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: --spacing(8);
+  height: --spacing(8);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+
+  @variant hover {
+    background-color: var(--color-gray-50);
+    color: var(--color-black);
+  }
+
+  @variant dark {
+    @variant hover {
+      background-color: var(--color-gray-900);
+      color: var(--color-white);
+    }
+  }
+}
+
+.pagy-container .pagy a.current {
+  cursor: default;
+  background-color: var(--color-gray-100);
+  color: var(--color-black);
+
+  @variant dark {
+    background-color: var(--color-gray-900);
+    color: var(--color-white);
+  }
+}

@@ -1,0 +1,14 @@
+<% flash.each do |name, msg| %>
+  <% colors = if name == 'alert'
+                'bg-red-200 text-red-700'
+              else
+                # notice
+                'bg-green-200 text-green-700'
+              end
+  %>
+  <div class="hide-after-delay
+              fixed bottom-12 left-12 py-4 px-6 z-50 shadow-lg rounded-lg mx-auto inline-flex items-center justify-center font-semibold
+              <%= colors %>">
+    <%= msg %>
+  </div>
+<% end %>

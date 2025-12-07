@@ -1,0 +1,11 @@
+<div class="space-y-8">
+  <h3>
+    <%= t('commerce.billing.purchases.title', default: 'Purchases') %>
+  </h3>
+  <%= render "shared/components/listings/listings" do %>
+    <% @account.purchases.each do |purchase| %>
+      <%= render "commerce/purchases/purchase_listing",
+                  purchase: purchase %>
+    <% end %>
+  <% end %>
+</div>

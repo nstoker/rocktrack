@@ -1,0 +1,103 @@
+<%
+  nav_attrs = nav_attributes(local_assigns)
+  container_classes = nav_attrs[:container_classes]
+  nav_link_partial = "layouts/global/nav_link"
+%>
+
+<div class="<%= container_classes %>">
+
+  <%# Define the admin navigation links here %>
+
+  <%= render nav_link_partial,
+            url: admin_dashboard_path,
+            active: active_nav_link?(admin_dashboard_path, {include_nested: false}),
+            label: t('admin.nav.dashboard', default: 'Dashboard'),
+            icon: "sliders-vertical",
+            **nav_attrs %>
+
+  <%= render nav_link_partial,
+            url: admin_users_path,
+            active: active_nav_link?(admin_users_path),
+            label: t('admin.nav.users', default: 'Users'),
+            icon: "users",
+            **nav_attrs %>
+
+  <%= render nav_link_partial,
+           url: admin_accounts_path,
+           active: active_nav_link?(admin_accounts_path),
+           label: t('admin.nav.accounts', default: 'Accounts'),
+           icon: "building-2",
+           **nav_attrs %>
+
+
+  <% commerce_sub_links = [
+      {
+        sub_link_header: true,
+        label: t('admin.nav.commerce.setup', default: 'Setup')
+      },
+      {
+        url: admin_products_path,
+        active: active_nav_link?(admin_products_path),
+        label: t('admin.nav.commerce.products', default: 'Products'),
+        icon: "box"
+      },
+      {
+        url: admin_prices_path,
+        active: active_nav_link?(admin_prices_path),
+        label: t('admin.nav.commerce.prices', default: 'Prices'),
+        icon: "circle-dollar-sign"
+      },
+      {
+        url: admin_plans_path,
+        active: active_nav_link?(admin_plans_path, {debug: true}),
+        label: t('admin.nav.commerce.plans', default: 'Plans'),
+        icon: "columns-3"
+      },
+      {
+        url: admin_benefits_path,
+        active: active_nav_link?(admin_benefits_path),
+        label: t('admin.nav.commerce.benefits', default: 'Benefits'),
+        icon: "circle-check"
+      },
+      {
+        sub_link_header: true,
+        label: t('admin.nav.commerce.activity', default: 'Activity')
+      },
+      {
+        url: admin_purchases_path,
+        active: active_nav_link?(admin_purchases_path),
+        label: t('admin.nav.commerce.purchases', default: 'Purchases'),
+        icon: "party-popper"
+      },
+      {
+        url: admin_payments_path,
+        active: active_nav_link?(admin_payments_path),
+        label: t('admin.nav.commerce.payments', default: 'Payments'),
+        icon: "banknote"
+      },
+      {
+        url: admin_subscriptions_path,
+        active: active_nav_link?(admin_subscriptions_path),
+        label: t('admin.nav.commerce.subscriptions', default: 'Subscriptions'),
+        icon: "repeat"
+      }
+    ]
+  %>
+
+  <%= render nav_link_partial,
+          url: admin_commerce_path,
+          active: active_nav_link?('/admin/commerce', sub_links: commerce_sub_links),
+          label: t('admin.nav.commerce.commerce', default: 'Commerce'),
+          icon: "banknote",
+          sub_links: commerce_sub_links,
+          **nav_attrs %>
+
+
+  <%= render nav_link_partial,
+            url: root_path,
+            active: false,
+            label: t('admin.nav.back_to_app', default: 'Back to App'),
+            icon: "arrow-left",
+            **nav_attrs %>
+
+</div>

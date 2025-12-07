@@ -1,0 +1,13 @@
+<% meta_description = if content_for?(:meta_description)
+                        yield(:meta_description)
+                      elsif @page_title.present?
+                        @page_title
+                      else
+                        Rails.application.class.module_parent_name
+                      end
+%>
+
+<meta name="description"
+      content="<%= meta_description.strip %>">
+<meta property="og:description"
+      content="<%= meta_description.strip %>">

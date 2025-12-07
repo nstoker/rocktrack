@@ -1,0 +1,29 @@
+<%= content_for(:title) do %>
+  <%= t('teams.invitations.update_invitation_for', email: @invitation.email, default: 'Update Invitation for %{email}') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.invitations.invitations', default: 'Invitations'),
+               link: invitations_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @invitation.email %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<% end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('teams.invitations.invitation_for', email: @invitation.email, default: 'Invitation for %{email}') do %>
+    <%= render "shared/components/label",
+               text: @invitation.status.capitalize %>
+  <% end %>
+
+  <%= render "invitations/form", invitation: @invitation %>
+</div>

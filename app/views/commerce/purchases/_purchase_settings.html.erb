@@ -1,0 +1,9 @@
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-64" do %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('commerce.purchases.settings.details', default: 'Purchase Details'),
+              link_path: purchase_path(account_slug: @account.slug, id: purchase.id),
+              icon_name: "eye" %>
+<% end %>

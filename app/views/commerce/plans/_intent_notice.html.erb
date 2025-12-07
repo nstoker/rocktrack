@@ -1,0 +1,12 @@
+<%
+  intent = local_assigns[:intent]
+  default_text = t('commerce.plans.intent_notice.default', default: "In order to do that, you'll need to upgrade your plan.")
+%>
+
+<div class="inline-block mx-auto bg-secondary-100 dark:bg-secondary-900 text-secondary-600 dark:text-secondary-300 px-4 py-2 rounded-lg font-medium text-lg">
+  <% if intent == "thing" %>
+    <%= t('commerce.plans.intent_notice.thing', default: "In order to do that thing, you'll need to upgrade your plan.") %>
+  <% else %>
+    <%= default_text %>
+  <% end %>
+</div>

@@ -1,0 +1,78 @@
+<%
+  display_amount = "#{currency_symbol(@payment.currency)}#{display_amount(@payment.amount)}"
+%>
+
+<%= content_for(:title) do %>
+  <%= t('commerce.payments.show.title', amount: display_amount, default: 'Payment details for %{amount}') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payments.breadcrumbs.billing', default: 'Billing'),
+               link: billing_overview_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payments.breadcrumbs.payments_history', default: 'Payments History'),
+               link: payments_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('commerce.payments.breadcrumbs.payment_details', default: 'Payment Details') %>
+  <% end %>
+<% end %>
+
+
+<%= content_for(:side_col) do %>
+  <%= render "commerce/billing/billing_subnav" %>
+<%end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('commerce.payments.show.title', amount: display_amount, default: 'Payment Details for %{amount}') %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/data_list/data_list",
+                border_top_and_bottom: true do %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('commerce.payments.show.amount_label', default: 'Payment amount'),
+                  value: display_amount %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('commerce.payments.show.date_label', default: 'Payment date'),
+                  value: @payment.created_at.strftime(t('commerce.payments.listing.date_format', default: '%B %-d, %Y')) %>
+
+      <%= render "shared/components/data_list/data_list_item",
+                  label: t('commerce.payments.show.status_label', default: 'Payment status'),
+                  value: t("commerce.payments.listing.status.#{@payment.status}", default: @payment.status.humanize) %>
+
+      <% if @payment.payment_method.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('commerce.payments.show.method_label', default: 'Payment method'),
+                    value: "#{@payment.payment_method.brand.humanize} #{t('commerce.payments.show.ending_in', default: 'ending in')} #{@payment.payment_method.last4}" %>
+      <% end %>
+
+      <% if @payment.purchase.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('commerce.payments.show.purchase_label', default: 'Purchase details'),
+                    value: @payment.purchase.product.name,
+                    value_link_url: purchase_path(account_slug: @account.slug, id: @payment.purchase.id) %>
+      <% end %>
+
+      <% if @payment.subscription.present? %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: t('commerce.payments.show.subscription_label', default: 'Subscription'),
+                    value: @payment.subscription.product.name,
+                    value_link_url: subscription_path(account_slug: @account.slug, id: @payment.subscription.id) %>
+      <% end %>
+
+    <% end %>
+
+  </div>
+
+</div>

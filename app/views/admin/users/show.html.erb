@@ -1,0 +1,70 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= @user.name %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.users.title', default: 'Users'),
+                link: admin_users_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: @user.name %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <%= render "shared/components/page_header",
+              title: @user.name,
+              button_link_path: @user.id == current_user.id ? nil : impersonate_user_path(id: @user.id),
+              button_link_text: t('admin.users.impersonate_user', default: 'Impersonate User'),
+              button_link_icon: "square-user-round",
+              button_link_classes: "btn btn-secondary",
+              button_link_type: "button",
+              button_link_method: :post %>
+
+  <div class="space-y-6">
+
+    <%= render "shared/components/data_list/data_list",
+                border_top_and_bottom: true do %>
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.users.first_name', default: 'First Name'),
+                value: @user.first_name %>
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.users.last_name', default: 'Last Name'),
+                value: @user.last_name %>
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.users.email', default: 'Email'),
+                value: @user.email_address %>
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.users.registered_at', default: 'Registered At'),
+                value: @user.created_at.strftime("%B %d, %Y") %>
+      <%= render "shared/components/data_list/data_list_item",
+                label: t('admin.users.last_login', default: 'Last Login'),
+                value: @user.sessions&.last&.created_at&.in_time_zone(current_user.timezone)&.strftime("%B %-d, %Y at %l:%M%P %Z") %>
+      <% accounts = @user.accounts %>
+      <% if accounts.any? %>
+        <% accounts_list = capture do %>
+          <%= render "admin/multi_value",
+                      record_count: accounts.count,
+                      records: accounts,
+                      record_link_text_attribute: "name",
+                      record_link_path: ->(record) { admin_account_path(record) },
+                      record_link_path_when_only_one: admin_account_path(accounts.first) %>
+        <% end %>
+        <%= render "shared/components/data_list/data_list_item",
+                    label: accounts.count == 1 ? t('admin.users.account', default: 'Account') : t('admin.users.accounts', default: 'Accounts'),
+                    value: accounts_list %>
+      <% end %>
+
+
+    <% end %>
+
+  </div>
+
+</div>

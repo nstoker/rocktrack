@@ -1,0 +1,7 @@
+<%= render "shared/components/listings/listing",
+           listing_link: purchase_path(account_slug: @account.slug, id: purchase.id),
+           title: purchase.product.name,
+           description: purchase.created_at.strftime(t('commerce.purchases.listing.date_format', default: '%B %-d, %Y')) do %>
+  <%= render "commerce/purchases/purchase_settings",
+              purchase: purchase %>
+<% end %>

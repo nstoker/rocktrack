@@ -1,0 +1,7 @@
+<%= render "shared/components/listings/listing",
+           listing_link: admin_account_path(account),
+           title: account.name,
+           description: account.owner.name do %>
+  <%= render "admin/accounts/account_settings",
+             account: account %>
+<% end %>

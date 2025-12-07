@@ -1,0 +1,62 @@
+<%= render "shared/components/subnav/subnav",
+            back_link_path: root_path do %>
+
+  <% unless @account.new_record?%>
+    <%= render "shared/components/subnav/subnav_link",
+                link_path: account_settings_path(@account.slug),
+                link_text: t('teams.accounts.account_settings', default: 'Account Settings'),
+                icon_name: "settings",
+                active: current_page?(account_settings_path(current_account.slug)) %>
+
+    <% team_active = [account_users_path(current_account.slug),
+                      edit_account_user_path(current_account.slug, current_user.account_user(current_account).id),
+                      new_invitation_path(current_account.slug)].include?(request.path) %>
+    <%= render "shared/components/subnav/subnav_link",
+                link_path: account_users_path(current_account.slug),
+                link_text: t('teams.accounts.team_members', default: 'Team Members'),
+                icon_name: "users",
+                active: team_active %>
+
+    <% if current_account.invitations.pending.any? %>
+      <% invitations_active = request.path.include?(invitations_path(current_account.slug)) || request.path.include?("/invitations/") %>
+      <%= render "shared/components/subnav/subnav_link",
+                  link_path: invitations_path(current_account.slug),
+                  link_text: t('teams.accounts.invitations', default: 'Invitations'),
+                  icon_name: "mail",
+                  active: invitations_active %>
+    <% end %>
+
+  <% end %>
+
+  <% if current_user.account_admin?(current_account) %>
+    <% if current_account.subscriptions.any? || current_account.purchases.any? %>
+      <%= render "shared/components/subnav/subnav_link",
+                  link_path: billing_overview_path(account_slug: current_account.slug),
+                  link_text: t('teams.subnav.commerce.billing', default: 'Billing'),
+                  icon_name: "credit-card",
+                  active: current_page?(billing_overview_path(account_slug: current_account.slug)) %>
+    <% else %>
+      <%= render "shared/components/subnav/subnav_link",
+                  link_path: plans_path,
+                  link_text: t('teams.subnav.commerce.choose_plan', default: 'Choose a Plan'),
+                  icon_name: "rocket",
+                  active: current_page?(plans_path) %>
+    <% end %>
+  <% end %>
+
+
+  <% if current_user.accounts.count > 1 %>
+    <%= render "shared/components/subnav/subnav_link",
+              link_path: accounts_path,
+              link_text: t('teams.accounts.switch_accounts', default: 'Switch Accounts'),
+              icon_name: "list",
+              active: current_page?(accounts_path) %>
+  <% end %>
+
+  <%= render "shared/components/subnav/subnav_link",
+             link_path: new_account_path,
+             link_text: t('teams.accounts.add_account', default: 'Add Account'),
+             icon_name: "circle-plus",
+             active: current_page?(new_account_path) %>
+
+<% end %>

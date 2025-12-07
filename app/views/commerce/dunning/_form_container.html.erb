@@ -1,0 +1,8 @@
+<div data-controller="commerce--dunning"
+     data-commerce--dunning-stripe-publishable-key-value="<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>"
+     data-commerce--dunning-account-slug-value="<%= @account.slug %>"
+     data-commerce--dunning-payment-id-value="<%= @payment.id %>"
+     data-commerce--dunning-resolve-token-value="<%= @payment.resolve_token %>"
+     data-commerce--dunning-error-message-value="<%= t('commerce.dunning.error_message') %>">
+  <%= yield %>
+</div>

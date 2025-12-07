@@ -1,0 +1,15 @@
+<%
+  color_value = local_assigns[:value]
+%>
+
+<div class="form-control color-picker
+            inline-flex items-center space-x-4"
+      data-controller="components--color-picker">
+  <input type="text"
+          class="border-none outline-none bg-transparent p-0 flex-1
+                focus:outline-none border-transparent focus:border-transparent focus:ring-0"
+          value="<%= color_value %>"
+          data-action="focus->components--color-picker#focus blur->components--color-picker#blur input->components--color-picker#updateColorPicker"
+          data-components--color-picker-target="hexInput">
+  <%= yield %>
+</div>

@@ -1,0 +1,8 @@
+<%= turbo_stream.update "plan_benefits" do %>
+  <%= render "admin/commerce/plan_benefits/plan_benefits",
+              plan: @plan %>
+<% end %>
+
+<%= turbo_stream.update "new_plan_benefit" do %>
+  <%= render "admin/commerce/plan_benefits/add_benefit_button" %>
+<% end %>

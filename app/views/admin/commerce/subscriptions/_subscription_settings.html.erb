@@ -1,0 +1,42 @@
+<%
+  context = local_assigns[:context]
+%>
+
+<% trigger_button = capture do %>
+  <span class="btn btn-secondary">
+    <%= icon("settings") %>
+    <span>
+      <%= t('admin.subscriptions.settings.actions', default: 'Actions') %>
+    </span>
+  </span>
+<% end %>
+
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-56",
+           trigger_content: context == "show" ? trigger_button : nil do %>
+
+  <% unless context == "show" %>
+    <%= render "shared/components/dropdown/dropdown_link",
+                link_text: t('admin.subscriptions.settings.view_subscription', default: 'View Subscription'),
+                link_path: admin_subscription_path(subscription),
+                icon_name: "eye" %>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('admin.subscriptions.settings.cancel_subscription', default: 'Cancel Subscription'),
+              link_path: admin_cancel_subscription_path(subscription),
+              icon_name: "x",
+              link_method: :patch,
+              button_link: true,
+              data: {
+                turbo_confirm: t('admin.subscriptions.settings.confirm_cancel', default: 'Are you sure you want to cancel this subscription?')
+              } %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.subscriptions.settings.view_on_stripe', default: 'View on Stripe'),
+             link_path: "https://dashboard.stripe.com/#{Rails.env.production? ? "" : "test/"}subscriptions/#{subscription.processor_subscription_id}",
+             icon_name: "square-arrow-out-up-right",
+             link_target: "_blank" %>
+
+<% end %>

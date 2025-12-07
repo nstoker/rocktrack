@@ -1,0 +1,46 @@
+<%= content_for(:title) do %>
+  <%= t('admin.common.admin', default: 'Admin') %> | <%= t('admin.subscriptions.title', default: 'Subscriptions') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.common.admin', default: 'Admin'),
+                link: admin_dashboard_path %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+                text: t('admin.subscriptions.title', default: 'Subscriptions') %>
+  <% end %>
+<% end %>
+
+<div class="space-y-12">
+
+  <% if @subscriptions.any? %>
+    <%= render "shared/components/page_header",
+                title: t('admin.subscriptions.title', default: 'Subscriptions') %>
+
+    <div class="space-y-6">
+
+      <%= render "shared/components/listings/listings" do %>
+        <% @subscriptions.each do |subscription| %>
+          <%= render "admin/commerce/subscriptions/subscription_listing",
+                      subscription: subscription %>
+        <% end %>
+      <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="pagy-container">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+
+    </div>
+
+  <% else %>
+    <%= render "shared/components/listings/no_listings",
+                singular_object_name: t('admin.subscriptions.no_listings.singular', default: 'subscription'),
+                plural_object_name: t('admin.subscriptions.no_listings.plural', default: 'subscriptions'),
+                can_create_new: false %>
+  <% end %>
+
+</div>

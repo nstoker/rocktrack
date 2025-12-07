@@ -1,0 +1,27 @@
+<%
+  model = local_assigns[:model]
+  errors = local_assigns[:errors] || model&.errors # use for sending model validations or an array of errors
+  error_message = local_assigns[:error_message] # use for sending a single error message as a string
+  single_error = errors.present? && errors.full_messages.length == 1
+  single_error_message = error_message || (single_error ? errors.full_messages.first : nil)
+  errors_present = errors.present? || error_message.present?
+%>
+
+<% if errors_present %>
+  <turbo-frame id="error_explanation">
+    <div class="bg-red-200 dark:bg-red-950 text-red-700 dark:text-red-300 py-4 px-6 rounded-md mb-8 font-medium space-y-4">
+      <% if single_error_message.present? %>
+        <p><%= single_error_message %></p>
+      <% else %>
+        <p>
+          <%= t('forms.errors.explanation', count: errors.count, model: model.class.name.downcase, default: '%{count} errors prohibited this %{model} from being saved:') %>
+        </p>
+        <ul class="list-disc ml-6">
+          <% errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </turbo-frame>
+<% end %>

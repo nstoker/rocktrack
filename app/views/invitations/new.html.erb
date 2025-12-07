@@ -1,0 +1,29 @@
+<%= content_for(:title) do %>
+  <%= t('teams.invitations.new_invitation', default: 'New Invitation') %>
+<% end %>
+
+<%= content_for(:breadcrumbs) do %>
+  <%= render "shared/components/breadcrumbs/breadcrumbs" do %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: @account.name,
+               link: account_settings_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.invitations.team_members', default: 'Team Members'),
+               link: account_users_path(@account.slug) %>
+    <%= render "shared/components/breadcrumbs/divider" %>
+    <%= render "shared/components/breadcrumbs/breadcrumb_link",
+               text: t('teams.invitations.new_invitation', default: 'New Invitation') %>
+  <% end %>
+<% end %>
+
+<%= content_for(:side_col) do %>
+  <%= render "accounts/account_subnav" %>
+<% end %>
+
+<div class="space-y-12">
+  <%= render "shared/components/page_header",
+              title: t('teams.invitations.new_invitation', default: 'New Invitation') %>
+
+  <%= render "invitations/form", invitation: @invitation %>
+</div>

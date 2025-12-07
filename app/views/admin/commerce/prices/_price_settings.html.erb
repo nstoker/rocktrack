@@ -1,0 +1,46 @@
+<% context = local_assigns[:context] %>
+
+<%= render "shared/components/dropdown/dropdown",
+           menu_position: "left-auto right-8 -top-4",
+           menu_width: "w-64" do %>
+
+  <% unless context == "index" %>
+    <%= render "shared/components/dropdown/dropdown_link",
+              link_text: t('admin.prices.settings.edit_price', default: 'Edit Price'),
+              link_path: admin_edit_price_path(product, price),
+              icon_name: "square-pen",
+              data: {
+                turbo_frame: dom_id(price),
+                turbo_stream: true
+              } %>
+  <% end %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.prices.settings.copy_checkout_url', default: 'Copy Checkout URL'),
+             div_link: true,
+             icon_name: "shopping-cart",
+             data: {
+               controller: "components--copy",
+               "components--copy-string-value": checkout_url(product: product.slug, price: price.slug),
+               action: "click->components--copy#copy",
+               "components--copy-target": "copyButton"
+             } %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.prices.settings.view_on_stripe', default: 'View on Stripe'),
+             link_path: "https://dashboard.stripe.com/#{'test' unless Rails.env.production?}prices/#{price.processor_price_id}",
+             link_target: "_blank",
+             icon_name: "square-arrow-out-up-right" %>
+
+  <%= render "shared/components/dropdown/dropdown_link",
+             link_text: t('admin.prices.settings.delete_price', default: 'Delete Price'),
+             link_path: admin_destroy_price_path(product, price),
+             icon_name: "trash",
+             link_method: :delete,
+             button_link: true,
+             data: {
+               turbo_method: :delete,
+               turbo_confirm: t('admin.prices.settings.confirm_delete', default: 'Really delete this price?')
+             } %>
+
+<% end %>

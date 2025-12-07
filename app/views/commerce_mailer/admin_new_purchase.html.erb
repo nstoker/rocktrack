@@ -1,0 +1,34 @@
+<p><%= t('commerce.mailers.admin_new_purchase.title', default: 'A new purchase has been made 🎉') %></p>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.product_label', default: 'Product:') %></strong><br>
+<%= @product.name %></p>
+
+<% if @subscription.present? %>
+  <p><strong><%= t('commerce.mailers.admin_new_purchase.subscription_plan_label', default: 'Subscription Plan:') %></strong><br>
+  <%= @subscription.price.name %></p>
+<% end %>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.product_price_label', default: 'Product price:') %></strong><br>
+<%= display_price(@purchase.price) %></p>
+
+<% if @today_payment.present? %>
+  <p><strong><%= t('commerce.mailers.admin_new_purchase.today_payment_label', default: "Today's payment:") %></strong><br>
+  $<%= number_with_precision(@today_payment / 100.0, precision: 2) %></p>
+<% end %>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.account_name_label', default: 'Account name:') %></strong><br>
+<%= @account.name %></p>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.account_owner_label', default: 'Account owner:') %></strong><br>
+<%= @account.owner.email_address %></p>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.stripe_customer_label', default: 'Stripe customer:') %></strong><br>
+<a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @purchase.processor_customer_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>customers/<%= @purchase.processor_customer_id %></a></p>
+
+<% if @subscription.present? %>
+  <p><strong><%= t('commerce.mailers.admin_new_purchase.stripe_subscription_label', default: 'Stripe subscription:') %></strong><br>
+  <a href="https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %>">https://dashboard.stripe.com/<%= Rails.env.production? ? "" : "test/" %>subscriptions/<%= @subscription.processor_subscription_id %></a></p>
+<% end %>
+
+<p><strong><%= t('commerce.mailers.admin_new_purchase.admin_account_profile_label', default: 'Admin account profile:') %></strong><br>
+<a href="<%= admin_account_url(@account.id) %>"><%= admin_account_url(@account.id) %></a></p>

@@ -1,31 +1,813 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
+---
 en:
-  hello: "Hello world"
+  hello: Hello world
+  root_page:
+    title: Hello world!
+  authentication:
+    sessions:
+      title: Log in
+      email_label: Email address
+      email_placeholder: name@domain.com
+      password_label: Password
+      password_placeholder: Create a password
+      submit: Sign in
+      new_user: New user?
+      sign_up: Sign up
+      forgot_password: Forgot password?
+    registrations:
+      title: Sign up
+      email_label: Email address
+      email_placeholder: name@domain.com
+      password_label: Password
+      password_placeholder: Create a password
+      submit: Sign up
+      have_account: Have an account?
+      sign_in: Sign in
+      success_message: Successfully signed up!
+    passwords:
+      title: Reset your password
+      email_label: Email address
+      email_placeholder: name@domain.com
+      new_password_label: New password
+      new_password_placeholder: Create a password
+      confirm_password_label: Repeat your password
+      confirm_password_placeholder: Repeat your password
+      submit_reset: Reset password
+      submit_request: Email reset instructions
+      back_to_login: Back to login
+    users:
+      edit_profile_title: Edit Profile
+      manage_password_title: Manage Password
+      profile_updated: Profile updated successfully
+      password_updated: Password updated successfully
+      current_password_incorrect: Current password is incorrect
+      avatar_removed: Avatar removed successfully.
+      subnav:
+        edit_profile: Edit Profile
+        edit_password: Edit Password
+      breadcrumbs:
+        my_profile: My Profile
+        edit: Edit
+        change_password: Change Password
+      form:
+        email_label: Email address
+        email_placeholder: name@domain.com
+        first_name_label: First name
+        first_name_placeholder: First name
+        last_name_label: Last name
+        last_name_placeholder: Last name
+        avatar_label: Avatar
+        timezone_label: Timezone
+        current_password_label: Current password
+        current_password_placeholder: Current password
+        new_password_label: New password
+        new_password_placeholder: New password
+        confirm_password_label: Confirm new password
+        confirm_password_placeholder: Confirm new password
+        update_button: Update
+        change_password_button: Change Password
+    testimonial:
+      quote: This is a testimonial quote. You should sign up.
+      author: Someone's name
+  user_menu:
+    my_profile: My Profile
+    sign_out: Sign out
+    sign_in: Sign in
+    sign_up: Sign up
+    admin: Admin
+  forms:
+    image_upload:
+      change: Change
+      select: Select
+      remove: Remove image
+    errors:
+      error: error
+      explanation: "%{count} errors prohibited this %{model} from being saved:"
+  subnav:
+    back: Back
+  teams:
+    authorization:
+      not_authorized: You are not authorized to access this page.
+    subnav:
+      commerce:
+        billing: Billing
+        choose_plan: Choose a Plan
+    account_users_controller:
+      role_updated: Your role has been updated.
+      role_updated_other: Updated %{name}'s role.
+      removed_self: You've been removed from the %{team} team.
+      removed_other: Removed %{name} from the %{team} team.
+      no_permission: You don't have permission to do that.
+    invitations_controller:
+      invitation_sent: Invitation sent to %{email}!
+      invitation_updated: Invitation updated successfully!
+      invitation_resent: Invitation sent successfully!
+      invalid_invitation: Invalid invitation.
+      invitation_accepted: Invitation has already been accepted.
+      user_exists: A user by this email already exists.
+      welcome: Welcome!
+      invitation_deleted: Invitation deleted successfully!
+      no_permission_invitations: You don't have permission to manage invitations.
+    accounts_controller:
+      account_created: Account was successfully created.
+      account_updated: Account was successfully updated.
+      switched: Switched to %{account}.
+      no_access: You don't have access to this account.
+      account_destroyed: Account was successfully destroyed.
+      no_permission: You don't have permission to do that.
+    invitation_mailer:
+      invitation_subject: Invitation to join %{account}
+      invitation_accepted_subject: "%{name} accepted your invitation"
+      invitation_accepted: "%{name} has accepted your invitation to join %{account}"
+      manage_member_settings: Manage %{name}'s member settings
+      accept_invitation: Accept Invitation
+    accounts_mailer:
+      account_created_subject: "[New Account Created] %{account} - %{owner_email}"
+      account_created_html: 'An account has been created:'
+      account_created_text: 'An account has been created:'
+      account_name: 'Account name:'
+      account_owner: 'Account owner:'
+      admin_account_profile: 'Admin account profile:'
+    account_users:
+      member_settings_title: "%{name} Member Settings"
+      team_members: Team Members
+      member_settings_header: "%{name} member settings"
+      account_owner_header: "%{name} owns this account."
+      account_owner_paragraph: "%{name} has the role of %{role} and as the owner,
+        %{name} has full access to all settings and management of other members."
+      leave_confirm: Do you really want to leave the %{team} team?
+      remove_confirm: Do you really want to remove %{name} from %{team}?
+      leave_team: Leave the %{team} team
+      remove_member: Remove %{name} from %{team}
+      team_members_title: "%{account} Team Members"
+      invite_someone: Invite Someone
+      team_member: Team Member
+      my_role: My role
+      role: Role
+      member: Member
+      admin: Admin
+      select_role: Select Role
+      update_my_role: Update my role
+      update_role: Update %{name}'s role
+      edit_my_role: Edit my role
+      edit_role: Edit role
+      leave_confirm_dropdown: Are you sure you want to leave %{team}?
+      remove_confirm_dropdown: Are you sure you want to remove %{name} from %{team}?
+      leave_team_dropdown: Leave team
+      remove_member_dropdown: Remove member
+    accounts:
+      my_accounts: My Accounts
+      add_account: Add Account
+      you_dont_belong_to_accounts: You don't belong to accounts
+      settings: Settings
+      new_account: New Account
+      account_name: Account name
+      account_slug: Account slug
+      create: Create
+      update: Update
+      switch_to_account: Switch to account
+      edit_account: Edit account
+      current_account: Current account
+      account_settings: Account Settings
+      team_members: Team Members
+      invitations: Invitations
+      switch_accounts: Switch Accounts
+    invitations:
+      invitations: Invitations
+      invite_someone: Invite Someone
+      new_invitation: New Invitation
+      team_members: Team Members
+      update_invitation_for: Update Invitation for %{email}
+      invitation_for: Invitation for %{email}
+      accept_invitation: Accept Invitation
+      invited_to_join: You've been invited to join %{account}.
+      email_address: Email address
+      create_password: Create a password
+      create_password_placeholder: Create a password
+      already_registered: Already registered?
+      sign_in: Sign in
+      email: Email
+      invitation_message: Invitation Message
+      invitation_message_tooltip: This will be the body of the email sent to the invitee.  Below
+        this message will be a link for the invitee to click to accept their invitation.
+      invitation_message_placeholder: Write a personalized message to the invitee
+      invitation_message_default: You're invited to join %{account}.  Click the link
+        below to accept your invitation.
+      role: Role
+      role_tooltip: This will be the role of the invitee in %{account} after they
+        accept their invitation.  You can change this later in the member's settings.
+      member: Member
+      admin: Admin
+      send_invitation: Send invitation
+      update_invitation: Update invitation
+      resend: Resend
+      really_delete_invitation: Really delete Invitation?
+      cancel_invitation: Cancel invitation
+      resend_invitation: Resend Invitation
+      edit_invitation: Edit Invitation
+      cancel_invitation_dropdown: Cancel Invitation
+      really_delete_invitation_dropdown: Really delete Invitation?
+    account_menu:
+      switch_account: Switch Account
+      add_account: Add Account
+      settings: Settings
+      team_members: Team Members
+      new_account_ellipsis: New Account...
+  page_header:
+    new_button: New %{singular}
+  admin:
+    nav:
+      dashboard: Dashboard
+      users: Users
+      back_to_app: Back to App
+      accounts: Accounts
+      commerce:
+        setup: Setup
+        products: Products
+        prices: Prices
+        plans: Plans
+        benefits: Benefits
+        activity: Activity
+        purchases: Purchases
+        payments: Payments
+        subscriptions: Subscriptions
+        commerce: Commerce
+    dashboard:
+      title: Admin Dashboard
+      greeting: Hello, admin!
+    users:
+      title: Users
+      view_user: View User
+      first_name: First Name
+      last_name: Last Name
+      email: Email
+      registered_at: Registered At
+      last_login: Last Login
+      account: Account
+      accounts: Accounts
+      impersonate_user: Impersonate User
+      impersonating: Impersonating
+      stop_impersonating: Stop Impersonating
+    accounts:
+      title: Accounts
+      view_account: View Account
+      account_name: Account Name
+      created_at: Created at
+      owner: Owner
+      team_members: Team Members
+      no_listings:
+        singular: account
+        plural: accounts
+    payments:
+      title: Payments
+      view_payment: View Payment
+      view_on_stripe: View on Stripe
+      delete_payment: Delete Payment
+      confirm_delete: Really delete this payment? This action cannot be undone.
+      by_account_on_date: By %{account} on %{date}
+      payment_from_account: "%{amount} payment from %{account}"
+      amount: Payment amount
+      date: Payment date
+      status: Payment status
+      purchase_details: Purchase details
+      purchase_of_product: "%{account}'s purchase of %{product}"
+      product_purchased: Product purchased
+      subscription: Subscription
+      stripe_payment: Stripe Payment
+      no_listings:
+        singular: payment
+        plural: payments
+    plan_benefits:
+      add_benefit: Add Benefit
+      select_existing_benefit: Select Existing Benefit
+      select_benefit_prompt: Select a benefit...
+      add_benefit_to_plan: Add benefit to %{plan}
+      create_new_benefit: Create a new benefit...
+      no_benefits: No benefits set for this plan.
+    plans:
+      title: Plans
+      button:
+        purchase_label: Button Purchase Label
+        purchase_tooltip: The text on the button when the customer can click it to
+          purchase.  Defaults to 'Purchase {plan name}' if left blank.
+        change_to_plan_label: Change to Plan Label
+        change_to_plan_tooltip: The text on the button when the customer can click
+          it to change to this plan.  Defaults to 'Change to {plan name}' if left
+          blank.
+        current_label: Current Plan Label
+        current_tooltip: The text on the button when the customer is on this plan.  Defaults
+          to 'Current Plan' if left blank.
+        support_text: Button Support Text
+        support_tooltip: Small text shown below the button.  Optional.
+      details:
+        internal_name: Internal Name
+        internal_name_tooltip: This is used internally to identify the plan.  It is
+          not displayed to customers.
+        display_name: Display Name
+        display_name_tooltip: This is the name that will be displayed to customers.
+        highlight_text: Highlight Text
+        highlight_tooltip: If set, this plan will be highlighted along with a label
+          that displays this text.  Use it to highlight one 'popular' plan, for example.
+        active: Active
+        active_tooltip: Uncheck to hide this plan.
+      no_listings:
+        singular: plan
+        plural: plans
+        description: Plans are used to build your pricing tiers view.  First define
+          your Products and Prices, then create Plans to display a set of tiers that
+          a customer can choose to purchase.
+      status:
+        inactive: Inactive
+      flash:
+        created: Plan was successfully created.
+        updated: Plan was successfully updated.
+        deleted: Plan was successfully deleted.
+      new:
+        title: New Plan
+      panels:
+        details:
+          title: Plan Details
+          description: Name, description, image, etc.
+        prices:
+          title: Plan Price(s)
+          description: Price(s) for this plan.
+        benefits:
+          title: Benefits
+          description: List benefits shown for this plan.
+        button:
+          title: Button
+          description: The button and related texts.
+      form:
+        benefits_note: Benefits note
+        benefits_note_tooltip: Optional small text shown above the list of benefits.
+        benefits_note_placeholder: Everything in Basic, plus...
+        save: Save
+      settings:
+        edit: Edit Plan
+        delete: Delete Plan
+        confirm_delete: Really delete this plan?
+    products:
+      title: Products
+      new:
+        title: New Product
+      form:
+        name: Product Name
+        name_placeholder: Product Name
+        slug: Slug
+        slug_placeholder: Slug
+        stripe_product_id: Stripe Product ID
+        stripe_product_id_tooltip: Find this in your Stripe account.  It begins with
+          'prod_'
+        stripe_product_id_placeholder: Stripe Product ID
+        active: Active
+        description: Description
+        image: Image
+      settings:
+        edit_product: Edit Product
+        view_product: View Product
+        delete_product: Delete Product
+        confirm_delete: Really delete this product?
+      panels:
+        details:
+          title: Product Details
+          description: Name, description, image, etc.
+        prices:
+          title: Price(s)
+          description: Set this product's price(s).
+        purchases:
+          title: Purchases
+          description: View all purchases for this product.
+      no_listings:
+        singular: product
+        plural: products
+        description: Products are the main, purchaseable items that customers can
+          buy.  A product can have one or more prices.  If selling subscriptions,
+          each plan tier should be associated with one product.
+      status:
+        inactive: Inactive
+      flash:
+        created: Product was successfully created.
+        updated: Product was successfully updated.
+        deleted: Product was successfully deleted.
+        image_removed: Image removed successfully.
+    benefits:
+      title: Benefits
+      new:
+        title: New Benefit
+      edit:
+        plans_headline: 'Plans that feature this benefit:'
+      form:
+        name: Benefit Name
+        name_placeholder: Benefit Name
+        text: Benefit Text
+        text_placeholder: Benefit Text
+        tooltip: Tooltip
+        tooltip_placeholder: Tooltip
+        save: Save
+        assign_existing: Assign existing benefit...
+      settings:
+        edit: Edit Benefit
+        remove_from_plan: Remove from %{plan}
+        confirm_remove_from_plan: Really remove this benefit from %{plan}?  The benefit
+          itself will not be deleted.
+        delete: Delete Benefit
+        confirm_delete: Really delete this benefit?  This will permanently delete
+          this benefit from this and all other plans.
+      no_listings:
+        singular: benefit
+        plural: benefits
+        description: Benefits are the checkmark items shown on each plan.  Benefits
+          can be shared across several plans.
+      flash:
+        created: Benefit created successfully
+        updated: Benefit updated successfully
+        deleted: Benefit deleted successfully
+    prices:
+      title: Prices
+      add_price: Add Price
+      no_prices: No prices set for this product.
+      form:
+        name: Price Name
+        name_placeholder: Price Name
+        amount: Amount
+        amount_placeholder: Amount in cents
+        stripe_price_id: Stripe Price ID
+        stripe_price_id_placeholder: Stripe Price ID
+        slug: Slug
+        slug_placeholder: Slug
+        recurring: Recurring...
+        recurring_tooltip: This is a tooltip
+        recurring_interval: Recurring Interval
+        recurring_interval_tooltip: This is a tooltip
+        trial_days: Trial Days
+        trial_days_placeholder: Trial Days
+      settings:
+        edit_price: Edit Price
+        copy_checkout_url: Copy Checkout URL
+        view_on_stripe: View on Stripe
+        delete_price: Delete Price
+        confirm_delete: Really delete this price?
+      no_listings:
+        singular: price
+        plural: prices
+        description: Prices are set on a product.  To create a price, first create
+          a product then create a price for that product.
+    purchases:
+      title: Purchases
+      purchase_of_product: "%{account}'s purchase of %{product}"
+      purchase_date: Purchase Date
+      product_purchased: Product purchased
+      first_payment: First Payment
+      payment: Payment
+      subscription: Subscription
+      account_name: Account Name
+      owner: Owner
+      stripe_customer: Stripe Customer
+      settings:
+        view_purchase: View Purchase
+        delete_purchase: Delete Purchase
+        confirm_delete: Really delete this purchase? This action cannot be undone.
+      no_listings:
+        singular: purchase
+        plural: purchases
+    subscriptions:
+      title: Subscriptions
+      subscription_to_product: "%{account}'s subscription to %{product}"
+      account_name: Account Name
+      owner: Owner
+      product_purchased: Product purchased
+      price: Price
+      status: Status
+      subscription_started: Subscription Started
+      next_billing_date: Next Billing Date
+      cancellation_scheduled_for: Cancellation Scheduled for
+      cancellation_date: Cancellation Date
+      cancellation_reason: Cancellation Reason
+      stripe_subscription: Stripe Subscription
+      payments: Payments
+      subscribed_since: Subscribed since %{date}
+      subscribed_since_will_cancel: Subscribed since %{date}, will cancel on %{cancel_date}
+      cancelled_on: Cancelled on %{date}
+      trialing_until: Trialing until %{date}
+      unknown_status: Unknown status
+      settings:
+        actions: Actions
+        view_subscription: View Subscription
+        cancel_subscription: Cancel Subscription
+        confirm_cancel: Are you sure you want to cancel this subscription?
+        view_on_stripe: View on Stripe
+      no_listings:
+        singular: subscription
+        plural: subscriptions
+    common:
+      admin: Admin
+      trial: Trial
+      day: day
+      days: days
+      unauthorized: You are not authorized to access this page.
+      cancel: Cancel
+  commerce:
+    checkout:
+      account_exists_error: An account with this email already exists. Please use
+        the login form.
+      invalid_login_error: Invalid email or password
+      payment_verification_failed_alert: Payment verification failed. Please contact
+        support.
+      product_not_found_alert: Product not found
+      title: Checkout
+      error_message: An unexpected error occurred.
+      coupon_applied_message: Coupon applied!
+      invalid_coupon_message: Invalid coupon
+      error_checking_coupon_message: Error checking coupon
+      existing_payment_method:
+        select_label: Select payment method
+        ending_in: ending in
+        default: Default
+        current_label: Current payment method
+      coupon_field:
+        label: Coupon Code
+        placeholder: Coupon Code
+      form_actions:
+        start_trial: Start %{days}-day trial
+        subscribe: Subscribe
+        purchase: Purchase
+        use_saved: Use your saved payment method
+        use_different: Use a different payment method
+      purchase_details:
+        title: Purchase Details
+        product_label: Product
+        price_label: Price
+        coupon_applied: Coupon applied!
+        trial_ends_label: Trial ends
+        renews_label: Renews
+        renews_detail: Change plans or disable auto-renewal anytime.
+      register_or_login_form:
+        email_label: Email address
+        create_password_label: Create a password
+        enter_password_label: Enter your password
+        register_button: Register
+        login_button: Login
+        continue: continue
+        already_registered: Already registered? Login
+        new_user: New user? Register
+      success:
+        title: Thanks for purchasing!
+      progress:
+        register: Register
+        login: Login
+        payment_details: Payment details
+        dive_in: Dive in...
+    subscriptions:
+      no_plans_available_alert: No plans available.
+      update_plan_success_notice: Successfully updated your plan
+      update_plan_error_alert: Something went wrong. Please try again. %{error}
+      cancellation_notice: Your subscription will be cancelled at the end of this
+        billing cycle.
+      not_found_in_stripe_error: Subscription not found in Stripe.
+      failed_cancel_error: 'Failed to cancel subscription: %{error}'
+      resumed_notice: Your subscription has been resumed and will continue after the
+        current billing period.
+      failed_resume_error: 'Failed to resume subscription: %{error}'
+      settings:
+        view: View Subscription
+        resume: Resume Subscription
+        change_plan: Change Plan
+        cancel: Cancel Subscription
+      details:
+        plan_label: Plan
+        price_label: Price
+        cancelled: Cancelled
+        payment_method_label: Payment Method
+        cancellation_scheduled: Cancellation scheduled for %{date}
+        status_label: Status
+        next_billing_label: Next billing date
+        purchase_label: Purchase details
+        view: View
+        resume: Resume subscription
+        cancel: Cancel subscription
+      update_payment_method_form:
+        ending_in: ending in
+        update: Update Payment Method
+        cancel: Cancel
+      cancel:
+        title: Cancel subscription for %{product}
+        reason_label: Cancellation reason
+        reason_placeholder: It wasn't a good fit because...
+        submit: Cancel subscription
+        confirm: Are you sure you want to cancel this subscription?
+        nevermind: Nevermind
+      breadcrumbs:
+        settings: Settings
+        billing: Billing
+        subscription: Subscription for %{product}
+        cancel: Cancel
+      payment_method:
+        ending_in: ending in
+        expires: Expires
+        change: Change
+        add: Add one
+      listing:
+        past_due: Past Due.  Resolve Now
+        cancelling_on: Cancelling on %{date}
+        status:
+          active: Active
+          trialing: Trialing
+          past_due: Past Due
+          cancelled: Cancelled
+      show:
+        title: Subscription for %{product}
+    payment_methods:
+      title: Payment Methods
+      add: Add Payment Method
+      new: New Payment Method
+      all: All Payment Methods
+      error_message: An unexpected error occurred.
+      breadcrumbs:
+        billing: Billing
+        payment_methods: Payment Methods
+        new: New
+      form:
+        add: Add Payment Method
+        processing: Processing
+      listing:
+        ending_in: ending in
+        amazon_pay: Amazon Pay
+        cash_app_pay: Cash App Pay
+        expires: Expires %{month} %{year}
+        default: Default
+      settings:
+        make_default: Make Default
+        delete: Delete Payment Method
+        confirm_delete: Really delete this payment method?
+      created_notice: Payment method created
+      verification_failed_alert: Payment method verification failed. Please try again.
+      made_default_notice: Payment method made default
+      failed_update_default_alert: 'Failed to update default payment method: %{error}'
+      deleted_notice: Payment method deleted successfully
+      delete_error_alert: 'Error deleting payment method: %{error}'
+    dunning:
+      payment_already_resolved_notice: Payment already resolved
+      invalid_token_error: Invalid token
+      unknown_error: Unknown error
+      invalid_token_alert: Invalid token
+      payment_already_resolved_alert: Payment has already been resolved
+      error_message: An unexpected error occurred.
+      resolve_payment:
+        title: Resolve your payment for %{product}
+        description: Your subscription is currently past due.  Please use the form
+          below to resolve your payment and avoid any disruption to your service.
+      new_payment_method_form:
+        use_current: Or use your current payment method
+        ending_in: ending in
+      pay_with_current_method:
+        ending_in: ending in
+        expires: Expires
+        use_different: Use a different payment method
+      success:
+        title: All set!
+        description: Thanks for resolving your subscription!
+        dashboard: Go to your dashboard
+    plans:
+      not_authorized_alert: You are not authorized to access this page.
+      plans:
+        change: Change your plan
+        choose: Choose a plan
+      plan_button:
+        current_plan: Current Plan
+        switch_to_billing: Switch to %{interval} Billing
+        change_to_plan: Change to %{plan_name}
+        purchase_plan: Purchase %{plan_name}
+        processing: Processing...
+      index:
+        no_plans: No plans available.
+      faq:
+        headline: Frequently asked questions
+        q1:
+          question: Is this really the best product on the market?
+          answer: Yes, it is.
+        q2:
+          question: Should I buy this?
+          answer: Our recommendation is, yes, you should.
+      toggle_interval:
+        monthly: Monthly billing
+        yearly: Yearly billing
+        save: Save 20%!
+      intent_notice:
+        default: In order to do that, you'll need to upgrade your plan.
+        thing: In order to do that thing, you'll need to upgrade your plan.
+    helpers:
+      recurring_interval:
+        day: Daily
+        week: Weekly
+        month: Monthly
+        quarter: Quarterly
+        year: Yearly
+      currency:
+        usd: "$"
+        eur: "€"
+    mailers:
+      dunning_email:
+        subject: 'Action Required: Your payment for %{product} was declined'
+        greeting: Hi %{name},
+        unable_to_process: We were unable to process your payment for your subscription
+          to %{product}.
+        update_payment: 'To ensure uninterrupted service, please update your payment
+          method by clicking here:'
+        resolve_button: Resolve Payment
+        assistance: If you need any assistance, please don't hesitate to contact our
+          support team.
+        regards: |-
+          Best regards,
+          The %{account} Team
+      admin_new_purchase:
+        subject: "[New Purchase of %{product}] %{account} - %{email}"
+        title: "A new purchase has been made \U0001F389"
+        product_label: 'Product:'
+        subscription_plan_label: 'Subscription Plan:'
+        product_price_label: 'Product price:'
+        today_payment_label: 'Today''s payment:'
+        account_name_label: 'Account name:'
+        account_owner_label: 'Account owner:'
+        stripe_customer_label: 'Stripe customer:'
+        stripe_subscription_label: 'Stripe subscription:'
+        admin_account_profile_label: 'Admin account profile:'
+      admin_subscription_cancellation_initiated:
+        subject: "[Cancellation] %{account} - %{email}"
+        title: An account cancelled :(
+        account_name_label: 'Account name:'
+        account_owner_label: 'Account owner:'
+        stripe_customer_label: 'Stripe customer:'
+        stripe_subscription_label: 'Stripe subscription:'
+        admin_account_profile_label: 'Admin account profile:'
+        cancellation_reason_label: 'Cancellation reason:'
+      admin_subscription_plan_changed:
+        subject: "[Subscription Plan Changed] %{account} - %{email}"
+        title: 'An account changed plans:'
+        account_name_label: 'Account name:'
+        account_owner_label: 'Account owner:'
+        stripe_customer_label: 'Stripe customer:'
+        stripe_subscription_label: 'Stripe subscription:'
+        admin_account_profile_label: 'Admin account profile:'
+        previous_plan_label: 'Previous plan:'
+        new_plan_label: 'New plan:'
+    billing:
+      title: Billing
+      breadcrumbs:
+        settings: Settings
+        billing: Billing
+      subnav:
+        billing: Billing
+        payments_history: Payments History
+        payment_methods: Payment Methods
+      purchases:
+        title: Purchases
+      subscriptions:
+        title: Subscriptions
+    payments:
+      title: Payments History
+      breadcrumbs:
+        billing: Billing
+        payments_history: Payments History
+        payment_details: Payment Details
+      listing:
+        date_format: "%B %-d, %Y"
+        status:
+          succeeded: Succeeded
+          failed: Failed
+          pending: Pending
+      show:
+        title: Payment details for %{amount}
+        amount_label: Payment amount
+        date_label: Payment date
+        status_label: Payment status
+        method_label: Payment method
+        ending_in: ending in
+        purchase_label: Purchase details
+        subscription_label: Subscription
+    products:
+      index:
+        title: Public products index
+      show:
+        title: Public product show
+    purchases:
+      index:
+        title: User-facing purchases index
+      show:
+        title: Purchase Details for %{product}
+        date_label: Purchase Date
+        first_payment_label: First Payment
+        payment_label: Payment
+        product_label: Product
+        subscription_label: Subscription
+        view: View
+      breadcrumbs:
+        settings: Settings
+        billing: Billing
+        details: Purchase Details for %{product}
+      listing:
+        date_format: "%B %-d, %Y"
+      settings:
+        details: Purchase Details
+  copy:
+    button:
+      default_text: Copy

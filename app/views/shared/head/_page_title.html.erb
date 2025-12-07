@@ -1,0 +1,16 @@
+<%
+  page_title = if content_for?(:page_title)
+                  yield(:page_title)
+                elsif @page_title.present?
+                  @page_title
+                else
+                  Rails.application.class.module_parent_name
+                end
+%>
+
+<title>
+  <%= page_title.strip %>
+</title>
+
+<meta property="og:title"
+      content="<%= page_title.strip %>">
